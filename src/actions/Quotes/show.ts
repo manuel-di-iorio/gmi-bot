@@ -1,0 +1,64 @@
+import { Task } from '../../lib/Queue'
+import { redis } from '../../lib/Redis'
+import { DOUBLE_NEWLINE } from '../../lib/utils/GetNewline'
+import { MessageAttachment } from 'discord.js'
+
+const linkOnlyRegex = /(.*)(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})(.*)/
+
+export default {
+  resolver: (text: string) => text.startsWith(','),
+
+  handler: async ({ text, reply, message }: Task) => {
+    let input = text.replace(',', '').trim()
+    if (!input) return
+
+    let user = message.author.id
+
+    // Check if there is a mention
+    if (message.mentions.members.size) {
+      const mentionedUser = message.mentions.members.first()
+      input = input.replace(new RegExp(`(<@!${mentionedUser.id}>)+`, 'g'), '').trim()
+      user = mentionedUser.id
+
+      // If the name is not provided, show all user quotes
+      if (!input) {
+        let resp = ''
+        const quotes = await redis.hgetall(`quotes:${user}`)
+
+        if (!quotes || !Object.keys(quotes).length) {
+          return await reply(`non ci sono citazioni salvate da ${mentionedUser}`)
+        }
+
+        Object.keys(quotes).forEach(quoteName => {
+          resp += `\`${quoteName}\`  `
+        })
+
+        return await Promise.all([
+          message.delete(),
+          message.channel.send(`**Citazioni di ${mentionedUser}${DOUBLE_NEWLINE + resp}**`)
+        ])
+      }
+    }
+
+    // Show the user quote
+    const quote = await redis.hget(`quotes:${user}`, input)
+
+    if (!quote) {
+      const respMsg = message.author.id === user ? 'questa tua citazione' : `la citazione di <@!${user}> `
+      return await reply(`non ho trovato ${respMsg} `)
+    }
+
+    let resp: string | MessageAttachment = quote
+
+    // Check if the quote can be an attachment
+    const regexResp = linkOnlyRegex.exec(quote)
+    if (regexResp && !regexResp[1] && !regexResp[3]) {
+      resp = new MessageAttachment(quote)
+    }
+
+    await Promise.all([
+      message.delete(),
+      message.channel.send(resp)
+    ])
+  }
+}

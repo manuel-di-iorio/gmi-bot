@@ -1,0 +1,72 @@
+{
+  "name": "gmi-bot",
+  "version": "1.0.0",
+  "description": "GMI Bot",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Manuel Di Iorio (Xeryan)",
+  "private": true,
+  "license": "ISC",
+  "scripts": {
+    "start": "node --experimental-worker dist",
+    "run:dev": "tsc --skipLibCheck --incremental && node --experimental-worker ./dist",
+    "run:watch": "node --experimental-worker -r ts-node/register ./src",
+    "dev": "nodemon -q",
+    "build": "tsc",
+    "_heroku-postbuild": ""
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "canvas": "2.6.1",
+    "chrono-node": "1.4.6",
+    "discord.js": "12.2.0",
+    "dotenv": "8.2.0",
+    "googleapis": "51.0.0",
+    "he": "^1.2.0",
+    "ioredis": "4.17.0",
+    "js-beautify": "1.11.0",
+    "mariadb": "2.3.1",
+    "moment": "2.26.0",
+    "mysql2": "2.1.0",
+    "parallelcode": "1.1.1",
+    "pino": "6.2.1",
+    "pino-pretty": "4.0.0",
+    "rss-parser": "^3.8.0",
+    "sequelize": "5.21.9",
+    "vm2": "3.9.2",
+    "yt-search": "1.1.2"
+  },
+  "devDependencies": {
+    "@types/ioredis": "4.16.2",
+    "@types/pino": "6.0.1",
+    "@types/sequelize": "4.28.9",
+    "@typescript-eslint/eslint-plugin": "2.34.0",
+    "@typescript-eslint/parser": "2.34.0",
+    "eslint": "7.0.0",
+    "eslint-config-standard": "14.1.1",
+    "eslint-config-standard-with-typescript": "17.0.0",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-standard": "4.0.1",
+    "nodemon": "2.0.4",
+    "typescript": "3.9.2"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec_": "npm run run:watch",
+    "exec": "npm run run:dev",
+    "ext": "ts"
+  },
+  "engines": {
+    "node": "12.16.3"
+  }
+}
