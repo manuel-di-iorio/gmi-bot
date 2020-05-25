@@ -17,6 +17,7 @@ import remindRemove from './Reminders/remindRemove'
 import remindShow from './Reminders/remindShow'
 import remind from './Reminders/remind'
 import deleteCmd from './Server/del'
+import poll from './Server/poll'
 
 interface Action {
   resolver: (text: string) => boolean;
@@ -33,6 +34,7 @@ export const actions = new Map<string, Action>([
   ['logo', logo],
   ['youtube', youtube],
   ['google', google],
+  ['poll', poll],
   ['log', log],
   ['code', code],
   ['exec', exec],

@@ -79,13 +79,15 @@ ${newUserLink}`)
             content = he.decode(content)
               .substr(0, 1600)
 
+            const isAuthorOrReply = item.title.includes('Re: ') ? 'Risposta da' : 'Autore'
+
             await forumChannel.send(`:arrow_right: **${item.title}**
 Link: ${item.link}
-Autore: ${item.author}
+${isAuthorOrReply}: ${item.author}
 Data: ${moment(item.pubDate).format('DD/MM/YYYY HH:mm:ss')}
 
 \`\`\`${content}\`\`\`
-`)
+<:devati:628999347283034142>`)
           }
         } catch (err) {
           logger.error(err)

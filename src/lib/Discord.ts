@@ -21,10 +21,13 @@ bot.on('ready', () => {
 
   // Set the bot activity
   bot.user.setActivity('!help').catch((err: Error) => logger.err(err))
-  setInterval(() => bot.user.setActivity('!help').catch((err: Error) => logger.err(err)), 1000 * 60 * 60 * 2)
+  setInterval(() => bot.user.setActivity('!help').catch((err: Error) => logger.err(err)), 1000 * 60 * 60)
 })
 
-bot.on('error', (err: Error) => { logger.error(err) })
+bot.on('error', (err: Error) => {
+  logger.error('[DISCORD] Generic error:')
+  logger.error(err)
+})
 bot.on('message', onMessage)
 
 /* Say hello to new members */

@@ -19,7 +19,14 @@ export const addMessage = async (message: Message): Promise<void> => {
   const prettyDate = moment(message.createdAt).format('DD/MM/YYYY HH:mm:ss')
 
   try {
-    const data = `[${prettyDate}]  ${getUserDisplayName(message)}: ${content && content.replace(/(\r\n|\n|\r)/gm, ' ')}`
+    const contentClean = content && content.replace(/(\r\n|\n|\r)/gm, ' ').replace(/`/g, "'")
+    let data = `[${prettyDate}]  ${getUserDisplayName(message)}: ${contentClean}`
+
+    if (message.attachments.size) {
+      if (contentClean) data += ' '
+      data += `[Allegato] ${message.attachments.first().url}`
+    }
+
     await Promise.all([
       // Increment the user messages count (only for new users)
       !isGmiMember && redis.hincrby(`u:${author.id}`, 'msg', 1),

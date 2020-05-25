@@ -25,7 +25,7 @@ export default {
       const user = bot.users.cache.get(reminder.usr)
       const prettyDate = moment(new Date(reminder.exp)).format('DD/MM/YYYY [alle] HH:mm:ss')
 
-      remindersText += `\`\`\`Creato da ${getUserDisplayName(message)} con scadenza ${prettyDate} (ID: ${id}) 
+      remindersText += `\`\`\`Creato da ${getUserDisplayName(message, user.id)} con scadenza ${prettyDate} (ID: ${id}) 
 ‟${reminder.msg}”
 \`\`\`
 `

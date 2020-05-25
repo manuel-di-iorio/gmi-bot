@@ -11,9 +11,10 @@ export interface Reminder {
 }
 
 const hasKey = Object.prototype.hasOwnProperty.call.bind(Object)
+const timeout = 3000
 
 export const start = () => {
-  setInterval(async () => {
+  const sendReminders = async () => {
     // Get all the active reminders
     let reminders: Record<string, string>
     try {
@@ -21,7 +22,7 @@ export const start = () => {
     } catch (err) {
       logger.error(err)
     }
-    if (!reminders || !Object.keys(reminders).length) return
+    if (!reminders || !Object.keys(reminders).length) return setTimeout(sendReminders, timeout)
 
     const now = Date.now()
     for (const id in reminders) {
@@ -31,7 +32,7 @@ export const start = () => {
       const reminder: Reminder = JSON.parse(reminders[id])
 
       // Expiration check
-      if (now < +new Date(reminder.exp)) continue
+      if (now < new Date(reminder.exp).getTime()) continue
 
       try {
         // Get the updated user and channel
@@ -44,14 +45,22 @@ export const start = () => {
         await redis.hdel('reminders', id)
 
         // Send the reminder message to the user
+        if (!channel) {
+          logger.debug(`[Scheduler] Channel ${channel} not found for the reminder #${id}`)
+          continue
+        }
+
         await channel.send(`⚠️ **REMINDER** ⚠️ ${user}, ti ricordo che:
 ${reminder.msg}`)
       } catch (err) {
+        logger.error('[SCHEDULER] Error:')
         logger.error(err)
-        continue
       }
     }
-  }, 5000)
 
+    setTimeout(sendReminders, timeout)
+  }
+
+  setTimeout(sendReminders, timeout)
   logger.info('[SCHEDULER] Ready')
 }

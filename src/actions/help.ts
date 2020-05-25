@@ -14,12 +14,13 @@ export default {
       .setFooter(`!help richiesto da ${getUserDisplayName(message)}`, message.author.displayAvatarURL())
 
     // Server
-    embed.addField('Server', `\`!avatar @user\` - Mostra il tuo avatar o quello di un altro utente
+    embed.addField('Server', `\`!avatar [@user]\` - Mostra il tuo avatar o quello di un altro utente
 \`!logo\` - Mostra il logo del server
 \`!log\` - Allega il log degli ultimi messaggi di questo canale
 \`!emotes [page=1]\` - Mostra la classifica delle emotes del server
 \`!del <num or text>\` - Cancella i messaggi (!del per info)
-\`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio`, false)
+\`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio
+\`!poll question|answer1|answer2|etc..\` - Crea un sondaggio`, false)
 
     // Reminders
     embed.addField('Reminders', `\`!remind <text>\` - Setta un reminder (!remind per info)

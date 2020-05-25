@@ -1,7 +1,9 @@
 import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
-import { DOUBLE_NEWLINE } from '../../lib/utils/GetNewline'
+import { DOUBLE_NEWLINE, NEWLINE } from '../../lib/utils/GetNewline'
 import { MessageAttachment } from 'discord.js'
+import { getUserDisplayName } from '../../lib/GetUserDisplayName'
+import logger from '../../lib/Logger'
 
 const linkOnlyRegex = /(.*)(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})(.*)/
 
@@ -33,10 +35,9 @@ export default {
           resp += `\`${quoteName}\`  `
         })
 
-        return await Promise.all([
-          message.delete(),
-          message.channel.send(`**Citazioni di ${mentionedUser}${DOUBLE_NEWLINE + resp}**`)
-        ])
+        if (message.guild) message.delete().catch((err: Error) => logger.error(err))
+
+        return await message.channel.send(`**Citazioni di ${mentionedUser}${DOUBLE_NEWLINE + resp}**`)
       }
     }
 
@@ -44,21 +45,23 @@ export default {
     const quote = await redis.hget(`quotes:${user}`, input)
 
     if (!quote) {
-      const respMsg = message.author.id === user ? 'questa tua citazione' : `la citazione di <@!${user}> `
+      const respMsg = message.author.id === user ? 'questa citazione' : `la citazione di <@!${user}> `
       return await reply(`non ho trovato ${respMsg} `)
     }
 
     let resp: string | MessageAttachment = quote
 
+    const msgAuthor = `\`${getUserDisplayName(message)} ha scritto:\``
+
+    if (message.guild) message.delete().catch((err: Error) => logger.error(err))
+
     // Check if the quote can be an attachment
     const regexResp = linkOnlyRegex.exec(quote)
     if (regexResp && !regexResp[1] && !regexResp[3]) {
       resp = new MessageAttachment(quote)
+      await message.channel.send(msgAuthor, resp)
+    } else {
+      await message.channel.send(msgAuthor + NEWLINE + resp)
     }
-
-    await Promise.all([
-      message.delete(),
-      message.channel.send(resp)
-    ])
   }
 }

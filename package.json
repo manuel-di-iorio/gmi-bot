@@ -8,18 +8,19 @@
   "private": true,
   "license": "ISC",
   "scripts": {
-    "start": "node --experimental-worker dist",
-    "run:dev": "tsc --skipLibCheck --incremental && node --experimental-worker ./dist",
-    "run:watch": "node --experimental-worker -r ts-node/register ./src",
-    "dev": "nodemon -q",
+    "dev": "ts-node-dev --respawn ./src/index.ts",
+    "start": "node dist",
     "build": "tsc"
   },
   "dependencies": {
+    "async": "^3.2.0",
     "axios": "^0.19.2",
+    "bufferutil": "^4.0.1",
     "canvas": "2.6.1",
     "chrono-node": "1.4.6",
     "discord.js": "12.2.0",
     "dotenv": "8.2.0",
+    "erlpack": "^0.1.3",
     "googleapis": "51.0.0",
     "he": "^1.2.0",
     "ioredis": "4.17.0",
@@ -32,10 +33,12 @@
     "pino-pretty": "4.0.0",
     "rss-parser": "^3.8.0",
     "sequelize": "5.21.9",
+    "utf-8-validate": "^5.0.2",
     "vm2": "3.9.2",
     "yt-search": "1.1.2"
   },
   "devDependencies": {
+    "@types/async": "^3.2.3",
     "@types/ioredis": "4.16.2",
     "@types/pino": "6.0.1",
     "@types/sequelize": "4.28.9",
@@ -49,6 +52,7 @@
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
     "nodemon": "2.0.4",
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "3.9.2"
   },
   "nodemonConfig": {

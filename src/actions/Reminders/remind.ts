@@ -59,8 +59,8 @@ Esempi:
 
     const now = Date.now()
     const remindDateTime = remindDate.getTime()
-    if (remindDateTime - now < 5e4 /* 50 secs */ || remindDateTime < now) {
-      return reply('deve passare almeno un minuto per il reminder. Remind annullato')
+    if (remindDateTime < now) {
+      return reply('la data del reminder deve essere nel futuro. Remind annullato')
     } else if (remindDateTime - now > 31536e6 * 3 /* 3 years */) {
       return reply('il massimo è 3 anni. Remind annullato')
     }
@@ -68,7 +68,9 @@ Esempi:
     // Save the reminder
     const reminderId = crypto.randomBytes(10).toString('hex')
 
-    if (message.guild) message.delete().catch((err: Error) => logger.error(err))
+    if (message.guild && !message.deleted) {
+      message.delete().catch((err: Error) => logger.error(err, 'Remind > Deleting the input message'))
+    }
 
     await redis.hset('reminders', reminderId, JSON.stringify({
       msg: remindMsg,
