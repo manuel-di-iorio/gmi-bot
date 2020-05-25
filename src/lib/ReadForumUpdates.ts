@@ -79,12 +79,13 @@ ${newUserLink}`)
             content = he.decode(content)
               .substr(0, 1600)
 
-            await forumChannel.send(`:arrow_right: ${item.title}
+            await forumChannel.send(`:arrow_right: **${item.title}**
 Link: ${item.link}
 Autore: ${item.author}
 Data: ${moment(item.pubDate).format('DD/MM/YYYY HH:mm:ss')}
 
-\`\`\`${content}\`\`\``)
+\`\`\`${content}\`\`\`
+`)
           }
         } catch (err) {
           logger.error(err)

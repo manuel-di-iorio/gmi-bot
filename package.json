@@ -12,8 +12,7 @@
     "run:dev": "tsc --skipLibCheck --incremental && node --experimental-worker ./dist",
     "run:watch": "node --experimental-worker -r ts-node/register ./src",
     "dev": "nodemon -q",
-    "build": "tsc",
-    "_heroku-postbuild": ""
+    "build": "tsc"
   },
   "dependencies": {
     "axios": "^0.19.2",
