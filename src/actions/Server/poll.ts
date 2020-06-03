@@ -53,9 +53,11 @@ export default {
     setTimeout(async () => {
       // Get and sort the votes
       const votes = new Array(answers.length).fill(0).map((_, idx) => ({ count: 0, answer: answers[idx] }))
+      const allowedReactions = alphabet.slice(0, answers.length)
+
       const reactions = pollMsg.reactions.cache
       reactions.forEach(({ emoji: { name }, count }) => {
-        if (!alphabet.includes(name)) return
+        if (!allowedReactions.includes(name)) return
         votes[alphabet.indexOf(name)].count = count
       })
       const sortedVotes = votes.sort((a, b) => b.count - a.count)

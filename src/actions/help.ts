@@ -1,6 +1,7 @@
 import { Task } from '../lib/Queue'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../lib/GetUserDisplayName'
+import logger from '../lib/Logger'
 
 export default {
   resolver: (text: string) => text === 'help',
@@ -33,6 +34,7 @@ export default {
 \`!yt <query>\` - Cerca un video su YouTube
 \`!google <query>\` - Cerca su Google`, false)
 
+    message.delete().catch((err: Error) => logger.error(err))
     await message.channel.send(embed)
   }
 }
