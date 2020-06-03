@@ -38,20 +38,21 @@ export default {
 
     message.delete().catch((err: Error) => logger.error(err))
 
-    const question = params.shift()
+    const question = params.shift().trim()
+    const answers = params.map(param => param.trim())
     const expiration = 1000 * 60 * 3
 
     // Add the poll message with the reactions
-    const reactAnswers = params.map((param, idx) => (`${alphabetClean[idx]}) ${param}`)).join(NEWLINE)
+    const reactAnswers = answers.map((param, idx) => (`${alphabetClean[idx]}) ${param}`)).join(NEWLINE)
     const pollMsg = await message.channel.send(`\`\`\`${getUserDisplayName(message)} ha creato un sondaggio che terminerà tra 3 minuti:${NEWLINE}${question}${DOUBLE_NEWLINE + reactAnswers}\`\`\``)
 
-    const msgReactions = params.map((param, idx) => async () => (pollMsg.react(alphabet[idx])))
+    const msgReactions = answers.map((param, idx) => async () => (pollMsg.react(alphabet[idx])))
     await async.parallelLimit(msgReactions, 4)
 
     // Handle the poll end
     setTimeout(async () => {
       // Get and sort the votes
-      const votes = new Array(params.length).fill(0).map((_, idx) => ({ count: 0, answer: params[idx] }))
+      const votes = new Array(answers.length).fill(0).map((_, idx) => ({ count: 0, answer: answers[idx] }))
       const reactions = pollMsg.reactions.cache
       reactions.forEach(({ emoji: { name }, count }) => {
         if (!alphabet.includes(name)) return
