@@ -1,6 +1,6 @@
 import { js as beautify } from 'js-beautify'
 import { Task } from '../../lib/Queue'
-import { getUserDisplayName } from '../../lib/GetUserDisplayName'
+import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 const formatOpts = {
   // eslint-disable-next-line @typescript-eslint/camelcase

@@ -1,7 +1,7 @@
 import { Message } from 'discord.js'
 import { Task } from '../../lib/Queue'
-import { isAuthorized } from '../../lib/IsAuthorized'
-import { askReactConfirm } from '../../lib/AskReactConfirm'
+import { isAuthorized } from '../../lib/utils/IsAuthorized'
+import { askReactConfirm } from '../../lib/utils/AskReactConfirm'
 
 export default {
   resolver: (text: string) => text.startsWith('del'),

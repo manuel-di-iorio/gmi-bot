@@ -1,6 +1,6 @@
 import { Task } from '../lib/Queue'
 import { MessageEmbed } from 'discord.js'
-import { getUserDisplayName } from '../lib/GetUserDisplayName'
+import { getUserDisplayName } from '../lib/utils/GetUserDisplayName'
 import logger from '../lib/Logger'
 
 export default {
@@ -15,13 +15,13 @@ export default {
       .setFooter(`!help richiesto da ${getUserDisplayName(message)}`, message.author.displayAvatarURL())
 
     // Server
-    embed.addField('Server', `\`!avatar [@user]\` - Mostra il tuo avatar o quello di un altro utente
+    embed.addField('Server', `\`!avatar [@user]\` - Mostra l'avatar di un utente
 \`!logo\` - Mostra il logo del server
 \`!log\` - Allega il log degli ultimi messaggi di questo canale
 \`!emotes [page=1]\` - Mostra la classifica delle emotes del server
 \`!del <num or text>\` - Cancella i messaggi (!del per info)
 \`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio
-\`!poll question|answer1|answer2|etc..\` - Crea un sondaggio`, false)
+\`!stats [@user]\` - Mostra le statistiche di un utente`, false)
 
     // Reminders
     embed.addField('Reminders', `\`!remind <text>\` - Setta un reminder (!remind per info)
@@ -29,7 +29,8 @@ export default {
 \`!remind remove <id>\` - Cancella un reminder`, false)
 
     // Utils
-    embed.addField('Utils', `\`!code <code>\` - Formatta il codice
+    embed.addField('Utils', `\`!poll question|answer1|answer2|etc..\` - Crea un sondaggio
+\`!code <code>\` - Formatta il codice
 \`!exec <code>\` - Esegue il codice javascript e mostra il risultato
 \`!yt <query>\` - Cerca un video su YouTube
 \`!google <query>\` - Cerca su Google`, false)

@@ -1,6 +1,6 @@
 import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
-import { getUserDisplayName } from '../../lib/GetUserDisplayName'
+import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 export default {
   resolver: (text: string) => text.startsWith('unset'),

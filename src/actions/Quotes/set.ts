@@ -1,7 +1,7 @@
 import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
-import { askReactConfirm } from '../../lib/AskReactConfirm'
-import { askMsgReply } from '../../lib/AskMsgReply'
+import { askReactConfirm } from '../../lib/utils/AskReactConfirm'
+import { askMsgReply } from '../../lib/utils/AskMsgReply'
 
 export default {
   resolver: (text: string) => text.startsWith('set'),

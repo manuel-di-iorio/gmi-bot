@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import logger from './Logger'
+import logger from '../Logger'
 
 interface AskOptions {
   text: string;

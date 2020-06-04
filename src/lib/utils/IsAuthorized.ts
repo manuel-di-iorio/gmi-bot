@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import { GMI_ADMIN_ROLES } from './Config'
+import { GMI_ADMIN_ROLES } from '../Config'
 
 export const isAuthorized = (message: Message) => {
   const userRoles = message.guild.members.cache.get(message.author.id).roles.cache

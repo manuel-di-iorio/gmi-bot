@@ -6,6 +6,7 @@ import { addMessage } from './MessageStore'
 import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedChannels'
 import { updateEmotesCountInMessage } from './EmoteStore'
 import { assignGmiRoleToNewActiveUsers } from './AssignGmiRole'
+import { assignIndiexpoGems } from './AssignIndiexpoGems'
 
 const botTrigger = NODE_ENV === 'production' ? '!' : '-'
 
@@ -27,6 +28,9 @@ export const onMessage = async (message: Message): Promise<void> => {
 
     // Assign the GMI role to new active users
     assignGmiRoleToNewActiveUsers(message)
+
+    // Assign Indiexpo Gems for certain events
+    assignIndiexpoGems(message)
   }
 
   // Only process bot commands

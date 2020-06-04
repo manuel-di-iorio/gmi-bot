@@ -17,7 +17,9 @@ import remindRemove from './Reminders/remindRemove'
 import remindShow from './Reminders/remindShow'
 import remind from './Reminders/remind'
 import deleteCmd from './Server/del'
-import poll from './Server/poll'
+import poll from './Utils/poll'
+import stats from './Server/stats'
+import indiexpo from './indiexpo'
 
 interface Action {
   resolver: (text: string) => boolean;
@@ -39,9 +41,11 @@ export const actions = new Map<string, Action>([
   ['code', code],
   ['exec', exec],
   ['emotes', emotes],
+  ['stats', stats],
   ['delete', deleteCmd],
   ['remindRemove', remindRemove],
   ['remindShow', remindShow],
   ['remind', remind],
+  ['indiexpo:users:gems', indiexpo],
   ['cmdNotFound', cmdNotFound]
 ])

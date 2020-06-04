@@ -1,10 +1,10 @@
 import crypto from 'crypto'
 import moment from 'moment'
 import { Task } from '../../lib/Queue'
-import { parseNaturalDate } from '../../lib/ParseNaturalDate'
+import { parseNaturalDate } from '../../lib/utils/ParseNaturalDate'
 import { redis } from '../../lib/Redis'
 import logger from '../../lib/Logger'
-import { askMsgReply } from '../../lib/AskMsgReply'
+import { askMsgReply } from '../../lib/utils/AskMsgReply'
 
 export default {
   resolver: (text: string) => text.startsWith('remind'),

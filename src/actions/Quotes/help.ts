@@ -1,6 +1,6 @@
 import { Task } from '../../lib/Queue'
 import { MessageEmbed } from 'discord.js'
-import { getUserDisplayName } from '../../lib/GetUserDisplayName'
+import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 export default {
   resolver: (text: string) => text.startsWith('quotes'),

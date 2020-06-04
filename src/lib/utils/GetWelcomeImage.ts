@@ -1,13 +1,13 @@
 import { join } from 'path'
 import { MessageAttachment, GuildMember, PartialGuildMember } from 'discord.js'
 import Canvas from 'canvas'
-import logger from './Logger'
+import logger from '../Logger'
 
 // Load the background
 let backgroundPromise: Canvas.Image;
 (async (): Promise<void> => {
   try {
-    backgroundPromise = await Canvas.loadImage(join(__dirname, '..', '..', 'assets', 'welcome-background.png'))
+    backgroundPromise = await Canvas.loadImage(join(__dirname, '..', '..', '..', 'assets', 'welcome-background.png'))
   } catch (err) {
     logger.error(err)
   }

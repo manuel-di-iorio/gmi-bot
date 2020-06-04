@@ -40,11 +40,8 @@ const executeTask = (id: string, handler: Function, task: Task) => {
 }
 
 export const enqueue = async (queueTask: Task): Promise<void> => {
+  // Execute the task
   const taskFn = async (task: Task) => {
-    // Set the bot status to occupied
-    bot.user.setPresence({ status: 'dnd' }).catch((err: Error) => logger.error(err, 'Queue > Set presence to dnd'))
-
-    // Execute the task
     try {
       task.reply = task.message.reply.bind(task.message)
       await actions.get(task.action).handler(task)
@@ -53,9 +50,6 @@ export const enqueue = async (queueTask: Task): Promise<void> => {
       logger.error(err)
       task.message.reply('è avvenuto un errore mentre eseguivo la richiesta').catch((err: Error) => logger.error(err))
     }
-
-    // Set the bot status back to idle
-    bot.user.setPresence({ status: 'online' }).catch((err: Error) => logger.error(err, 'Queue > Set presence to online'))
   }
 
   // Add the job to the queue

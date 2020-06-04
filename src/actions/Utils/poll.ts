@@ -1,7 +1,7 @@
 import async from 'async'
 import { Task } from '../../lib/Queue'
 import { NEWLINE, DOUBLE_NEWLINE } from '../../lib/utils/GetNewline'
-import { getUserDisplayName } from '../../lib/GetUserDisplayName'
+import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import logger from '../../lib/Logger'
 
 const alphabetClean = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -40,11 +40,11 @@ export default {
 
     const question = params.shift().trim()
     const answers = params.map(param => param.trim())
-    const expiration = 1000 * 60 * 3
+    const expiration = 1000 * 60 * 2
 
     // Add the poll message with the reactions
     const reactAnswers = answers.map((param, idx) => (`${alphabetClean[idx]}) ${param}`)).join(NEWLINE)
-    const pollMsg = await message.channel.send(`\`\`\`${getUserDisplayName(message)} ha creato un sondaggio che terminerà tra 3 minuti:${NEWLINE}${question}${DOUBLE_NEWLINE + reactAnswers}\`\`\``)
+    const pollMsg = await message.channel.send(`\`\`\`${getUserDisplayName(message)} ha creato un sondaggio che terminerà tra 2 minuti:${NEWLINE}${question}${DOUBLE_NEWLINE + reactAnswers}\`\`\``)
 
     const msgReactions = answers.map((param, idx) => async () => (pollMsg.react(alphabet[idx])))
     await async.parallelLimit(msgReactions, 4)

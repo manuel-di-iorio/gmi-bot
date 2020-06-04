@@ -2,8 +2,7 @@ import moment from 'moment'
 import { Message } from 'discord.js'
 import logger from './Logger'
 import { redis } from './Redis'
-import { GMI_MEMBER_ROLE } from './Config'
-import { getUserDisplayName } from './GetUserDisplayName'
+import { getUserDisplayName } from './utils/GetUserDisplayName'
 
 /** Get the latest messages from the store */
 export const getMessages = (channelId: string): Promise<string[]> => (
@@ -12,10 +11,8 @@ export const getMessages = (channelId: string): Promise<string[]> => (
 
 /** Push a message on the store */
 export const addMessage = async (message: Message): Promise<void> => {
-  const { guild, author, channel, content } = message
+  const { author, channel, content } = message
 
-  const guildMember = guild.members.cache.get(author.id)
-  const isGmiMember = guildMember.roles.cache.has(GMI_MEMBER_ROLE)
   const prettyDate = moment(message.createdAt).format('DD/MM/YYYY HH:mm:ss')
 
   try {
@@ -28,8 +25,8 @@ export const addMessage = async (message: Message): Promise<void> => {
     }
 
     await Promise.all([
-      // Increment the user messages count (only for new users)
-      !isGmiMember && redis.hincrby(`u:${author.id}`, 'msg', 1),
+      // Increment the user messages count
+      redis.hincrby(`u:${author.id}`, 'msg', 1),
 
       // Push the message
       redis.lpush(`c:${channel.id}:msg`, data)

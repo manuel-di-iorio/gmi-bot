@@ -3,7 +3,7 @@ import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
 import { Reminder } from '../../lib/Scheduler'
 import { bot } from '../../lib/Discord'
-import { getUserDisplayName } from '../../lib/GetUserDisplayName'
+import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 const hasKey = Object.prototype.hasOwnProperty.call.bind(Object)
 

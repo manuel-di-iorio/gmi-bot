@@ -2,7 +2,7 @@ import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
 import { DOUBLE_NEWLINE, NEWLINE } from '../../lib/utils/GetNewline'
 import { MessageAttachment } from 'discord.js'
-import { getUserDisplayName } from '../../lib/GetUserDisplayName'
+import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import logger from '../../lib/Logger'
 
 const linkOnlyRegex = /(.*)(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})(.*)/

@@ -5,7 +5,7 @@ import { onMessage } from './OnMessage'
 import { isCpbotOnline } from './IsCpbotOnline'
 import { storeMemberRoles, retrieveMemberRoles } from './RoleStore'
 import { incrReactCount, decrReactCount } from './EmoteStore'
-import { getWelcomeImage } from './GetWelcomeImage'
+import { getWelcomeImage } from './utils/GetWelcomeImage'
 
 export const bot = new Client()
 let mainChannel: TextChannel
