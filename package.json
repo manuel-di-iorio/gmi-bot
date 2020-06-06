@@ -16,6 +16,7 @@
     "async": "^3.2.0",
     "axios": "^0.19.2",
     "bufferutil": "^4.0.1",
+    "bull": "^3.14.0",
     "canvas": "2.6.1",
     "chrono-node": "1.4.6",
     "discord.js": "12.2.0",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@types/async": "^3.2.3",
+    "@types/bull": "^3.13.0",
     "@types/ioredis": "4.16.2",
     "@types/pino": "6.0.1",
     "@types/sequelize": "4.28.9",

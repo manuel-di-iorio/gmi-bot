@@ -15,7 +15,6 @@ export default {
 
   handler: async ({ message }: Task) => {
     // Get the user to show
-    console.log(message.mentions.users.array())
     const user = message.mentions.users.size ? message.mentions.users.first() : message.author
     const userId = user.id
     const userKey = `u:${userId}`
@@ -32,8 +31,8 @@ export default {
       .setTitle(getUserDisplayName(message, userId).toUpperCase())
       .setFooter('!stats richiesto da ' + getUserDisplayName(message), message.author.avatarURL())
 
-      .setDescription(`Gemme di questo mese: **${userData['indiexpo-gems']}**
-Gemme totali: **${userData['indiexpo-gems-total']}**
+      .setDescription(`Gemme attuali: **${userData['indiexpo-gems']}**
+Gemme guadagnate in totale: **${userData['indiexpo-gems-total']}**
 Messaggi registrati: **${userData.msg}**`)
 
     message.delete().catch((err: Error) => logger.error(err))

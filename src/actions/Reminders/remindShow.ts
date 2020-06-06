@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
-import { Reminder } from '../../lib/Scheduler'
+import { Reminder } from '../../lib/RemindersScheduler'
 import { bot } from '../../lib/Discord'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 

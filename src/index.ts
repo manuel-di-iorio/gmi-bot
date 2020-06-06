@@ -3,6 +3,7 @@ import { start as startRedis } from './lib/Redis'
 import { start as startWorkers } from './lib/WorkerThread'
 import { start as startQueue } from './lib/Queue'
 import { start as startScheduler } from './lib/Scheduler'
+import { start as startRemindersScheduler } from './lib/RemindersScheduler'
 import { start as startBot } from './lib/Discord'
 // import { start as startReadForumUpdates } from './lib/ReadForumUpdates'
 
@@ -13,7 +14,8 @@ import { start as startBot } from './lib/Discord'
       startRedis(),
       startWorkers(),
       startQueue(),
-      startScheduler()
+      startScheduler(),
+      startRemindersScheduler()
       // startReadForumUpdates()
     ])
   } catch (err) {

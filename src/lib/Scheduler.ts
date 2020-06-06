@@ -1,66 +1,48 @@
+import Queue from 'bull'
+import { REDIS_URL, NODE_ENV } from './Config'
+import { resetUsersMonthlyGems } from './AssignIndiexpoGems'
 import logger from './Logger'
-import { bot } from './Discord'
-import { redis } from './Redis'
-import { TextChannel } from 'discord.js'
 
-export interface Reminder {
-  msg: string;
-  exp: string;
-  usr: string;
-  chn: string;
+// Get the redis connection info
+let REDIS_HOST: string
+let REDIS_PORT: number
+let REDIS_PASSWORD = ''
+
+if (NODE_ENV === 'production') {
+  const url = REDIS_URL.split(':')
+  url.splice(0, 2)
+  const redisAuth = url.shift().split('@')
+  REDIS_PASSWORD = redisAuth.shift()
+  REDIS_HOST = redisAuth.shift()
+  REDIS_PORT = parseInt(url.shift())
+} else {
+  REDIS_HOST = 'localhost'
+  REDIS_PORT = 6379
 }
 
-const hasKey = Object.prototype.hasOwnProperty.call.bind(Object)
-const timeout = 3000
-
-export const start = () => {
-  const sendReminders = async () => {
-    // Get all the active reminders
-    let reminders: Record<string, string>
-    try {
-      reminders = await redis.hgetall('reminders')
-    } catch (err) {
-      logger.error(err)
+export const start = async () => {
+  // Create the queue
+  const queue = new Queue('scheduler', {
+    redis: {
+      port: REDIS_PORT,
+      host: REDIS_HOST,
+      password: REDIS_PASSWORD
     }
-    if (!reminders || !Object.keys(reminders).length) return setTimeout(sendReminders, timeout)
+  })
 
-    const now = Date.now()
-    for (const id in reminders) {
-      if (!hasKey(reminders, id)) continue
+  // Process the queue
+  queue.process('reset-users-gems', resetUsersMonthlyGems)
 
-      // Parse the reminder content
-      const reminder: Reminder = JSON.parse(reminders[id])
-
-      // Expiration check
-      if (now < new Date(reminder.exp).getTime()) continue
-
-      try {
-        // Get the updated user and channel
-        const [user, channel] = await Promise.all([
-          bot.users.fetch(reminder.usr),
-          bot.channels.fetch(reminder.chn) as unknown as TextChannel
-        ])
-
-        // Ensure to delete the reminder before sending it to the user (to avoid duplicates)
-        await redis.hdel('reminders', id)
-
-        // Send the reminder message to the user
-        if (!channel) {
-          logger.debug(`[Scheduler] Channel ${channel} not found for the reminder #${id}`)
-          continue
-        }
-
-        await channel.send(`⚠️ **REMINDER** ⚠️ ${user}, ti ricordo che:
-${reminder.msg}`)
-      } catch (err) {
-        logger.error('[SCHEDULER] Error:')
-        logger.error(err)
+  // Add the jobs if they are not scheduled yet
+  const indiexpoResetJob = await queue.getJob('reset-users-gems')
+  if (!indiexpoResetJob) {
+    queue.add('reset-users-gems', null, {
+      attempts: 3,
+      repeat: {
+        cron: '0 0 1 * *'
       }
-    }
-
-    setTimeout(sendReminders, timeout)
+    })
   }
 
-  setTimeout(sendReminders, timeout)
   logger.info('[SCHEDULER] Ready')
 }

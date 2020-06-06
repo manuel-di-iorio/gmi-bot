@@ -10,17 +10,26 @@ import { assignIndiexpoGems } from './AssignIndiexpoGems'
 
 const botTrigger = NODE_ENV === 'production' ? '!' : '-'
 
-export const onMessage = async (message: Message): Promise<void> => {
-  if (message.author.bot) return
+export const onMessage = async (message: Message, content: string): Promise<void> => {
+  // Only process bot commands
+  if ((!content || content[0] !== botTrigger || content[1] === botTrigger) && !content.startsWith(',')) return
+  const text = content.replace(botTrigger, '').trim()
 
-  // Get the clean content
-  const content = message.content.trim()
+  // Execute the action resolved based on the message content
+  for (const [name, action] of actions) {
+    if (action.resolver(text)) {
+      enqueue({ action: name, message, text })
+      break
+    }
+  }
+}
 
+export const onMessageOps = async (message: Message, content: string) => {
   if (message.guild?.id === GMI_GUILD) {
     // Log the message on the cache store
     addMessage(message)
 
-    // Update the reacts count contained into a message
+    // Update the emotes count included into a message
     updateEmotesCountInMessage(message.guild, content)
 
     // Delete messages with invalid formats in limited channels
@@ -31,17 +40,5 @@ export const onMessage = async (message: Message): Promise<void> => {
 
     // Assign Indiexpo Gems for certain events
     assignIndiexpoGems(message)
-  }
-
-  // Only process bot commands
-  if ((!content || !content.startsWith(botTrigger) || content[1] === botTrigger) && !content.startsWith(',')) return
-  const text = content.replace(botTrigger, '').trim()
-
-  // Execute the action resolved based on the message content
-  for (const [name, action] of actions) {
-    if (action.resolver(text)) {
-      enqueue({ action: name, message, text })
-      break
-    }
   }
 }

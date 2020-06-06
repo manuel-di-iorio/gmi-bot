@@ -1,11 +1,12 @@
-import { Client, TextChannel } from 'discord.js'
+import { Client, TextChannel, Message } from 'discord.js'
 import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
 import logger from './Logger'
-import { onMessage } from './OnMessage'
+import { onMessage, onMessageOps } from './OnMessage'
 import { isCpbotOnline } from './IsCpbotOnline'
 import { storeMemberRoles, retrieveMemberRoles } from './RoleStore'
 import { incrReactCount, decrReactCount } from './EmoteStore'
 import { getWelcomeImage } from './utils/GetWelcomeImage'
+import { incrementUserGems, decrementUserGems } from './AssignIndiexpoGems'
 
 export const bot = new Client()
 let mainChannel: TextChannel
@@ -25,10 +26,16 @@ bot.on('ready', () => {
 })
 
 bot.on('error', (err: Error) => {
-  logger.error('[DISCORD] Generic error:')
-  logger.error(err)
+  logger.error('[DISCORD] Generic error', err)
 })
-bot.on('message', onMessage)
+
+bot.on('message', (message: Message) => {
+  if (message.author.bot) return
+  const content = message.content.trim()
+
+  onMessage(message, content)
+  onMessageOps(message, content)
+})
 
 /* Say hello to new members */
 bot.on('guildMemberAdd', async (guildMember) => {
@@ -104,15 +111,24 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => {
   }
 })
 
-/* Update the reactions stats */
-bot.on('messageReactionAdd', (messageReaction) => {
+bot.on('messageReactionAdd', (messageReaction, user) => {
   if (messageReaction.message.guild?.id !== GMI_GUILD) return
+
+  // Update the reactions stats
   incrReactCount(messageReaction.message.guild, messageReaction.emoji)
+
+  // Increment the user gems
+  if (messageReaction.emoji.name === 'baron') incrementUserGems(user.id)
 })
 
-bot.on('messageReactionRemove', (messageReaction) => {
+bot.on('messageReactionRemove', (messageReaction, user) => {
   if (messageReaction.message.guild?.id !== GMI_GUILD) return
+
+  /* Update the reactions stats */
   decrReactCount(messageReaction.message.guild, messageReaction.emoji)
+
+  // Decrement the user gems
+  if (messageReaction.emoji.name === 'baron') decrementUserGems(user.id)
 })
 
 // Connect to Discord
