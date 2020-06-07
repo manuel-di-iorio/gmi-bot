@@ -7,6 +7,7 @@ import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedCh
 import { updateEmotesCountInMessage } from './EmoteStore'
 import { assignGmiRoleToNewActiveUsers } from './AssignGmiRole'
 import { assignIndiexpoGems } from './AssignIndiexpoGems'
+import { calculateUserStats } from './UserStats'
 
 const botTrigger = NODE_ENV === 'production' ? '!' : '-'
 
@@ -40,5 +41,8 @@ export const onMessageOps = async (message: Message, content: string) => {
 
     // Assign Indiexpo Gems for certain events
     assignIndiexpoGems(message)
+
+    // Calculate user stats
+    calculateUserStats(message)
   }
 }

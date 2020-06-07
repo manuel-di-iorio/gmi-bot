@@ -11,7 +11,7 @@ export interface Reminder {
 }
 
 const hasKey = Object.prototype.hasOwnProperty.call.bind(Object)
-const timeout = 3000
+const timeout = 5000
 
 export const start = () => {
   const sendReminders = async () => {

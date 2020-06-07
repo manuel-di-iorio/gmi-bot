@@ -7,6 +7,7 @@ import { storeMemberRoles, retrieveMemberRoles } from './RoleStore'
 import { incrReactCount, decrReactCount } from './EmoteStore'
 import { getWelcomeImage } from './utils/GetWelcomeImage'
 import { incrementUserGems, decrementUserGems } from './AssignIndiexpoGems'
+import { incrementMostUsedEmotes, decrementMostUsedEmotes } from './UserStats'
 
 export const bot = new Client()
 let mainChannel: TextChannel
@@ -119,6 +120,9 @@ bot.on('messageReactionAdd', (messageReaction, user) => {
 
   // Increment the user gems
   if (messageReaction.emoji.name === 'baron') incrementUserGems(user.id)
+
+  // Increment the user most used emotes
+  incrementMostUsedEmotes([messageReaction.emoji.toString()], messageReaction.message.guild, user.id)
 })
 
 bot.on('messageReactionRemove', (messageReaction, user) => {
@@ -129,6 +133,9 @@ bot.on('messageReactionRemove', (messageReaction, user) => {
 
   // Decrement the user gems
   if (messageReaction.emoji.name === 'baron') decrementUserGems(user.id)
+
+  // Decrement the user most used emotes
+  decrementMostUsedEmotes([messageReaction.emoji.toString()], messageReaction.message.guild, user.id)
 })
 
 // Connect to Discord
