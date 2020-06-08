@@ -20,6 +20,7 @@ import deleteCmd from './Server/del'
 import poll from './Utils/poll'
 import stats from './Server/stats'
 import indiexpo from './indiexpo'
+import bday from './Server/bday'
 
 interface Action {
   resolver: (text: string) => boolean;
@@ -34,6 +35,7 @@ export const actions = new Map<string, Action>([
   ['quotes', quotes],
   ['avatar', avatar],
   ['logo', logo],
+  ['bday', bday],
   ['youtube', youtube],
   ['google', google],
   ['poll', poll],

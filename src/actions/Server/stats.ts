@@ -12,6 +12,7 @@ interface UserModel {
   'latest-msg-date'?: string;
   'most-mentioned-user'?: string;
   'most-used-emote'?: string;
+  'bday'?: string;
 }
 
 export default {
@@ -32,6 +33,14 @@ export default {
     if (!userData['most-used-emote-count']) userData['most-used-emote-count'] = 0
     if (!userData['most-mentioned-user']) userData['most-mentioned-user'] = 'N/A'
     if (!userData['most-mentioned-user-count']) userData['most-mentioned-user-count'] = 0
+    if (!userData.bday) {
+      userData.bday = 'N/A'
+    } else {
+      const userBdayMoment = moment(userData.bday, 'DD/MM/YYYY')
+      const currentYear = new Date().getFullYear()
+      const userBdayYears = currentYear - parseInt(userBdayMoment.format('YYYY'))
+      userData.bday = `${userBdayMoment.format('DD MMMM YYYY')} (${userBdayYears} anni)`
+    }
     if (!userData['latest-msg-date']) {
       userData['latest-msg-date'] = 'N/A'
     } else {
@@ -48,6 +57,7 @@ export default {
 Gemme guadagnate in totale: **${userData['indiexpo-gems-total']}**
 Emote più usata: **${userData['most-used-emote']}** (x${userData['most-used-emote-count']})
 Utente più menzionato: **${userData['most-mentioned-user']}** (x${userData['most-mentioned-user-count']})
+Compleanno: **${userData.bday}**
 Ultimo messaggio: **${userData['latest-msg-date']}**
 Messaggi registrati: **${userData.msg}**`)
 

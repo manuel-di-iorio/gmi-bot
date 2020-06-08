@@ -2,6 +2,7 @@ import Queue from 'bull'
 import { REDIS_URL, NODE_ENV } from './Config'
 import { resetUsersMonthlyGems } from './AssignIndiexpoGems'
 import logger from './Logger'
+import { checkBirthdays } from './Birthdays'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -32,14 +33,32 @@ export const start = async () => {
 
   // Process the queue
   queue.process('reset-users-gems', resetUsersMonthlyGems)
+  queue.process('birthday', checkBirthdays)
 
   // Add the jobs if they are not scheduled yet
+
+  /* Indiexpo */
   const indiexpoResetJob = await queue.getJob('reset-users-gems')
   if (!indiexpoResetJob) {
     queue.add('reset-users-gems', null, {
+      removeOnComplete: true,
       attempts: 3,
       repeat: {
+        tz: 'Europe/Rome',
         cron: '0 0 1 * *'
+      }
+    })
+  }
+
+  /* Birthday */
+  const birthdayJob = await queue.getJob('birthday')
+  if (!birthdayJob) {
+    queue.add('birthday', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: '1 0 * * *'
       }
     })
   }

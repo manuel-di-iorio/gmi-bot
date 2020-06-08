@@ -21,7 +21,8 @@ export default {
 \`!emotes [page=1]\` - Mostra la classifica delle emotes del server
 \`!del <num or text>\` - Cancella i messaggi (!del per info)
 \`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio
-\`!stats [@user]\` - Mostra le statistiche di un utente`, false)
+\`!stats [@user]\` - Mostra le statistiche di un utente
+\`!bday DD/MM/YYYY\` - Setta il tuo compleanno (giorno/mese/anno)`, false)
 
     // Reminders
     embed.addField('Reminders', `\`!remind <text>\` - Setta un reminder (!remind per info)
