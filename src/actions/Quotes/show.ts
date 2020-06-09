@@ -17,18 +17,20 @@ export default {
     let user = message.author.id
 
     // Check if there is a mention
-    if (message.mentions.members.size) {
-      const mentionedUser = message.mentions.members.first()
-      input = input.replace(new RegExp(`(<@!${mentionedUser.id}>)+`, 'g'), '').trim()
+    if (message.mentions.users.size) {
+      const mentionedUser = message.mentions.users.first()
       user = mentionedUser.id
+      input = input.replace(new RegExp(`(<@!${user}>)+`, 'g'), '').trim()
+      const mentionedUserName = getUserDisplayName(message, user)
 
       // If the name is not provided, show all user quotes
       if (!input) {
+        console.log('entra qui?')
         let resp = ''
         const quotes = await redis.hgetall(`quotes:${user}`)
 
         if (!quotes || !Object.keys(quotes).length) {
-          return await reply(`non ci sono citazioni salvate da ${mentionedUser}`)
+          return await reply(`non ci sono citazioni salvate da ${mentionedUserName}`)
         }
 
         Object.keys(quotes).forEach(quoteName => {
@@ -37,7 +39,7 @@ export default {
 
         if (message.guild) message.delete().catch((err: Error) => logger.error(err))
 
-        return await message.channel.send(`**Citazioni di ${mentionedUser}${DOUBLE_NEWLINE + resp}**`)
+        return await message.channel.send(`**Citazioni di ${mentionedUserName + DOUBLE_NEWLINE + resp}**`)
       }
     }
 

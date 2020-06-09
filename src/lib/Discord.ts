@@ -33,7 +33,6 @@ bot.on('error', (err: Error) => {
 bot.on('message', (message: Message) => {
   if (message.author.bot) return
   const content = message.content.trim()
-
   onMessage(message, content)
   onMessageOps(message, content)
 })

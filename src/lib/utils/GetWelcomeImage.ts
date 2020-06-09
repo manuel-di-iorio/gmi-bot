@@ -36,7 +36,7 @@ export const getWelcomeImage = async (guildMember: GuildMember | PartialGuildMem
   // Load the images
   const [background, avatar] = await Promise.all([
     backgroundPromise,
-    Canvas.loadImage(guildMember.user.displayAvatarURL({ format: 'png' }))
+    Canvas.loadImage(guildMember.user.displayAvatarURL({ format: 'png', size: 256 }))
   ])
 
   // Draw the background
@@ -56,6 +56,7 @@ export const getWelcomeImage = async (guildMember: GuildMember | PartialGuildMem
   // Draw the user avatar
   ctx.beginPath()
   ctx.arc(125, 125, 100, 0, Math.PI * 2, true)
+  // ctx.arc(112.5, 112.5, 100, 0, Math.PI * 2, true)
   ctx.closePath()
   ctx.clip()
   ctx.drawImage(avatar, 25, 25, 200, 200)
