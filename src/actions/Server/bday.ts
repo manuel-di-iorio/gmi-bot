@@ -48,6 +48,7 @@ export default {
       let bdayClean: string
       let bdayYears: number
       let isBdayPast: boolean
+      let bdayTextArticle = 'il '
 
       if (bday) {
         // Get the clean date and the user age
@@ -59,14 +60,18 @@ export default {
         const nowMoment = moment().tz('Europe/Rome')
         const bdayCurrentMoment = moment(bdayClean, 'DD MMMM')
         isBdayPast = bdayCurrentMoment.isSameOrBefore(nowMoment)
+
+        // Get the bday text article
+        const bdayDate = parseInt(bdayMoment.format('D'))
+        if (bdayDate === 1 || bdayDate === 8 || bdayDate === 11) bdayTextArticle = "l'"
       }
 
       if (mentionId === authorId) {
         if (!bday) return reply(`non hai impostato il tuo compleanno! ${noBdaySetHint}`)
-        return reply(`il tuo compleanno è il ${bdayClean}, ${isBdayPast ? 'hai compiuto' : 'compierai'} ${bdayYears} anni!`)
+        return reply(`il tuo compleanno è ${bdayTextArticle}${bdayClean}, ${isBdayPast ? 'hai compiuto' : 'compierai'} ${bdayYears} anni!`)
       } else {
-        if (!bday) return reply('questo utente non ha indicato il compleanno')
-        return reply(`il compleanno di ${mentionUser.displayName} è il ${bdayClean}, ${isBdayPast ? 'ha compiuto' : 'compierà'} ${bdayYears} anni!`)
+        if (!bday) return reply(`${mentionUser.displayName} non ha indicato il compleanno`)
+        return reply(`il compleanno di ${mentionUser.displayName} è ${bdayTextArticle}${bdayClean}, ${isBdayPast ? 'ha compiuto' : 'compierà'} ${bdayYears} anni!`)
       }
     }
 
@@ -116,6 +121,9 @@ export default {
       redis.lpush(`bdays:${userBDayPartialDate}`, `${authorId}-${userBDayYear}`)
     ])
 
-    await reply(`ho salvato il tuo compleanno e lo annuncerò il ${userBDayMoment.format('D MMMM')}!`)
+    let bdayTextArticle = 'il '
+    const bdayDate = parseInt(userBDayMoment.format('D'))
+    if (bdayDate === 1 || bdayDate === 8 || bdayDate === 11) bdayTextArticle = "l'"
+    await reply(`ho salvato il tuo compleanno e lo annuncerò ${bdayTextArticle}${userBDayMoment.format('D MMMM')}!`)
   }
 }

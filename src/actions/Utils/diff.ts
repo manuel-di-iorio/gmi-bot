@@ -7,13 +7,13 @@ import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import { MessageAttachment } from 'discord.js'
 
 export default {
-  resolver: (text: string) => text.startsWith('diff'),
+  resolver: (text: string) => text.startsWith('diff_old'),
 
   handler: async ({ reply, message }: Task) => {
     const mentions = message.mentions.users
 
     if (mentions.size !== 2) {
-      return reply('Usa`!diff @user1 @user2` per comparare due avatar')
+      return reply('usa`!diff @user1 @user2` per comparare due avatar')
     }
 
     // Load the images
@@ -52,10 +52,10 @@ export default {
     // Compare the images
     const diffImg = new PNG({ width: size, height: size })
     const diffPixels = pixelmatch(imagesPng[0].data, imagesPng[1].data, diffImg.data, size, size, {
-      threshold: 0.3,
+      threshold: 0.085,
       diffColor: [30, 30, 30],
-      aaColor: [0, 255, 0],
-      alpha: 0.4
+      alpha: 0.4,
+      includeAA: true
     })
     const diffPercentage = (100 - 100 / (size * size) * diffPixels).toFixed(4) + '%'
 

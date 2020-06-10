@@ -22,6 +22,8 @@ import stats from './Server/stats'
 import indiexpo from './indiexpo'
 import bday from './Server/bday'
 import diff from './Utils/diff'
+import forum from './Server/forum'
+import diff2 from './Utils/diff2'
 
 interface Action {
   resolver: (text: string) => boolean;
@@ -30,6 +32,7 @@ interface Action {
 
 export const actions = new Map<string, Action>([
   ['help', help],
+  ['diff2', diff2],
   ['diff', diff],
   ['quotesShow', quotesShow],
   ['quotesSet', quotesSet],
@@ -51,5 +54,6 @@ export const actions = new Map<string, Action>([
   ['remindShow', remindShow],
   ['remind', remind],
   ['bot:users:gems', indiexpo],
+  ['forum', forum],
   ['cmdNotFound', cmdNotFound]
 ])
