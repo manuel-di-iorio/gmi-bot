@@ -14,7 +14,11 @@ export const {
   GMI_LIMITED_CHS_LINK_OR_IMG,
   GMI_LIMITED_CHS_LIMIT_LINK,
   GMI_MEMBER_ROLE,
-  GMI_FORUM_CHANNEL
+  GMI_FORUM_CHANNEL,
+  DROPBOX_CLIENT_ID,
+  DROPBOX_ACCESS_TOKEN,
+
+  BACKUP_FREQUENCY
 } = process.env
 
 export const REDIS_PORT = parseInt(process.env.REDIS_PORT || '6379')
@@ -22,3 +26,4 @@ export const GMI_ADMIN_ROLES = process.env.GMI_ADMIN_ROLES.split(',')
 export const QUEUE_PENDING_CHECK_INTERVAL = parseInt(process.env.QUEUE_PENDING_CHECK_INTERVAL)
 export const QUEUE_CONCURRENT_TASKS = parseInt(process.env.QUEUE_CONCURRENT_TASKS)
 export const QUEUE_TASK_EXECUTION_TIMEOUT = parseInt(process.env.QUEUE_TASK_EXECUTION_TIMEOUT)
+export const BACKUP_ENABLED = process.env.BACKUP_ENABLED === 'true'

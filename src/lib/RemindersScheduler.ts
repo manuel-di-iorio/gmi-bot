@@ -2,6 +2,7 @@ import logger from './Logger'
 import { bot } from './Discord'
 import { redis } from './Redis'
 import { TextChannel } from 'discord.js'
+import { NEWLINE } from './utils/GetNewline'
 
 export interface Reminder {
   msg: string;
@@ -11,7 +12,7 @@ export interface Reminder {
 }
 
 const hasKey = Object.prototype.hasOwnProperty.call.bind(Object)
-const timeout = 5000
+const timeout = 10000
 
 export const start = () => {
   const sendReminders = async () => {
@@ -50,11 +51,14 @@ export const start = () => {
           continue
         }
 
-        await channel.send(`⚠️ **REMINDER** ⚠️ ${user}, ti ricordo che:
-${reminder.msg}`)
+        await channel.send(`⚠️ **REMINDER** ⚠️ ${user}, ti ricordo:${NEWLINE + reminder.msg}`)
       } catch (err) {
-        logger.error('[SCHEDULER] Error:')
-        logger.error(err)
+        if (err.code === 50001) { // DiscordMissingAccessError
+          redis.hdel('reminders', id).catch((err: Error) => logger.error(err))
+        } else {
+          logger.error('[REMINDERS SCHEDULER] Error:')
+          logger.error(err)
+        }
       }
     }
 

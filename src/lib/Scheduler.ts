@@ -1,8 +1,9 @@
 import Queue from 'bull'
-import { REDIS_URL, NODE_ENV } from './Config'
+import { REDIS_URL, NODE_ENV, BACKUP_FREQUENCY } from './Config'
 import { resetUsersMonthlyGems } from './AssignIndiexpoGems'
 import logger from './Logger'
 import { checkBirthdays } from './Birthdays'
+import { execBackup } from './Backup'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -34,6 +35,7 @@ export const start = async () => {
   // Process the queue
   queue.process('reset-users-gems', resetUsersMonthlyGems)
   queue.process('birthday', checkBirthdays)
+  queue.process('backup', execBackup)
 
   // Add the jobs if they are not scheduled yet
 
@@ -59,6 +61,19 @@ export const start = async () => {
       repeat: {
         tz: 'Europe/Rome',
         cron: '1 0 * * *'
+      }
+    })
+  }
+
+  /* DB Backups */
+  const backupJob = await queue.getJob('backup')
+  if (!backupJob) {
+    queue.add('backup', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: BACKUP_FREQUENCY
       }
     })
   }
