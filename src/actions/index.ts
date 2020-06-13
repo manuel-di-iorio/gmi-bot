@@ -53,7 +53,7 @@ export const actions = new Map<string, Action>([
   ['remindRemove', remindRemove],
   ['remindShow', remindShow],
   ['remind', remind],
-  ['bot:users:gems', indiexpo],
+  // ['bot:users:gems', indiexpo],
   ['forum', forum],
   ['cmdNotFound', cmdNotFound]
 ])

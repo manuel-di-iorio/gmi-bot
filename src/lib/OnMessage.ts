@@ -45,7 +45,7 @@ export const onMessageOps = async (message: Message, content: string) => {
     assignGmiRoleToNewActiveUsers(message)
 
     // Assign Indiexpo Gems for certain events
-    assignIndiexpoGems(message)
+    // assignIndiexpoGems(message)
 
     // Calculate user stats
     calculateUserStats(message)

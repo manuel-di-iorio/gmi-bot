@@ -53,9 +53,7 @@ export default {
       .setTitle(getUserDisplayName(message, userId).toUpperCase())
       .setFooter('!stats richiesto da ' + getUserDisplayName(message), message.author.avatarURL())
 
-      .setDescription(`Gemme attuali: **${userData['indiexpo-gems']}**
-Gemme guadagnate in totale: **${userData['indiexpo-gems-total']}**
-Emote più usata: **${userData['most-used-emote']}** (x${userData['most-used-emote-count']})
+      .setDescription(`Emote più usata: **${userData['most-used-emote']}** (x${userData['most-used-emote-count']})
 Utente più menzionato: **${userData['most-mentioned-user']}** (x${userData['most-mentioned-user-count']})
 Compleanno: **${userData.bday}**
 Ultimo messaggio: **${userData['latest-msg-date']}**
@@ -65,3 +63,6 @@ Messaggi registrati: **${userData.msg}**`)
     await message.channel.send(embed)
   }
 }
+
+// Gemme attuali: **${userData['indiexpo-gems']}**
+// Gemme guadagnate in totale: **${userData['indiexpo-gems-total']}**

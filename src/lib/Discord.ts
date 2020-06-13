@@ -118,7 +118,7 @@ bot.on('messageReactionAdd', (messageReaction, user) => {
   incrReactCount(messageReaction.message.guild, messageReaction.emoji)
 
   // Increment the user gems
-  if (messageReaction.emoji.name === 'baron') incrementUserGems(user.id)
+  // if (messageReaction.emoji.name === 'expo') incrementUserGems(user.id)
 
   // Increment the user most used emotes
   incrementMostUsedEmotes([messageReaction.emoji.toString()], messageReaction.message.guild, user.id)
@@ -131,7 +131,7 @@ bot.on('messageReactionRemove', (messageReaction, user) => {
   decrReactCount(messageReaction.message.guild, messageReaction.emoji)
 
   // Decrement the user gems
-  if (messageReaction.emoji.name === 'baron') decrementUserGems(user.id)
+  // if (messageReaction.emoji.name === 'expo') decrementUserGems(user.id)
 
   // Decrement the user most used emotes
   decrementMostUsedEmotes([messageReaction.emoji.toString()], messageReaction.message.guild, user.id)
