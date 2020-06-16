@@ -103,11 +103,21 @@ bot.on('guildBanRemove', async (guild, user) => {
 })
 
 // Store the updated users roles
-bot.on('guildMemberUpdate', (oldMember, newMember) => {
+bot.on('guildMemberUpdate', async (oldMember, newMember) => {
   if (newMember.guild?.id !== GMI_GUILD) return
 
   if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
     storeMemberRoles(newMember)
+  }
+
+  // Log the nickname change
+  try {
+    if (await isCpbotOnline(newMember.guild)) return
+    if (oldMember.displayName !== newMember.displayName || oldMember.user.username !== newMember.user.username) {
+      mainChannel.send(`\`\`\`📝 ${oldMember.displayName} (@${oldMember.user.username}) ha cambiato il suo nick in: ${newMember.displayName}\`\`\``)
+    }
+  } catch (err) {
+    logger.error(err)
   }
 })
 

@@ -24,6 +24,7 @@ import bday from './Server/bday'
 import diff from './Utils/diff'
 import forum from './Server/forum'
 import diff2 from './Utils/diff2'
+import nick from './Server/nick'
 
 interface Action {
   resolver: (text: string) => boolean;
@@ -47,6 +48,7 @@ export const actions = new Map<string, Action>([
   ['log', log],
   ['code', code],
   ['exec', exec],
+  ['nick', nick],
   ['emotes', emotes],
   ['stats', stats],
   ['delete', deleteCmd],
