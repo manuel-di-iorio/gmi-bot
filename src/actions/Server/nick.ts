@@ -1,4 +1,5 @@
 import { Task } from '../../lib/Queue'
+import { GMI_GUILD } from '../../lib/Config'
 
 export default {
   resolver: (text: string) => text.startsWith('nick'),
@@ -11,7 +12,7 @@ export default {
     // Change the nickname
     try {
       await message.member.setNickname(input)
-      await reply('il nickname è stato modificato')
+      if (message.guild.id !== GMI_GUILD) await reply('il nickname è stato modificato')
     } catch (err) {
       if (err.code === 50013) return reply('sei troppo potente e non ho il permesso di cambiare il tuo nickname')
       throw err

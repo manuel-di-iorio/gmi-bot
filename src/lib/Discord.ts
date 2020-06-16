@@ -6,7 +6,6 @@ import { isCpbotOnline } from './IsCpbotOnline'
 import { storeMemberRoles, retrieveMemberRoles } from './RoleStore'
 import { incrReactCount, decrReactCount } from './EmoteStore'
 import { getWelcomeImage } from './utils/GetWelcomeImage'
-import { incrementUserGems, decrementUserGems } from './AssignIndiexpoGems'
 import { incrementMostUsedEmotes, decrementMostUsedEmotes } from './UserStats'
 
 export const bot = new Client()
@@ -127,9 +126,6 @@ bot.on('messageReactionAdd', (messageReaction, user) => {
   // Update the reactions stats
   incrReactCount(messageReaction.message.guild, messageReaction.emoji)
 
-  // Increment the user gems
-  // if (messageReaction.emoji.name === 'expo') incrementUserGems(user.id)
-
   // Increment the user most used emotes
   incrementMostUsedEmotes([messageReaction.emoji.toString()], messageReaction.message.guild, user.id)
 })
@@ -139,9 +135,6 @@ bot.on('messageReactionRemove', (messageReaction, user) => {
 
   /* Update the reactions stats */
   decrReactCount(messageReaction.message.guild, messageReaction.emoji)
-
-  // Decrement the user gems
-  // if (messageReaction.emoji.name === 'expo') decrementUserGems(user.id)
 
   // Decrement the user most used emotes
   decrementMostUsedEmotes([messageReaction.emoji.toString()], messageReaction.message.guild, user.id)

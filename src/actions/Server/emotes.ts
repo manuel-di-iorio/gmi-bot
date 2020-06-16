@@ -7,7 +7,7 @@ export default {
 
   handler: async ({ message, reply, text }: Task) => {
     const guild = message.guild
-    if (!guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui`)
+    if (!guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)
 
     // Get the input
     const input = text.replace('emotes', '').trim()

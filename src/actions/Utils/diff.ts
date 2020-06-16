@@ -47,8 +47,6 @@ export default {
     })
     await Promise.all(resizeFn.map(fn => fn()))
 
-    require('fs').writeFileSync('test.png', PNG.sync.write(imagesPng[0]))
-
     // Compare the images
     const diffImg = new PNG({ width: size, height: size })
     const diffPixels = pixelmatch(imagesPng[0].data, imagesPng[1].data, diffImg.data, size, size, {

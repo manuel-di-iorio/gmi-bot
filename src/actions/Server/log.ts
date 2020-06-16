@@ -7,7 +7,7 @@ export default {
   resolver: (text: string) => text.startsWith('log'),
 
   handler: async ({ message, text, reply }: Task) => {
-    if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui`)
+    if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)
 
     // Get the input
     const input = text.replace('log', '').trim()

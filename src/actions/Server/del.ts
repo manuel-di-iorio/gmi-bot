@@ -11,7 +11,7 @@ export default {
     const clonedMessages = Array.from((await message.channel.messages.fetch()).values())
 
     // Guild check
-    if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui`)
+    if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)
 
     // User rols authorization (only admins and mods)
     if (!isAuthorized(message)) return reply('non sei autorizzato ad usare questo comando')

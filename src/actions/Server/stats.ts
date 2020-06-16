@@ -7,8 +7,6 @@ import logger from '../../lib/Logger'
 
 interface UserModel {
   'msg'?: number;
-  'indiexpo-gems'?: number;
-  'indiexpo-gems-total'?: number;
   'latest-msg-date'?: string;
   'most-mentioned-user'?: string;
   'most-used-emote'?: string;
@@ -27,8 +25,6 @@ export default {
     let userData = await redis.hgetall(userKey) as unknown as UserModel
     if (!userData) userData = {}
     if (!userData.msg) userData.msg = 0
-    if (!userData['indiexpo-gems']) userData['indiexpo-gems'] = 0
-    if (!userData['indiexpo-gems-total']) userData['indiexpo-gems-total'] = 0
     if (!userData['most-used-emote']) userData['most-used-emote'] = 'N/A'
     if (!userData['most-used-emote-count']) userData['most-used-emote-count'] = 0
     if (!userData['most-mentioned-user']) userData['most-mentioned-user'] = 'N/A'
@@ -63,6 +59,3 @@ Messaggi registrati: **${userData.msg}**`)
     await message.channel.send(embed)
   }
 }
-
-// Gemme attuali: **${userData['indiexpo-gems']}**
-// Gemme guadagnate in totale: **${userData['indiexpo-gems-total']}**

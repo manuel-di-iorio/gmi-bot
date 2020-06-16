@@ -1,6 +1,5 @@
 import Queue from 'bull'
 import { REDIS_URL, NODE_ENV, BACKUP_FREQUENCY } from './Config'
-import { resetUsersMonthlyGems } from './AssignIndiexpoGems'
 import logger from './Logger'
 import { checkBirthdays } from './Birthdays'
 import { execBackup } from './Backup'
@@ -33,24 +32,10 @@ export const start = async () => {
   })
 
   // Process the queue
-  queue.process('reset-users-gems', resetUsersMonthlyGems)
   queue.process('birthday', checkBirthdays)
   queue.process('backup', execBackup)
 
   // Add the jobs if they are not scheduled yet
-
-  /* Indiexpo */
-  const indiexpoResetJob = await queue.getJob('reset-users-gems')
-  if (!indiexpoResetJob) {
-    queue.add('reset-users-gems', null, {
-      removeOnComplete: true,
-      attempts: 3,
-      repeat: {
-        tz: 'Europe/Rome',
-        cron: '0 0 1 * *'
-      }
-    })
-  }
 
   /* Birthday */
   const birthdayJob = await queue.getJob('birthday')

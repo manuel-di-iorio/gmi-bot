@@ -19,12 +19,12 @@ import remind from './Reminders/remind'
 import deleteCmd from './Server/del'
 import poll from './Utils/poll'
 import stats from './Server/stats'
-import indiexpo from './indiexpo'
 import bday from './Server/bday'
 import diff from './Utils/diff'
 import forum from './Server/forum'
 import diff2 from './Utils/diff2'
 import nick from './Server/nick'
+import botRestore from './Server/bot-restore'
 
 interface Action {
   resolver: (text: string) => boolean;
@@ -55,7 +55,7 @@ export const actions = new Map<string, Action>([
   ['remindRemove', remindRemove],
   ['remindShow', remindShow],
   ['remind', remind],
-  // ['bot:users:gems', indiexpo],
   ['forum', forum],
+  ['bot:restore', botRestore],
   ['cmdNotFound', cmdNotFound]
 ])

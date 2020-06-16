@@ -17,7 +17,7 @@ export const {
   GMI_FORUM_CHANNEL,
   DROPBOX_CLIENT_ID,
   DROPBOX_ACCESS_TOKEN,
-
+  BOT_AUTHOR_ID,
   BACKUP_FREQUENCY
 } = process.env
 

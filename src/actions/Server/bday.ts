@@ -34,7 +34,7 @@ export default {
 
   handler: async ({ reply, message, text }: Task) => {
     // Guild check
-    if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui`)
+    if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)
 
     const authorId = message.author.id
     const currentYear = new Date().getFullYear()

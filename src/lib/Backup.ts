@@ -1,21 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import zlib from 'zlib'
 import { promisify } from 'util'
-import { Dropbox } from 'dropbox'
-import fetch from 'isomorphic-fetch'
-import { DROPBOX_CLIENT_ID, DROPBOX_ACCESS_TOKEN, BACKUP_ENABLED } from './Config'
+import { BACKUP_ENABLED } from './Config'
 import { redis } from './Redis'
 import logger from './Logger'
 import { parallelLimit } from 'async'
+import { dropbox } from './Dropbox'
 
 const gzipAsync = promisify(zlib.gzip.bind(zlib))
-
-// Init the dropbox client
-const dropbox = new Dropbox({
-  clientId: DROPBOX_CLIENT_ID,
-  accessToken: DROPBOX_ACCESS_TOKEN,
-  fetch
-})
 
 /** Recursively get the redis keys */
 const getKeys = async (cursor: string, set: Set<string>, stopOnNext = false) => {
