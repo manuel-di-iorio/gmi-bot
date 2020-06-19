@@ -42,8 +42,13 @@ bot.on('message', (message) => {
 })
 
 bot.on('messageUpdate', (oldMessage, newMessage) => {
-  newMessage.content += ' [Modificato]'
-  addMessage(newMessage as Message)
+  if (newMessage.author.bot) return
+  addMessage(newMessage as Message, newMessage.cleanContent + ' [Modificato]', newMessage.editedAt)
+})
+
+bot.on('messageDelete', (message) => {
+  if (message.author.bot) return
+  addMessage(message as Message, message.cleanContent + ' [Cancellato]', new Date())
 })
 
 /* Say hello to new members */

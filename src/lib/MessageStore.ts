@@ -10,16 +10,16 @@ export const getMessages = (channelId: string): Promise<string[]> => (
 )
 
 /** Push a message on the store */
-export const addMessage = async (message: Message): Promise<void> => {
-  const { author, channel, content } = message
-  const prettyDate = moment(message.createdAt).format('DD/MM/YYYY HH:mm:ss')
+export const addMessage = async (message: Message, content = message.cleanContent, time = message.createdAt): Promise<void> => {
+  const { author, channel } = message
+  const prettyDate = moment(time).format('DD/MM/YYYY HH:mm:ss')
 
   try {
-    const contentClean = content && content.replace(/(\r\n|\n|\r)/gm, ' ').replace(/`/g, "'")
-    let data = `[${prettyDate}]  ${getUserDisplayName(message)}: ${contentClean}`
+    const safeContent = content && content.replace(/(\r\n|\n|\r)/gm, ' ').replace(/`/g, "'")
+    let data = `[${prettyDate}]  ${getUserDisplayName(message)}: ${safeContent}`
 
     if (message.attachments.size) {
-      if (contentClean) data += ' '
+      if (safeContent) data += ' '
       data += `[Allegato] ${message.attachments.first().url}`
     }
 

@@ -23,17 +23,18 @@ export default {
     }
 
     let log = ''
-    let recentMsg = ''
+    let recentMsg = `${NEWLINE}\`\`\`md${NEWLINE}`
     for (let i = 0, len = messages.length; i < len; i++) {
       log += messages[i] + NEWLINE
-      if (i < maxInlineMsg) recentMsg += `\`${messages[i].replace(/(\[\d+\/\d+\/\d+ )([\d:]+)(]+)/, '$2')}\`${NEWLINE}`
+      if (i < maxInlineMsg) recentMsg += `- ${messages[i].replace(/(\[\d+\/\d+\/\d+ )([\d:]+)(]+)/, '$2').replace('`', "'")}${NEWLINE}`
     }
+    recentMsg += `${NEWLINE}\`\`\`` + '‎'
 
     // Send the log
     const logBuffer = Buffer.from(log, 'utf8')
     // const userNameClean = getUserDisplayName(message).replace(/\s+/g, '').replace(/[^0-9a-z_-]+/gi, '-')
     const attachment = new MessageAttachment(logBuffer, 'log.txt')
-    const resp = `**Ultimi messaggi di questo canale:**${NEWLINE + recentMsg + '‎'}`//! log richiesto da ${message.author}`
+    const resp = `**Ultimi messaggi di questo canale:**${recentMsg}`//! log richiesto da ${message.author}`
 
     await Promise.all([
       // message.delete(),
