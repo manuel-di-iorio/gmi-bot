@@ -11,7 +11,7 @@ export default {
 
     // Get the input
     const input = text.replace('log', '').trim()
-    const maxInlineMsg = input && !isNaN(parseInt(input)) ? Math.max(1, Math.min(11, parseInt(input + 1))) : 6
+    const maxInlineMsg = input && !isNaN(parseInt(input)) ? Math.max(1, Math.min(10, parseInt(input + 1))) : 7
 
     // Get a copy of the store
     const messages = await getMessages(message.channel.id)
@@ -26,14 +26,14 @@ export default {
     let recentMsg = ''
     for (let i = 0, len = messages.length; i < len; i++) {
       log += messages[i] + NEWLINE
-      if (i > 0 && i < maxInlineMsg) recentMsg += `\`${messages[i].replace(/(\[\d+\/\d+\/\d+ )([\d:]+)(]+)/, '$2')}\`${NEWLINE}`
+      if (i < maxInlineMsg) recentMsg += `\`${messages[i].replace(/(\[\d+\/\d+\/\d+ )([\d:]+)(]+)/, '$2')}\`${NEWLINE}`
     }
 
     // Send the log
     const logBuffer = Buffer.from(log, 'utf8')
     // const userNameClean = getUserDisplayName(message).replace(/\s+/g, '').replace(/[^0-9a-z_-]+/gi, '-')
     const attachment = new MessageAttachment(logBuffer, 'log.txt')
-    const resp = `**Ultimi messaggi di questo canale:**${NEWLINE + recentMsg + NEWLINE}!log richiesto da ${message.author}`
+    const resp = `**Ultimi messaggi di questo canale:**${NEWLINE + recentMsg + '‎'}`//! log richiesto da ${message.author}`
 
     await Promise.all([
       // message.delete(),

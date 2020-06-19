@@ -12,7 +12,6 @@ export const getMessages = (channelId: string): Promise<string[]> => (
 /** Push a message on the store */
 export const addMessage = async (message: Message): Promise<void> => {
   const { author, channel, content } = message
-
   const prettyDate = moment(message.createdAt).format('DD/MM/YYYY HH:mm:ss')
 
   try {

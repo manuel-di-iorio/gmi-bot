@@ -1,5 +1,5 @@
 import { Client, TextChannel, Message } from 'discord.js'
-import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
+import { BOT_TOKEN, GMI_GUILD, NODE_ENV, BOT_AUTHOR_ID } from './Config'
 import logger from './Logger'
 import { onMessage, onMessageOps } from './OnMessage'
 import { isCpbotOnline } from './IsCpbotOnline'
@@ -8,6 +8,7 @@ import { incrReactCount, decrReactCount } from './EmoteStore'
 import { getWelcomeImage } from './utils/GetWelcomeImage'
 import { incrementMostUsedEmotes, decrementMostUsedEmotes } from './UserStats'
 import { redis } from './Redis'
+import { addMessage } from './MessageStore'
 
 export const bot = new Client()
 let mainChannel: TextChannel
@@ -33,11 +34,16 @@ bot.on('error', (err: Error) => {
   logger.error('[DISCORD] Generic error', err)
 })
 
-bot.on('message', (message: Message) => {
+bot.on('message', (message) => {
   if (message.author.bot) return
   const content = message.content.trim()
   onMessage(message, content)
   onMessageOps(message, content)
+})
+
+bot.on('messageUpdate', (oldMessage, newMessage) => {
+  newMessage.content += ' [Modificato]'
+  addMessage(newMessage as Message)
 })
 
 /* Say hello to new members */
