@@ -1,8 +1,8 @@
 import Queue from 'bull'
-import { REDIS_URL, NODE_ENV, BACKUP_FREQUENCY } from './Config'
+import { REDIS_URL, NODE_ENV, BACKUP_FREQUENCY, DB_CONTROL_FREQUENCY } from './Config'
 import logger from './Logger'
 import { checkBirthdays } from './Birthdays'
-import { execBackup } from './Backup'
+import { execBackup, dbControl } from './Backup'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -34,6 +34,7 @@ export const start = async () => {
   // Process the queue
   queue.process('birthday', checkBirthdays)
   queue.process('backup', execBackup)
+  queue.process('dbcontrol', dbControl)
 
   // Add the jobs if they are not scheduled yet
 
@@ -45,7 +46,7 @@ export const start = async () => {
       attempts: 3,
       repeat: {
         tz: 'Europe/Rome',
-        cron: '1 0 * * *'
+        cron: '*/1 0 * * *'
       }
     })
   }
@@ -59,6 +60,19 @@ export const start = async () => {
       repeat: {
         tz: 'Europe/Rome',
         cron: BACKUP_FREQUENCY
+      }
+    })
+  }
+
+  /* DB Control */
+  const dbControlJob = await queue.getJob('dbcontrol')
+  if (!dbControlJob) {
+    queue.add('dbcontrol', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: DB_CONTROL_FREQUENCY
       }
     })
   }

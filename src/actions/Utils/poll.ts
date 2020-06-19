@@ -17,7 +17,7 @@ export default {
     const input = text.replace('poll', '').trim()
     if (!input) {
       return await Promise.all([
-        message.delete(),
+        // message.delete(),
         reply(`specifica la domanda e le opzioni del sondaggio, separati da |${NEWLINE}Esempio: \`!poll domanda?|opzione 1|opzione 2|ecc..\``)
       ])
     }

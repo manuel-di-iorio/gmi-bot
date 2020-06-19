@@ -18,7 +18,8 @@ export const {
   DROPBOX_CLIENT_ID,
   DROPBOX_ACCESS_TOKEN,
   BOT_AUTHOR_ID,
-  BACKUP_FREQUENCY
+  BACKUP_FREQUENCY,
+  DB_CONTROL_FREQUENCY
 } = process.env
 
 export const REDIS_PORT = parseInt(process.env.REDIS_PORT || '6379')

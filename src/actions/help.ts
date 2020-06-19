@@ -37,7 +37,7 @@ export default {
 \`!yt <query>\` - Cerca un video su YouTube
 \`!google <query>\` - Cerca su Google`, false)
 
-    message.delete().catch((err: Error) => logger.error(err))
+    // message.delete().catch((err: Error) => logger.error(err))
     await message.channel.send(embed)
   }
 }

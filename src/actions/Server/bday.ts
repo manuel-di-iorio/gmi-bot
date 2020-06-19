@@ -87,7 +87,7 @@ export default {
 
     // Get the input
     if (!input) {
-      message.delete().catch((err: Error) => logger.error(err))
+      // message.delete().catch((err: Error) => logger.error(err))
 
       const embed = new MessageEmbed().setColor('#a5c0d6')
       if (message.guild) embed.setAuthor('Birthdays | GameMaker Italia', message.guild.iconURL())

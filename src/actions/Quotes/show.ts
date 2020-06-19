@@ -37,7 +37,7 @@ export default {
           resp += `\`${quoteName}\`  `
         })
 
-        if (message.guild) message.delete().catch((err: Error) => logger.error(err))
+        // if (message.guild) message.delete().catch((err: Error) => logger.error(err))
 
         return await message.channel.send(`**Citazioni di ${mentionedUserName + DOUBLE_NEWLINE + resp}**`)
       }

@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import zlib from 'zlib'
 import { promisify } from 'util'
-import { BACKUP_ENABLED } from './Config'
+import { BACKUP_ENABLED, BOT_AUTHOR_ID } from './Config'
 import { redis } from './Redis'
 import logger from './Logger'
 import { parallelLimit } from 'async'
 import { dropbox } from './Dropbox'
+import { bot } from './Discord'
+import { NEWLINE } from './utils/GetNewline'
 
 const gzipAsync = promisify(zlib.gzip.bind(zlib))
 
@@ -67,7 +69,7 @@ export const execBackup = async () => {
       }
     })
   }
-  await parallelLimit(promises, 30)
+  await parallelLimit(promises, 50)
 
   // Compress the backup content
   const compressedDb = await gzipAsync(Buffer.from(JSON.stringify(db)))
@@ -81,4 +83,15 @@ export const execBackup = async () => {
   })
 
   logger.debug(`[BACKUP] Completed in ${+new Date() - startTime}ms`)
+}
+
+/** Check the database status on redis, by asserting the backup-control key */
+export const dbControl = async () => {
+  const botAuthor = bot.users.cache.get(BOT_AUTHOR_ID)
+  if (!botAuthor) return
+  const controlKey = await redis.exists('backup-control')
+  if (!controlKey) {
+    logger.error('[REDIS] DATABASE CONTROL KEY NOT FOUND')
+    await botAuthor.send('⚠️ **BOT EMERGENCY** ⚠️' + NEWLINE + '```DATABASE CONTROL KEY NOT FOUND```')
+  }
 }

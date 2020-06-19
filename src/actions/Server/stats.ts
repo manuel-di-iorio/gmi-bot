@@ -55,7 +55,7 @@ Compleanno: **${userData.bday}**
 Ultimo messaggio: **${userData['latest-msg-date']}**
 Messaggi registrati: **${userData.msg}**`)
 
-    message.delete().catch((err: Error) => logger.error(err))
+    // message.delete().catch((err: Error) => logger.error(err))
     await message.channel.send(embed)
   }
 }

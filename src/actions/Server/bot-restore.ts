@@ -66,9 +66,6 @@ export default {
   resolver: (text: string) => text === 'bot:restore',
 
   handler: async ({ message, reply }: Task) => {
-    // Guild check
-    if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)
-
     // User rols authorization (only for the bot author)
     if (message.author.id !== BOT_AUTHOR_ID) return reply('non sei autorizzato ad usare questo comando')
 
@@ -76,15 +73,17 @@ export default {
     await restoreDb()
     const replyMsg = await reply('il database è stato ripristinato')
 
-    setTimeout(async () => {
-      try {
-        await Promise.all([
-          message.delete(),
-          replyMsg.delete()
-        ])
-      } catch (err) {
-        logger.error(err)
-      }
-    }, 2000)
+    if (message.guild) {
+      setTimeout(async () => {
+        try {
+          await Promise.all([
+            message.delete(),
+            replyMsg.delete()
+          ])
+        } catch (err) {
+          logger.error(err)
+        }
+      }, 2000)
+    }
   }
 }

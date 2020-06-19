@@ -7,6 +7,7 @@ import { storeMemberRoles, retrieveMemberRoles } from './RoleStore'
 import { incrReactCount, decrReactCount } from './EmoteStore'
 import { getWelcomeImage } from './utils/GetWelcomeImage'
 import { incrementMostUsedEmotes, decrementMostUsedEmotes } from './UserStats'
+import { redis } from './Redis'
 
 export const bot = new Client()
 let mainChannel: TextChannel
@@ -19,6 +20,9 @@ bot.on('ready', () => {
 
   // Send a start message in dev
   NODE_ENV === 'development' && mainChannel.send('Connected').catch((err: Error) => logger.error(err))
+
+  // Save a redis key for backup-control purposes
+  redis.set('backup-control', '1').catch((err: Error) => logger.error(err))
 
   // Set the bot activity
   bot.user.setActivity('!help').catch((err: Error) => logger.err(err))

@@ -36,7 +36,7 @@ export default {
     const resp = `**Ultimi messaggi di questo canale:**${NEWLINE + recentMsg + NEWLINE}!log richiesto da ${message.author}`
 
     await Promise.all([
-      message.delete(),
+      // message.delete(),
       message.channel.send(resp, attachment)
     ])
   }
