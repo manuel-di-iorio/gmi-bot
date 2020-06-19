@@ -29,6 +29,7 @@ export default {
 
       // Filter deleted emotes
       let emoteId = emote.split(':')[2]
+      if (!emoteId) continue
       emoteId = emoteId.substr(0, emoteId.length - 1)
       if (!guild.emojis.cache.has(emoteId)) continue
 
