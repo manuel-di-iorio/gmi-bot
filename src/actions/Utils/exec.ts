@@ -8,8 +8,8 @@ export default {
     const data = text.replace('exec', '').trim()
 
     try {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
+      // eslint-disable-next-line no-undef
       const ctx = await job(({ data }) => (THREAD_STATE.vm.run(data)), { data })
       const { result } = await ctx.onDone
       await reply(`risultato dell'esecuzione: ${result}`)

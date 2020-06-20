@@ -25,7 +25,6 @@ export default {
 
       // If the name is not provided, show all user quotes
       if (!input) {
-        console.log('entra qui?')
         let resp = ''
         const quotes = await redis.hgetall(`quotes:${user}`)
 

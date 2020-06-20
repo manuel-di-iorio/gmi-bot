@@ -21,7 +21,7 @@ export default {
       return reply('nessuna emote trovata per questa pagina')
     }
 
-    let response = `ecco la classifica delle emotes di questo server
+    let response = `la classifica delle emotes di questo server
 
 `
     for (let i = 0, l = emotes.length; i < l; i += 2) {

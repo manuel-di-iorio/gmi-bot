@@ -1,7 +1,7 @@
 import { Task } from '../../lib/Queue'
 import { getMessages } from '../../lib/MessageStore'
 import { MessageAttachment } from 'discord.js'
-import { NEWLINE } from '../../lib/utils/GetNewline'
+import { NEWLINE, INVISIBLE_CHAR } from '../../lib/utils/GetNewline'
 
 export default {
   resolver: (text: string) => text.startsWith('log'),
@@ -26,9 +26,12 @@ export default {
     let recentMsg = `${NEWLINE}\`\`\`md${NEWLINE}`
     for (let i = 0, len = messages.length; i < len; i++) {
       log += messages[i] + NEWLINE
-      if (i < maxInlineMsg) recentMsg += `- ${messages[i].replace(/(\[\d+\/\d+\/\d+ )([\d:]+)(]+)/, '$2').replace('`', "'")}${NEWLINE}`
+      if (i < maxInlineMsg) {
+        recentMsg += `- ${messages[i].replace(/(\[\d+\/\d+\/\d+ )([\d:]+)(]+)/, '$2')
+          .replace('```', '\\`\\`\\`')}${NEWLINE}`
+      }
     }
-    recentMsg += `${NEWLINE}\`\`\`` + '‎'
+    recentMsg += `${NEWLINE}\`\`\`` + INVISIBLE_CHAR
 
     // Send the log
     const logBuffer = Buffer.from(log, 'utf8')

@@ -37,7 +37,6 @@ const restoreDb = async () => {
             fields.push(fieldKey)
             fields.push(value[fieldKey])
           }
-          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
           // @ts-ignore
           await redis.hset(key, ...fields)
           break

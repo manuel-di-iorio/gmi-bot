@@ -11,19 +11,18 @@ import { calculateUserStats } from './UserStats'
 const botTrigger = NODE_ENV === 'production' ? '!' : '-'
 
 export const onMessage = async (message: Message, content: string): Promise<void> => {
-  if (message.guild && message.guild.id !== GMI_GUILD) return
+  if ((message.guild && message.guild.id !== GMI_GUILD) || !content) return
 
-  // Only process bot commands
-  const firstChar = content[0]
-  if ((!content || firstChar !== botTrigger || content[1] === botTrigger) && firstChar !== ',') return
-  let text = content
-  if (firstChar !== ',') text = text.replace(botTrigger, '')
-  text = text.trim()
+  // Strip the trigger char when detected
+  const triggerCmd = content[0] === botTrigger && content[1] !== botTrigger
+  if (!triggerCmd && content[0] !== ',') return
+  if (triggerCmd) content = content.slice(1)
+  content = content.trim()
 
   // Execute the action resolved based on the message content
   for (const [name, action] of actions) {
-    if (action.resolver(text)) {
-      enqueue({ action: name, message, text })
+    if (action.resolver(content, message, message.reply)) {
+      enqueue({ action: name, message, text: content })
       break
     }
   }

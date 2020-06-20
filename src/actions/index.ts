@@ -25,10 +25,14 @@ import forum from './Server/forum'
 import diff2 from './Utils/diff2'
 import nick from './Server/nick'
 import botRestore from './Server/bot-restore'
+import cmd from './Server/cmd'
+import cmdExec from './Server/cmdExec'
+import { Message } from 'discord.js'
 
 interface Action {
-  resolver: (text: string) => boolean;
-  handler: (task: Task) => Promise<any>;
+  resolver: (text: string, message?: Message, reply?: Message['reply']) => boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handler: (task: Task) => any;
 }
 
 export const actions = new Map<string, Action>([
@@ -57,5 +61,7 @@ export const actions = new Map<string, Action>([
   ['remind', remind],
   ['forum', forum],
   ['bot:restore', botRestore],
+  ['cmd', cmd],
+  ['cmdExec', cmdExec],
   ['cmdNotFound', cmdNotFound]
 ])

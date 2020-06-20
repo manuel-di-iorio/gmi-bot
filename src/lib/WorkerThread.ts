@@ -7,9 +7,10 @@ export const start = async () => {
     onThreadStart: () => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { VM } = require('vm2')
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+
       // @ts-ignore
       THREAD_STATE.vm = new VM({ // eslint-disable-line
+        console: 'off',
         timeout: 1000 * 5,
         sandbox: {},
         eval: false,

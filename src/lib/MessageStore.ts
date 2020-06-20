@@ -32,7 +32,7 @@ export const addMessage = async (message: Message, content = message.cleanConten
     ])
 
     // Trim the messages to limit memory usage
-    await redis.ltrim(`c:${channel.id}:msg`, 0, 199)
+    await redis.ltrim(`c:${channel.id}:msg`, 0, 299)
   } catch (err) {
     logger.error(err)
   }

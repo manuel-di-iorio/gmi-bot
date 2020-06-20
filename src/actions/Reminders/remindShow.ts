@@ -31,7 +31,7 @@ export default {
 `
     }
 
-    await reply(`ecco la lista dei reminders:
+    await reply(`la lista dei reminders:
     
 ${remindersText}`)
   }

@@ -3,7 +3,7 @@ import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
-import logger from '../../lib/Logger'
+// import logger from '../../lib/Logger'
 
 interface UserModel {
   'msg'?: number;
@@ -14,7 +14,7 @@ interface UserModel {
 }
 
 export default {
-  resolver: (text: string) => text.startsWith('stats'),
+  resolver: (text: string) => text.startsWith('stat'),
 
   handler: async ({ message }: Task) => {
     // Get the user to show

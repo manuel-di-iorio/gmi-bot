@@ -1,7 +1,7 @@
 import { Task } from '../lib/Queue'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../lib/utils/GetUserDisplayName'
-import logger from '../lib/Logger'
+// import logger from '../lib/Logger'
 
 export default {
   resolver: (text: string) => text === 'help',
@@ -22,7 +22,8 @@ export default {
 \`!stats [@user]\` - Mostra le statistiche di un utente
 \`!bday DD/MM/YYYY\` - Setta il tuo compleanno (giorno/mese/anno)
 \`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio
-\`!log\` - Allega il log degli ultimi messaggi di questo canale`, false)
+\`!log\` - Allega il log degli ultimi messaggi di questo canale
+\`!cmd\` - Crea comandi personalizzati`, false)
 
     // Reminders
     embed.addField('Reminders', `\`!remind <text>\` - Setta un reminder (!remind per info)
