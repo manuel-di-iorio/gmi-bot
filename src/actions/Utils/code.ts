@@ -15,6 +15,8 @@ export default {
   handler: async ({ text, reply, message }: Task) => {
     const code = text.replace('code', '').trim()
 
+    if (!code) return reply("scrivi il codice da formattare. Esempio: `!code show_message('Ciao')`")
+
     try {
       const result = beautify(code, formatOpts)
       const promises = [message.channel.send(`\`\`\`csharp

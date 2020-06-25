@@ -51,7 +51,7 @@ export const start = () => {
           continue
         }
 
-        await channel.send(`⚠️ **REMINDER** ⚠️ ${user}, ti ricordo:${NEWLINE + reminder.msg}`)
+        await channel.send(`⚠️ **REMINDER DI ${user}** ⚠️${NEWLINE + reminder.msg}`)
       } catch (err) {
         if (err.code === 50001) { // DiscordMissingAccessError
           redis.hdel('reminders', id).catch((err: Error) => logger.error(err))

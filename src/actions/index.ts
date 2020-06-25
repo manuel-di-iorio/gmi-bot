@@ -7,7 +7,6 @@ import quotesUnset from './Quotes/unset'
 import quotesShow from './Quotes/show'
 import avatar from './Server/avatar'
 import logo from './Server/logo'
-import youtube from './Utils/youtube'
 import google from './Utils/google'
 import log from './Server/log'
 import code from './Utils/code'
@@ -28,6 +27,7 @@ import botRestore from './Server/bot-restore'
 import cmd from './Server/cmd'
 import cmdExec from './Server/cmdExec'
 import { Message } from 'discord.js'
+import yt from './Utils/yt'
 
 interface Action {
   resolver: (text: string, message?: Message, reply?: Message['reply']) => boolean;
@@ -46,7 +46,7 @@ export const actions = new Map<string, Action>([
   ['avatar', avatar],
   ['logo', logo],
   ['bday', bday],
-  ['youtube', youtube],
+  ['yt', yt],
   ['google', google],
   ['poll', poll],
   ['log', log],

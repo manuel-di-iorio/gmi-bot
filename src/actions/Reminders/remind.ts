@@ -5,6 +5,8 @@ import { parseNaturalDate } from '../../lib/utils/ParseNaturalDate'
 import { redis } from '../../lib/Redis'
 import logger from '../../lib/Logger'
 import { askMsgReply } from '../../lib/utils/AskMsgReply'
+import { MessageEmbed } from 'discord.js'
+import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 export default {
   resolver: (text: string) => text.startsWith('remind'),
@@ -20,14 +22,20 @@ export default {
     }
 
     if (!input || !input.startsWith(' ') || input.startsWith(' |')) {
-      return reply(`specifica il messaggio da ricordare e quando farlo, separati da virgola. 
-Se tagghi un canale, il messaggio verrà inviato lì.
-      
-Esempi:
-\`!remind Partita di calcetto | domani alle 16\` 
-\`!remind è uscito il mio nuovo gioco su Steam!\` (puoi omettere la data, te la chiederò subito dopo)
-\`!remind Stream di Jak | tra trenta minuti\`
-\`!remind #generale 15e18 quanto fa ?\``)
+      const embed = new MessageEmbed().setColor('#a5c0d6')
+      if (message.guild) embed.setAuthor('Reminders | GameMaker Italia', message.guild.iconURL())
+
+      embed.setFooter(`!remind richiesto da ${getUserDisplayName(message)}`, message.author.displayAvatarURL())
+
+        .setDescription('Crea un reminder con un messaggio da ricordare quando vuoi. Se tagghi un canale, il messaggio verrà inviato lì.')
+
+        .addField('Comandi:', `\`!remind <messaggio> | <quando>\` - Setta un reminder
+  \`!remind show\` - Mostra tutti i reminders
+\`!remind remove <id>\` - Cancella un reminder`, false)
+
+        .addField('Esempio:', '`!remind Partita di calcetto | domani alle 16`', false)
+
+      return message.channel.send(embed)
     }
 
     input = input.trim()
@@ -81,6 +89,6 @@ Esempi:
 
     // Tell the user of the success operation
     const prettyDate = moment(remindDate).format('DD/MM/YYYY [alle] HH:mm:ss')
-    await message.channel.send(`Ok ${message.author}, ti ricorderò **${remindMsg}** nel canale ${channel} il ${prettyDate}`)
+    await message.channel.send(`Ok ${message.author}, ti ricorderò ** ${remindMsg} ** nel canale ${channel} il ${prettyDate}`)
   }
 }
