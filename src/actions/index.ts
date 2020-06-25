@@ -21,7 +21,6 @@ import stats from './Server/stats'
 import bday from './Server/bday'
 import diff from './Utils/diff'
 import forum from './Server/forum'
-import diff2 from './Utils/diff2'
 import nick from './Server/nick'
 import botRestore from './Server/bot-restore'
 import cmd from './Server/cmd'
@@ -37,7 +36,6 @@ interface Action {
 
 export const actions = new Map<string, Action>([
   ['help', help],
-  ['diff2', diff2],
   ['diff', diff],
   ['quotesShow', quotesShow],
   ['quotesSet', quotesSet],

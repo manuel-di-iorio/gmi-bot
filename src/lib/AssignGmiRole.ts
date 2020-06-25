@@ -4,6 +4,7 @@ import { GMI_MEMBER_ROLE } from './Config'
 import { redis } from './Redis'
 import { addUserRoles } from './RoleStore'
 import { isCpbotOnline } from './IsCpbotOnline'
+import { getActionEmbed } from './utils/getActionEmbed'
 
 export const assignGmiRoleToNewActiveUsers = async (message: Message) => {
   const { author, guild, channel } = message
@@ -25,7 +26,11 @@ export const assignGmiRoleToNewActiveUsers = async (message: Message) => {
       // Update the user role
       await addUserRoles(guildMember, [GMI_MEMBER_ROLE])
 
-      await channel.send(`\`\`\`${guildMember.displayName} è attivo da almeno una settimana e ha raggiunto 100 messaggi, guadagnando così il ruolo GMI!\`\`\``)
+      const embed = await getActionEmbed(
+        guildMember.user,
+        `${guildMember.displayName} è attivo da almeno una settimana e ha raggiunto 100 messaggi, guadagnando così il ruolo GMI!`
+      )
+      await channel.send(embed)
     }
   } catch (err) {
     logger.error(err)

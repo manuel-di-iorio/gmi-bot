@@ -1,5 +1,5 @@
-import { Client, TextChannel, Message } from 'discord.js'
-import { BOT_TOKEN, GMI_GUILD, NODE_ENV, BOT_AUTHOR_ID } from './Config'
+import { Client, TextChannel, Message, MessageEmbed } from 'discord.js'
+import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
 import logger from './Logger'
 import { onMessage, onMessageOps } from './OnMessage'
 import { isCpbotOnline } from './IsCpbotOnline'
@@ -9,6 +9,7 @@ import { getWelcomeImage } from './utils/GetWelcomeImage'
 import { incrementMostUsedEmotes, decrementMostUsedEmotes } from './UserStats'
 import { redis } from './Redis'
 import { addMessage } from './MessageStore'
+import { getActionEmbed } from './utils/getActionEmbed'
 
 export const bot = new Client()
 let mainChannel: TextChannel
@@ -60,18 +61,22 @@ bot.on('guildMemberAdd', async (guildMember) => {
     if (await isCpbotOnline(guildMember.guild)) return
 
     const userRoles = await retrieveMemberRoles(guildMember)
+    let embed: MessageEmbed
 
     if (!userRoles) {
+      console.log('benvenuto')
       // If new user, welcome it for the first time
-      const attachment = await getWelcomeImage(guildMember)
-      await mainChannel.send(`Benvenuto/a ${guildMember} su GameMaker Italia!`, attachment)
+      embed = await getActionEmbed(guildMember.user, `Benvenuto/a ${guildMember.displayName} su GameMaker Italia!`)
     } else {
+      console.log('bentornato');
       // Otherwise, welcome it back on the server
-      await Promise.all([
-        guildMember.roles.add(userRoles),
-        mainChannel.send(`\`\`\`Bentornato/a ${guildMember.displayName} su GameMaker Italia!\`\`\``)
-      ])
+      ([embed] = await Promise.all([
+        getActionEmbed(guildMember.user, `Bentornato/a ${guildMember.displayName} su GameMaker Italia!`),
+        guildMember.roles.add(userRoles)
+      ]))
     }
+
+    await mainChannel.send(embed)
   } catch (err) {
     logger.error(err)
   }
@@ -86,7 +91,9 @@ bot.on('guildMemberRemove', async (guildMember) => {
 
   try {
     if (await isCpbotOnline(guildMember.guild)) return
-    await mainChannel.send(`\`\`\`${guildMember.displayName} ha lasciato il server\`\`\``)
+
+    const embed = await getActionEmbed(guildMember.user, `${guildMember.displayName} ha lasciato il server`)
+    await mainChannel.send(embed)
   } catch (err) {
     logger.error(err)
   }
@@ -110,7 +117,8 @@ bot.on('guildBanRemove', async (guild, user) => {
 
   try {
     if (await isCpbotOnline(guild)) return
-    mainChannel.send(`\`\`\`${user.username} è stato/a sbannato/a dal server\`\`\``)
+    const embed = await getActionEmbed(user, `${user.username} è stato/a bannato/a dal server`)
+    await mainChannel.send(embed)
   } catch (err) {
     logger.error(err)
   }
@@ -128,7 +136,12 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
   try {
     if (await isCpbotOnline(newMember.guild)) return
     if (oldMember.displayName !== newMember.displayName || oldMember.user.username !== newMember.user.username) {
-      mainChannel.send(`\`\`\`📝 ${oldMember.displayName} (@${oldMember.user.username}) ha cambiato il suo nick in: ${newMember.displayName}\`\`\``)
+      const embed = await getActionEmbed(
+        newMember.user,
+        `${oldMember.displayName} ha cambiato il suo nickname`,
+        `Nuovo nome: ${newMember.displayName}`
+      )
+      await mainChannel.send(embed)
     }
   } catch (err) {
     logger.error(err)

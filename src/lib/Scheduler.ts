@@ -3,7 +3,6 @@ import { REDIS_URL, NODE_ENV, BACKUP_FREQUENCY, DB_CONTROL_FREQUENCY } from './C
 import logger from './Logger'
 import { checkBirthdays } from './Birthdays'
 import { execBackup, dbControl } from './Backup'
-import { goodmorning } from './TenorGoodMorning'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -36,7 +35,6 @@ export const start = async () => {
   queue.process('birthday', checkBirthdays)
   queue.process('backup', execBackup)
   queue.process('dbcontrol', dbControl)
-  queue.process('goodmorning', goodmorning)
 
   // Add the jobs if they are not scheduled yet
 
@@ -75,19 +73,6 @@ export const start = async () => {
       repeat: {
         tz: 'Europe/Rome',
         cron: DB_CONTROL_FREQUENCY
-      }
-    })
-  }
-
-  /* GoodMorning */
-  const goodmorningJob = await queue.getJob('goodmorning')
-  if (!goodmorningJob) {
-    queue.add('goodmorning', null, {
-      removeOnComplete: true,
-      attempts: 3,
-      repeat: {
-        tz: 'Europe/Rome',
-        cron: '30 9 * * *'
       }
     })
   }
