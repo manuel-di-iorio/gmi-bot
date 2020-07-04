@@ -8,7 +8,7 @@ import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 const hasKey = Object.prototype.hasOwnProperty.call.bind(Object)
 
 export default {
-  resolver: (text: string) => text.startsWith('remind show'),
+  resolver: (text: string) => text.startsWith('remind list'),
 
   handler: async ({ reply, message }: Task) => {
     const reminders = await redis.hgetall('reminders')

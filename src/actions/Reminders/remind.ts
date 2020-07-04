@@ -29,11 +29,14 @@ export default {
 
         .setDescription('Crea un reminder con un messaggio da ricordare quando vuoi. Se tagghi un canale, il messaggio verrà inviato lì.')
 
-        .addField('Comandi:', `\`!remind <messaggio> | <quando>\` - Setta un reminder
-  \`!remind show\` - Mostra tutti i reminders
+        .addField('Comandi:', `\`!remind <messaggio> | <quando> \` - Setta un reminder
+  \`!remind list\` - Mostra tutti i reminders
 \`!remind remove <id>\` - Cancella un reminder`, false)
 
-        .addField('Esempio:', '`!remind Partita di calcetto | domani alle 16`', false)
+        .addField('Esempi:', `\`!remind Partita alle 8 e mezza di sera | 20:30\`
+\`!remind Gioco gratis | 21:00:00 05/12\`
+\`!remind Viaggio GMI | 01/08/2023\`
+\`!remind Partita di calcetto | domani alle 16\``, false)
 
       return message.channel.send(embed)
     }
@@ -60,17 +63,20 @@ export default {
     }
 
     // Parse the date
-    const remindDate = parseNaturalDate(remindWhen)
-    if (!remindDate) {
-      return reply('non ho capito la data. Remind annullato')
+    let remindDate = new Date(moment(remindWhen, ['HH', 'HH:mm', 'HH:mm:ss', 'HH:mm:ss DD', 'HH:mm:ss DD/MM', 'HH:mm:ss DD/MM/YYYY', 'DD/MM', 'DD/MM/YYYY'], true).valueOf())
+
+    if (!(remindDate instanceof Date) || isNaN(+remindDate)) {
+      remindDate = parseNaturalDate(remindWhen)
     }
+
+    if (!remindDate) return reply('non ho capito la data. Remind annullato')
 
     const now = Date.now()
     const remindDateTime = remindDate.getTime()
     if (remindDateTime < now) {
       return reply('la data del reminder deve essere nel futuro. Remind annullato')
-    } else if (remindDateTime - now > 31536e6 * 3 /* 3 years */) {
-      return reply('il massimo è 3 anni. Remind annullato')
+    } else if (remindDateTime - now > 31536e6 * 10 /* 10 years */) {
+      return reply('il massimo è 10 anni. Remind annullato')
     }
 
     // Save the reminder

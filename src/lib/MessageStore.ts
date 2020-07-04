@@ -15,20 +15,30 @@ export const addMessage = async (message: Message, content = message.cleanConten
   const prettyDate = moment(time).format('DD/MM/YYYY HH:mm:ss')
 
   try {
+    const msgIsSpoiler = content.startsWith('--spoiler')
     const safeContent = content && content.replace(/(\r\n|\n|\r)/gm, ' ').replace(/`/g, "'")
-    let data = `[${prettyDate}]  ${getUserDisplayName(message)}: ${safeContent}`
+    const baseData = `[${prettyDate}]  ${getUserDisplayName(message)}:`
+    let data = `${baseData} ${!msgIsSpoiler ? safeContent : '[ha scritto uno spoiler]'}`
+    let spoilerData = `${baseData} ${safeContent}`
 
     if (message.attachments.size) {
-      if (safeContent) data += ' '
+      if (safeContent) {
+        data += ' '
+        spoilerData += ' '
+      }
       data += `[Allegato] ${message.attachments.first().url}`
+      spoilerData += `[Allegato] ${message.attachments.first().url}`
     }
 
     await Promise.all([
       // Increment the user messages count
       redis.hincrby(`u:${author.id}`, 'msg', 1),
 
-      // Push the message
-      redis.lpush(`c:${channel.id}:msg`, data)
+      // Push the message to the public log
+      redis.lpush(`c:${channel.id}:msg`, data),
+
+      // If spoiler, push the message to the spoilers list
+      msgIsSpoiler && redis.lpush('spoilers:cpbot:msg', spoilerData)
     ])
 
     // Trim the messages to limit memory usage
