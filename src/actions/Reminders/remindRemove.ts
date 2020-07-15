@@ -10,6 +10,6 @@ export default {
     const reminder = await redis.hget('reminders', id)
     if (!reminder) return reply('non ho trovato un reminder con questo id')
     await redis.hdel('reminders', id)
-    reply('il reminder è stato cancellato con successo')
+    reply('ho cancellato il reminder')
   }
 }

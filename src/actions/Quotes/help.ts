@@ -13,13 +13,12 @@ export default {
       .setDescription('⚠️ __Non mettere `<>` o `[]` intorno ai parametri.__')
       .setFooter(`!quotes richiesto da ${getUserDisplayName(message)}`, message.author.displayAvatarURL())
 
-    embed.addField('Comandi:', `\`!set <name>\` - Per salvare una citazione (ti chiederò subito dopo il testo da salvare)
-\`!unset <name>\` - Cancella una citazione salvata
-\`,<name>\` - Mostra il testo di una citazione
-\`,<name> @user\` - Mostra la citazione di un utente
-\`, @user\` - Mostra i nomi di tutte le citazioni di un utente`, false)
+    embed.addField('Comandi:', `\`!set <name> | <value>\` - Per salvare una citazione
+      \`,<name>\` - Mostra il testo di una citazione
+      \`!unset <name>\` - Cancella una citazione salvata
+      \`!quotes list\` - Mostra le citazioni salvate`, false)
 
-    embed.addField('Esempio:', `\`!set hello\` - Salva la citazione con il nome 'hello'
+    embed.addField('Esempio:', `\`!quotes set hello | world\` - Salva la citazione con il nome 'hello'
 \`,hello\` - Mostra il valore associato (ad es. 'world')`, false)
 
     await message.channel.send(embed)

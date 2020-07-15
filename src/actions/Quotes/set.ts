@@ -12,20 +12,21 @@ export default {
       return reply('manca il nome della citazione che vuoi salvare')
     }
 
-    const { id: authorId } = message.author
+    const inputSplit = input.split('|')
+    const quoteName = inputSplit.shift().trim()
 
     // Check if already exists
-    if (await (redis.hexists(`quotes:${authorId}`, input))) {
+    if (await (redis.hexists('quotes', quoteName))) {
       const confirmed = await askReactConfirm(message, { text: 'esiste già questa citazione, vuoi sovrascriverla ?' })
       if (!confirmed) return
     }
 
     // Ask the quote value
-    const value = await askMsgReply(message, { text: 'qual è il testo della citazione ?' })
+    const value = inputSplit.length ? inputSplit.shift().trim() : await askMsgReply(message, { text: 'qual è il testo della citazione ?' })
     if (!value) return
 
     // Save the ne quote
-    await redis.hset(`quotes:${authorId}`, input, value)
-    await reply(`ho salvato la citazione! Puoi mostrarla scrivendo \`,${input}\``)
+    await redis.hset('quotes', quoteName, value)
+    await reply(`ho salvato la citazione! Puoi mostrarla scrivendo \`,${quoteName}\``)
   }
 }

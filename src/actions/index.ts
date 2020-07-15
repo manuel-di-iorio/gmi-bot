@@ -5,6 +5,7 @@ import quotes from './Quotes/help'
 import quotesSet from './Quotes/set'
 import quotesUnset from './Quotes/unset'
 import quotesShow from './Quotes/show'
+import quotesList from './Quotes/list'
 import avatar from './Server/avatar'
 import logo from './Server/logo'
 import google from './Utils/google'
@@ -40,6 +41,7 @@ export const actions = new Map<string, Action>([
   ['quotesShow', quotesShow],
   ['quotesSet', quotesSet],
   ['quotesUnset', quotesUnset],
+  ['quotesList', quotesList],
   ['quotes', quotes],
   ['avatar', avatar],
   ['logo', logo],
