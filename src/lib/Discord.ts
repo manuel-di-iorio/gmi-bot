@@ -5,11 +5,11 @@ import { onMessage, onMessageOps } from './OnMessage'
 import { isCpbotOnline } from './IsCpbotOnline'
 import { storeMemberRoles, retrieveMemberRoles } from './RoleStore'
 import { incrReactCount, decrReactCount } from './EmoteStore'
-import { getWelcomeImage } from './utils/GetWelcomeImage'
 import { incrementMostUsedEmotes, decrementMostUsedEmotes } from './UserStats'
 import { redis } from './Redis'
 import { addMessage } from './MessageStore'
 import { getActionEmbed } from './utils/getActionEmbed'
+import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedChannels'
 
 export const bot = new Client()
 let mainChannel: TextChannel
@@ -31,6 +31,8 @@ bot.on('ready', () => {
   setInterval(() => bot.user.setActivity('!help').catch((err: Error) => logger.err(err)), 1000 * 60 * 60)
 })
 
+// bot.on('debug', console.debug)
+
 bot.on('error', (err: Error) => {
   logger.error('[DISCORD] Generic error', err)
 })
@@ -44,7 +46,10 @@ bot.on('message', (message) => {
 
 bot.on('messageUpdate', (oldMessage, newMessage) => {
   if (newMessage.author.bot) return
-  addMessage(newMessage as Message, newMessage.cleanContent + ' [Modificato]', newMessage.editedAt)
+  addMessage(newMessage as Message, newMessage.cleanContent + ' [Modificato]', newMessage.editedAt || newMessage.createdAt)
+
+  // Delete messages with invalid formats in limited channels
+  deleteInvalidMsgInLimitedChannels(newMessage as Message, newMessage.content.trim())
 })
 
 bot.on('messageDelete', (message) => {
@@ -64,16 +69,12 @@ bot.on('guildMemberAdd', async (guildMember) => {
     let embed: MessageEmbed
 
     if (!userRoles) {
-      console.log('benvenuto')
       // If new user, welcome it for the first time
       embed = await getActionEmbed(guildMember.user, `Benvenuto/a ${guildMember.displayName} su GameMaker Italia!`)
     } else {
-      console.log('bentornato');
       // Otherwise, welcome it back on the server
-      ([embed] = await Promise.all([
-        getActionEmbed(guildMember.user, `Bentornato/a ${guildMember.displayName} su GameMaker Italia!`),
-        guildMember.roles.add(userRoles)
-      ]))
+      embed = await getActionEmbed(guildMember.user, `Bentornato/a ${guildMember.displayName} su GameMaker Italia!`)
+      guildMember.roles.add(userRoles).catch((err: Error) => logger.error(err))
     }
 
     await mainChannel.send(embed)

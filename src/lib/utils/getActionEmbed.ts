@@ -2,8 +2,8 @@ import { MessageEmbed, User, PartialUser } from 'discord.js'
 import { getAvgColorFromImg } from './GetAvgColorFromImg'
 
 /** Get the action embed */
-export const getActionEmbed = async (user: User | PartialUser, title: string, description?: string) => {
-  const avatarUrl = user.avatarURL({ format: 'png', size: 32 })
+export const getActionEmbed = async (user: User | PartialUser, title: string, description?: string): Promise<MessageEmbed> => {
+  const avatarUrl = user.avatarURL({ format: 'png', size: 64 })
   const avatarColor = await getAvgColorFromImg(avatarUrl)
 
   const embed = new MessageEmbed()
