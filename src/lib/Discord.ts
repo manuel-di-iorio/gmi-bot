@@ -10,6 +10,7 @@ import { incrementMostUsedEmotes, decrementMostUsedEmotes } from './UserStats'
 import { redis } from './Redis'
 import { addMessage } from './MessageStore'
 import { getActionEmbed } from './utils/getActionEmbed'
+import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedChannels'
 
 export const bot = new Client()
 let mainChannel: TextChannel
@@ -31,6 +32,8 @@ bot.on('ready', () => {
   setInterval(() => bot.user.setActivity('!help').catch((err: Error) => logger.err(err)), 1000 * 60 * 60)
 })
 
+// bot.on('debug', console.debug)
+
 bot.on('error', (err: Error) => {
   logger.error('[DISCORD] Generic error', err)
 })
@@ -45,6 +48,9 @@ bot.on('message', (message) => {
 bot.on('messageUpdate', (oldMessage, newMessage) => {
   if (newMessage.author.bot) return
   addMessage(newMessage as Message, newMessage.cleanContent + ' [Modificato]', newMessage.editedAt)
+
+  // Delete messages with invalid formats in limited channels
+  deleteInvalidMsgInLimitedChannels(newMessage as Message, newMessage.content.trim())
 })
 
 bot.on('messageDelete', (message) => {

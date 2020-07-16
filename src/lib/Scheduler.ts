@@ -3,6 +3,7 @@ import { REDIS_URL, NODE_ENV, BACKUP_FREQUENCY, DB_CONTROL_FREQUENCY } from './C
 import logger from './Logger'
 import { checkBirthdays } from './Birthdays'
 import { execBackup, dbControl } from './Backup'
+import { deleteInvalidMsg } from './DeleteInvalidMsgInLimitedChannels'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -35,6 +36,7 @@ export const start = async () => {
   queue.process('birthday', checkBirthdays)
   queue.process('backup', execBackup)
   queue.process('dbcontrol', dbControl)
+  queue.process('deleteInvalidMsg', deleteInvalidMsg)
 
   // Add the jobs if they are not scheduled yet
 
@@ -73,6 +75,19 @@ export const start = async () => {
       repeat: {
         tz: 'Europe/Rome',
         cron: DB_CONTROL_FREQUENCY
+      }
+    })
+  }
+
+  /* Delete invalid messages sent in limited channels */
+  const deleteInvalidMsgJob = await queue.getJob('deleteInvalidMsgJob')
+  if (!deleteInvalidMsgJob) {
+    queue.add('deleteInvalidMsgJob', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: '0 3 * * *'
       }
     })
   }

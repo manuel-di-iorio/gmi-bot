@@ -13,10 +13,13 @@ import { start as startBot } from './lib/Discord'
       startBot(),
       startRedis(),
       startWorkers(),
-      startQueue(),
+      startQueue()
+    ])
+
+    await Promise.all([
+      // startReadForumUpdates()
       startScheduler(),
       startRemindersScheduler()
-      // startReadForumUpdates()
     ])
   } catch (err) {
     logger.error(err)

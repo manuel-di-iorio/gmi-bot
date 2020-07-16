@@ -8,7 +8,7 @@
   "private": true,
   "license": "ISC",
   "scripts": {
-    "dev": "ts-node-dev --respawn ./src/index.ts",
+    "dev": "ts-node-dev --no-deps --respawn ./src/index.ts",
     "start": "node dist",
     "build": "tsc"
   },
