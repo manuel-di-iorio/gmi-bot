@@ -2,15 +2,6 @@ import { GuildEmoji, ReactionEmoji, Guild } from 'discord.js'
 import logger from './Logger'
 import { redis } from './Redis'
 
-/** Dirty negative count fix  */
-// const fixNegativeScores = async (guildId: string, reactId: string): Promise<void> => {
-//   const reactCount = parseInt(await redis.zscore('emotes', reactId))
-//   if (reactCount < 0) {
-//     await redis.zrem('emotes', reactId)
-//     await redis.zadd('emotes', 0, reactId)
-//   }
-// }
-
 /** Increment a reaction count */
 export const incrReactCount = async (guild: Guild, react: GuildEmoji | ReactionEmoji): Promise<void> => {
   if (!react.id) return // Only guild emoji can be stored

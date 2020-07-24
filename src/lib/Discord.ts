@@ -14,21 +14,24 @@ import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedCh
 export const bot = new Client()
 let mainChannel: TextChannel
 
-bot.on('ready', () => {
-  logger.info('[BOT] Ready')
+const isReady = new Promise(resolve => {
+  bot.on('ready', () => {
+    logger.info('[BOT] Ready')
+    resolve()
 
-  // Get the main channel
-  mainChannel = bot.channels.cache.get(GMI_GUILD) as TextChannel
+    // Get the main channel
+    mainChannel = bot.channels.cache.get(GMI_GUILD) as TextChannel
 
-  // Send a start message in dev
-  NODE_ENV === 'development' && mainChannel.send('Connected').catch((err: Error) => logger.error(err))
+    // Send a start message in dev
+    NODE_ENV === 'development' && mainChannel.send('Connected').catch((err: Error) => logger.error(err))
 
-  // Save a redis key for backup-control purposes
-  redis.set('backup-control', '1').catch((err: Error) => logger.error(err))
+    // Save a redis key for backup-control purposes
+    redis.set('backup-control', '1').catch((err: Error) => logger.error(err))
 
-  // Set the bot activity
-  bot.user.setActivity('!help').catch((err: Error) => logger.err(err))
-  setInterval(() => bot.user.setActivity('!help').catch((err: Error) => logger.err(err)), 1000 * 60 * 60)
+    // Set the bot activity
+    bot.user.setActivity('!help').catch((err: Error) => logger.err(err))
+    setInterval(() => bot.user.setActivity('!help').catch((err: Error) => logger.err(err)), 1000 * 60 * 60)
+  })
 })
 
 // bot.on('debug', console.debug)
@@ -170,4 +173,7 @@ bot.on('messageReactionRemove', (messageReaction, user) => {
 })
 
 // Connect to Discord
-export const start = () => bot.login(BOT_TOKEN)
+export const start = async () => {
+  bot.login(BOT_TOKEN)
+  await isReady
+}

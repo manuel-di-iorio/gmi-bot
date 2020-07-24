@@ -35,9 +35,8 @@ export default {
 
     // Send the log
     const logBuffer = Buffer.from(log, 'utf8')
-    // const userNameClean = getUserDisplayName(message).replace(/\s+/g, '').replace(/[^0-9a-z_-]+/gi, '-')
     const attachment = new MessageAttachment(logBuffer, 'log.txt')
-    const resp = `**Ultimi messaggi di questo canale:**${recentMsg}`//! log richiesto da ${message.author}`
+    const resp = `**Ultimi messaggi di questo canale:**${recentMsg}`
 
     await Promise.all([
       // message.delete(),

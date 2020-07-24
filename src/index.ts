@@ -5,6 +5,7 @@ import { start as startQueue } from './lib/Queue'
 import { start as startScheduler } from './lib/Scheduler'
 import { start as startRemindersScheduler } from './lib/RemindersScheduler'
 import { start as startBot } from './lib/Discord'
+import { startEmoteStatsRendering } from './actions/Server/emotes'
 // import { start as startReadForumUpdates } from './lib/ReadForumUpdates'
 
 (async () => {
@@ -19,7 +20,8 @@ import { start as startBot } from './lib/Discord'
     await Promise.all([
       // startReadForumUpdates()
       startScheduler(),
-      startRemindersScheduler()
+      startRemindersScheduler(),
+      startEmoteStatsRendering()
     ])
   } catch (err) {
     logger.error(err)
