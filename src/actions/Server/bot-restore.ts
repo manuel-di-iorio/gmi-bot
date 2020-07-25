@@ -37,6 +37,7 @@ const restoreDb = async () => {
             fields.push(fieldKey)
             fields.push(value[fieldKey])
           }
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           await redis.hset(key, ...fields)
           break
@@ -62,10 +63,10 @@ const restoreDb = async () => {
 }
 
 export default {
-  resolver: (text: string) => text === 'bot:restore',
+  cmd: 'bot:restore',
 
   handler: async ({ message, reply }: Task) => {
-    // User rols authorization (only for the bot author)
+    // User roles authorization (only for the bot author)
     if (message.author.id !== BOT_AUTHOR_ID) return reply('non sei autorizzato ad usare questo comando')
 
     // Restore the database

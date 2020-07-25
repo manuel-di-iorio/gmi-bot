@@ -30,7 +30,7 @@ const removeUserBday = async (authorId: Snowflake) => {
 }
 
 export default {
-  resolver: (text: string) => text.startsWith('bday'),
+  cmd: 'bday',
 
   handler: async ({ reply, message, text }: Task) => {
     // Guild check

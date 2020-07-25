@@ -5,10 +5,14 @@ import { start as startQueue } from './lib/Queue'
 import { start as startScheduler } from './lib/Scheduler'
 import { start as startRemindersScheduler } from './lib/RemindersScheduler'
 import { start as startBot } from './lib/Discord'
+import { init as initSpellcheck } from './lib/Spellcheck'
 import { startEmoteStatsRendering } from './actions/Server/emotes'
+import { actions } from './actions'
 // import { start as startReadForumUpdates } from './lib/ReadForumUpdates'
 
 (async () => {
+  initSpellcheck(actions)
+
   try {
     await Promise.all([
       startBot(),

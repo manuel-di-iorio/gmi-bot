@@ -9,7 +9,7 @@ import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 export default {
-  resolver: (text: string) => text.startsWith('remind'),
+  cmd: 'remind',
 
   handler: async ({ message, reply, text }: Task) => {
     let input = text.replace('remind', '')

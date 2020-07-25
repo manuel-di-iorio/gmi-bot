@@ -8,7 +8,7 @@ const alphabetClean = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L
 const alphabet = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿']
 
 export default {
-  resolver: (text: string) => text.startsWith('poll'),
+  cmd: 'poll',
 
   handler: async ({ message, reply, text }: Task) => {
     // return reply('i poll non sono ancora disponibili!')

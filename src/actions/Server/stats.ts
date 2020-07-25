@@ -14,7 +14,7 @@ interface UserModel {
 }
 
 export default {
-  resolver: (text: string) => text.startsWith('stat'),
+  cmd: 'stat',
 
   handler: async ({ message }: Task) => {
     // Get the user to show

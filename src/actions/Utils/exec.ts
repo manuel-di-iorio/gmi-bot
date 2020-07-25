@@ -2,12 +2,13 @@ import { job } from 'parallelcode'
 import { Task } from '../../lib/Queue'
 
 export default {
-  resolver: (text: string) => text.startsWith('exec'),
+  cmd: 'exec',
 
   handler: async ({ text, reply }: Task) => {
     const data = text.replace('exec', '').trim()
 
     try {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // eslint-disable-next-line no-undef
       const ctx = await job(({ data }) => (THREAD_STATE.vm.run(data)), { data })

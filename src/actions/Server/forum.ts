@@ -9,7 +9,7 @@ const buffer = readFileSync(join(__dirname, '..', '..', '..', 'assets', 'forum-s
 const attachment = new MessageAttachment(buffer)
 
 export default {
-  resolver: (text: string) => text === 'forum',
+  cmd: 'forum',
 
   handler: async ({ reply, message }: Task) => {
     if (message.guild) message.delete().catch((err: Error) => logger.error(err))

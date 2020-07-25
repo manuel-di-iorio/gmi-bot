@@ -4,7 +4,7 @@ import { isAuthorized } from '../../lib/utils/IsAuthorized'
 import { askReactConfirm } from '../../lib/utils/AskReactConfirm'
 
 export default {
-  resolver: (text: string) => text.startsWith('del'),
+  cmd: 'del',
 
   handler: async ({ text, reply, message }: Task) => {
     // Get a cloned copy of the latest channel messages

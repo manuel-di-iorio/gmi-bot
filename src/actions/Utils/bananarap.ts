@@ -1,7 +1,7 @@
-import { Task } from '../lib/Queue'
+import { Task } from '../../lib/Queue'
 
 export default {
-  resolver: (text: string) => text.startsWith('🍌') || text.startsWith('banana'),
+  cmd: ['banana', '🍌'],
 
   handler: async ({ message }: Task) => {
     await message.channel.send(`${message.author} :banana:

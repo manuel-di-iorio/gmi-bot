@@ -20,8 +20,12 @@ export const onMessage = async (message: Message, content: string): Promise<void
   content = content.trim()
 
   // Execute the action resolved based on the message content
-  for (const [name, action] of actions) {
-    if (action.resolver(content, message, message.reply)) {
+  for (const [name, { cmd, resolver }] of actions) {
+    // Resolve the command
+    if (
+      (cmd && Array.isArray(cmd) ? cmd.find(item => content.startsWith(item)) : content.startsWith(cmd as string)) ||
+      (resolver && resolver(content, message, message.reply))
+    ) {
       enqueue({ action: name, message, text: content })
       break
     }

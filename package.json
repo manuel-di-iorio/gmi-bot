@@ -28,6 +28,7 @@
     "js-beautify": "^1.11.0",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
+    "natural": "^2.1.5",
     "parallelcode": "^1.1.1",
     "pino": "^6.4.1",
     "pino-pretty": "^4.1.0",
@@ -47,6 +48,7 @@
     "@types/ioredis": "^4.17.2",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/moment-timezone": "^0.5.13",
+    "@types/natural": "^0.6.3",
     "@types/pino": "^6.3.0",
     "@types/pixelmatch": "^5.2.1",
     "@types/pngjs": "^3.4.2",
@@ -61,22 +63,8 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^2.0.4",
-    "ts-node-dev": "^1.0.0-pre.55",
+    "ts-node-dev": "^1.0.0-pre.56",
     "typescript": "^3.9.7"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "**/*.test.ts",
-      "**/*.spec.ts",
-      ".git",
-      "node_modules"
-    ],
-    "watch": [
-      "src"
-    ],
-    "exec_": "npm run run:watch",
-    "exec": "npm run run:dev",
-    "ext": "ts"
   },
   "engines": {
     "node": "12.16.3"

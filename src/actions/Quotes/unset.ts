@@ -2,7 +2,7 @@ import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
 
 export default {
-  resolver: (text: string) => text.startsWith('unset'),
+  cmd: 'unset',
 
   handler: async ({ text, reply }: Task) => {
     const input = text.replace('unset', '').trim()

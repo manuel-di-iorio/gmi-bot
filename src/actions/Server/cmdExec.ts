@@ -5,6 +5,7 @@ import { redis } from '../../lib/Redis'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import logger from '../../lib/Logger'
 import { Task } from '../../lib/Queue'
+import { spellcheck } from '../../lib/Spellcheck'
 
 export default {
   resolver: (text: string) => text !== 'cancel' && !text.startsWith(','),
@@ -18,7 +19,12 @@ export default {
     const cmdCode = await redis.hget('cmd:list', cmd)
 
     // Command not found
-    if (!cmdCode) return reply('non conosco questo comando. Scrivi `!help` per la lista dei comandi')
+    if (!cmdCode) {
+      const correction = spellcheck.getCorrection(text)
+      const correctionText = correction ? `, forse stavi cercando \`!${correction}\` ?` : '.'
+      return reply(`non conosco questo comando${correctionText}
+Scrivi \`!help\` per la lista dei comandi`)
+    }
 
     const [isDisabled, usageCount] = await Promise.all([
       redis.hget('cmd:disabled', cmd),
@@ -75,6 +81,7 @@ export default {
           fixAsync: true
         })
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return vmAsync.run(cmdCode)
       }, data)

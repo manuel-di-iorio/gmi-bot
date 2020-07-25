@@ -2,7 +2,7 @@ import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
 
 export default {
-  resolver: (text: string) => text.startsWith('remind remove'),
+  cmd: 'remind remove',
 
   handler: async ({ text, reply }: Task) => {
     const id = text.replace('remind remove', '').trim()

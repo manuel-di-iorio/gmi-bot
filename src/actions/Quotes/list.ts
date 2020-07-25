@@ -3,7 +3,7 @@ import { redis } from '../../lib/Redis'
 import { DOUBLE_NEWLINE } from '../../lib/utils/GetNewline'
 
 export default {
-  resolver: (text: string) => text.startsWith('quotes list'),
+  cmd: 'quotes list',
 
   handler: async ({ message, reply }: Task) => {
     let resp = ''

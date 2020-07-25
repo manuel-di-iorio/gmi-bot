@@ -2,7 +2,7 @@ import { Task } from '../../lib/Queue'
 import { GMI_GUILD } from '../../lib/Config'
 
 export default {
-  resolver: (text: string) => text.startsWith('nick'),
+  cmd: 'nick',
 
   handler: async ({ message, text, reply }: Task) => {
     // Get the input

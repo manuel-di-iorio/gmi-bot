@@ -8,7 +8,7 @@ import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 const DIFF_TOLLERANCE = 15
 
 export default {
-  resolver: (text: string) => text.startsWith('diff'),
+  cmd: 'diff',
 
   handler: async ({ reply, message }: Task) => {
     const mentions = message.mentions.users

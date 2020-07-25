@@ -8,7 +8,7 @@ const ytClient = google.youtube('v3')
 const ytSearchAsync = promisify(ytClient.search.list.bind(ytClient.search))
 
 export default {
-  resolver: (text: string) => text.startsWith('yt'),
+  cmd: 'yt',
 
   handler: async ({ reply, text }: Task) => {
     const input = text.replace('yt', '').trim()

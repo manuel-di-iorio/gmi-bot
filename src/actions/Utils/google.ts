@@ -8,7 +8,7 @@ const googleClient = google.customsearch('v1')
 const googleSearchAsync = promisify(googleClient.cse.list.bind(googleClient.cse))
 
 export default {
-  resolver: (text: string) => text.startsWith('google'),
+  cmd: 'google',
 
   handler: async ({ reply, text }: Task) => {
     const input = text.replace('google', '').trim()

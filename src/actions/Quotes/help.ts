@@ -3,7 +3,7 @@ import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 export default {
-  resolver: (text: string) => text.startsWith('quotes'),
+  cmd: 'quotes',
 
   handler: async ({ message }: Task) => {
     const embed = new MessageEmbed().setColor('#a5c0d6')

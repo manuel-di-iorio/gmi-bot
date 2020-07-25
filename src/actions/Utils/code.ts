@@ -10,7 +10,7 @@ const formatOpts = {
 }
 
 export default {
-  resolver: (text: string) => text.startsWith('code'),
+  cmd: 'code',
 
   handler: async ({ text, reply, message }: Task) => {
     const code = text.replace('code', '').trim()

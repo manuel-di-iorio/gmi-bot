@@ -4,7 +4,7 @@ import { MessageAttachment } from 'discord.js'
 import { NEWLINE, INVISIBLE_CHAR } from '../../lib/utils/GetNewline'
 
 export default {
-  resolver: (text: string) => text.startsWith('log'),
+  cmd: 'log',
 
   handler: async ({ message, text, reply }: Task) => {
     if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)

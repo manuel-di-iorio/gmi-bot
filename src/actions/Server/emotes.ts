@@ -119,12 +119,12 @@ export const startEmoteStatsRendering = () => {
   setInterval(() => {
     canvasList.length = 0
     renderStats()
-  }, 6e4)
+  }, 60000 * 3)
   logger.info('[EMOTE STATS SCHEDULER] Ready')
 }
 
 export default {
-  resolver: (text: string) => text.startsWith('emotes'),
+  cmd: 'emote',
 
   handler: async ({ message, reply }: Task) => {
     const guild = message.guild

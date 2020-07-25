@@ -4,7 +4,7 @@ import { askReactConfirm } from '../../lib/utils/AskReactConfirm'
 import { askMsgReply } from '../../lib/utils/AskMsgReply'
 
 export default {
-  resolver: (text: string) => text.startsWith('set'),
+  cmd: 'set',
 
   handler: async ({ text, reply, message }: Task) => {
     const input = text.replace('set', '').trim()

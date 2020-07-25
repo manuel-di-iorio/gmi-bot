@@ -1,7 +1,7 @@
 import { Task } from '../../lib/Queue'
 
 export default {
-  resolver: (text: string) => text === 'logo',
+  cmd: 'logo',
 
   handler: async ({ message, reply }: Task) => {
     if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)

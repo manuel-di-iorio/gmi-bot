@@ -1,10 +1,9 @@
-import { Task } from '../lib/Queue'
+import { Task } from '../../lib/Queue'
 import { MessageEmbed } from 'discord.js'
-import { getUserDisplayName } from '../lib/utils/GetUserDisplayName'
-// import logger from '../lib/Logger'
+import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 export default {
-  resolver: (text: string) => text === 'help',
+  cmd: 'help',
 
   handler: async ({ message }: Task) => {
     const embed = new MessageEmbed().setColor('#a5c0d6')
@@ -16,7 +15,7 @@ export default {
     embed.addField('Server', `\`!avatar [@user]\` - Mostra l'avatar di un utente
 \`!logo\` - Mostra il logo del server
 \`!nick <name>\` - Cambia il tuo nickname
-\`!emotes\` - Mostra la classifica delle emotes del server
+\`!emote\` - Mostra la classifica delle emotes del server
 \`!stats [@user]\` - Mostra le statistiche di un utente
 \`!bday DD/MM/YYYY\` - Setta il tuo compleanno (giorno/mese/anno)
 \`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio

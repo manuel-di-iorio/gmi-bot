@@ -1,6 +1,6 @@
 import { Task } from '../lib/Queue'
-import cmdNotFound from './notFound'
-import help from './help'
+import cmdNotFound from './Server/notFound'
+import help from './Server/help'
 import quotes from './Quotes/help'
 import quotesSet from './Quotes/set'
 import quotesUnset from './Quotes/unset'
@@ -28,10 +28,11 @@ import cmd from './Server/cmd'
 import cmdExec from './Server/cmdExec'
 import { Message } from 'discord.js'
 import yt from './Utils/yt'
-import bananarap from './bananarap'
+import bananarap from './Utils/bananarap'
 
-interface Action {
-  resolver: (text: string, message?: Message, reply?: Message['reply']) => boolean;
+export interface Action {
+  cmd?: string | string[],
+  resolver?: (text: string, message?: Message, reply?: Message['reply']) => boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handler: (task: Task) => any;
 }

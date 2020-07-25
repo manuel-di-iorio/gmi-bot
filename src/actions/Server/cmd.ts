@@ -4,7 +4,7 @@ import { redis } from '../../lib/Redis'
 import { NEWLINE } from '../../lib/utils/GetNewline'
 
 export default {
-  resolver: (text: string) => text.startsWith('cmd'),
+  cmd: 'cmd',
 
   handler: async ({ message, text, reply }: Task) => {
     // Get the input
