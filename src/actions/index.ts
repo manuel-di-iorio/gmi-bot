@@ -28,6 +28,7 @@ import cmd from './Server/cmd'
 import cmdExec from './Server/cmdExec'
 import { Message } from 'discord.js'
 import yt from './Utils/yt'
+import bananarap from './bananarap'
 
 interface Action {
   resolver: (text: string, message?: Message, reply?: Message['reply']) => boolean;
@@ -61,6 +62,7 @@ export const actions = new Map<string, Action>([
   ['remind', remind],
   ['forum', forum],
   ['bot:restore', botRestore],
+  ['bananarap', bananarap],
   ['cmd', cmd],
   ['cmdExec', cmdExec],
   ['cmdNotFound', cmdNotFound]
