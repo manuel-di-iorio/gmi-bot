@@ -3,6 +3,7 @@ import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
+import { findMentionedUsersFromPlainText } from '../../lib/utils/FindMentionedUserFromText'
 // import logger from '../../lib/Logger'
 
 interface UserModel {
@@ -16,9 +17,14 @@ interface UserModel {
 export default {
   cmd: 'stat',
 
-  handler: async ({ message }: Task) => {
+  handler: async ({ message, text }: Task) => {
     // Get the user to show
-    const user = message.mentions.users.size ? message.mentions.users.first() : message.author
+    let user = message.mentions.users.size && message.mentions.users.first()
+    if (message.guild && !user) {
+      user = findMentionedUsersFromPlainText(text.replace('stats', ''), message.guild.members.cache).shift()
+    }
+    if (!user) user = message.author
+
     const userId = user.id
     const userKey = `u:${userId}`
 

@@ -4,16 +4,20 @@ import Canvas from 'canvas'
 import { MessageAttachment } from 'discord.js'
 import { Task } from '../../lib/Queue'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
+import { findMentionedUsersFromPlainText } from '../../lib/utils/FindMentionedUserFromText'
 
 const DIFF_TOLLERANCE = 15
 
 export default {
   cmd: 'diff',
 
-  handler: async ({ reply, message }: Task) => {
-    const mentions = message.mentions.users
+  handler: async ({ reply, message, text }: Task) => {
+    let mentions = message.mentions.users.array()
 
-    if (mentions.size !== 2) {
+    if (message.guild && mentions.length !== 2) {
+      mentions = mentions.concat(findMentionedUsersFromPlainText(text.replace('diff', ''), message.guild.members.cache))
+    }
+    if (mentions.length !== 2) {
       return reply('usa`!diff @user1 @user2` per comparare due avatar')
     }
 
@@ -96,6 +100,6 @@ export default {
 
     // Send the result
     const attachment = new MessageAttachment(diffCanvas.toBuffer(), 'diff.png')
-    message.channel.send(`\`\`\`Differenza di avatar tra ${getUserDisplayName(message, mentions.first().id)} e ${getUserDisplayName(message, mentions.last().id)} (simili al ${diffPercentage})\`\`\``, attachment)
+    message.channel.send(`\`\`\`Differenza di avatar tra ${getUserDisplayName(message, mentions[0].id)} e ${getUserDisplayName(message, mentions[1].id)} (simili al ${diffPercentage})\`\`\``, attachment)
   }
 }
