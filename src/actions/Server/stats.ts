@@ -4,7 +4,6 @@ import { redis } from '../../lib/Redis'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import { findMentionedUsersFromPlainText } from '../../lib/utils/FindMentionedUserFromText'
-// import logger from '../../lib/Logger'
 
 interface UserModel {
   'msg'?: number;
@@ -61,7 +60,6 @@ Compleanno: **${userData.bday}**
 Ultimo messaggio: **${userData['latest-msg-date']}**
 Messaggi registrati: **${userData.msg}**`)
 
-    // message.delete().catch((err: Error) => logger.error(err))
     await message.channel.send(embed)
   }
 }

@@ -4,7 +4,6 @@ import { redis } from '../../lib/Redis'
 import { NEWLINE } from '../../lib/utils/GetNewline'
 import { MessageEmbed, Snowflake } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
-// import logger from '../../lib/Logger'
 
 const noBdaySetHint = `Puoi scrivere \`!bday DD/MM/YYYY\`${NEWLINE}Esempio: \`!bday 25/12/2001\` (giorno/mese/anno)`
 
@@ -87,8 +86,6 @@ export default {
 
     // Get the input
     if (!input) {
-      // message.delete().catch((err: Error) => logger.error(err))
-
       const embed = new MessageEmbed().setColor('#a5c0d6')
       if (message.guild) embed.setAuthor('Birthdays | GameMaker Italia', message.guild.iconURL())
 
