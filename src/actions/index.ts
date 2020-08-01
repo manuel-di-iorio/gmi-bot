@@ -29,6 +29,7 @@ import cmdExec from './Server/cmdExec'
 import { Message } from 'discord.js'
 import yt from './Utils/yt'
 import bananarap from './Utils/bananarap'
+import cpbotUptime from './Utils/cpbotUptime'
 
 export interface Action {
   cmd?: string | string[],
@@ -64,6 +65,7 @@ export const actions = new Map<string, Action>([
   ['forum', forum],
   ['bot:restore', botRestore],
   ['bananarap', bananarap],
+  ['cpbotUptime', cpbotUptime],
   ['cmd', cmd],
   ['cmdExec', cmdExec],
   ['cmdNotFound', cmdNotFound]

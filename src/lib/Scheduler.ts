@@ -4,6 +4,7 @@ import logger from './Logger'
 import { checkBirthdays } from './Birthdays'
 import { execBackup, dbControl } from './Backup'
 import { deleteInvalidMsg } from './DeleteInvalidMsgInLimitedChannels'
+import { processCpbotUptime, resetCpbotUptime } from './IsCpbotOnline'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -37,6 +38,8 @@ export const start = async () => {
   queue.process('backup', execBackup)
   queue.process('dbcontrol', dbControl)
   queue.process('deleteInvalidMsg', deleteInvalidMsg)
+  queue.process('processCpbotUptime', processCpbotUptime)
+  queue.process('resetCpbotUptime', resetCpbotUptime)
 
   // Add the jobs if they are not scheduled yet
 
@@ -88,6 +91,32 @@ export const start = async () => {
       repeat: {
         tz: 'Europe/Rome',
         cron: '0 3 * * *'
+      }
+    })
+  }
+
+  /* Process CPBot uptime */
+  const processCpbotUptimeJob = await queue.getJob('processCpbotUptime')
+  if (!processCpbotUptimeJob) {
+    queue.add('processCpbotUptime', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: '*/5 * * * *'
+      }
+    })
+  }
+
+  /* Reset CPBot uptime */
+  const resetCpbotUptimeJob = await queue.getJob('resetCpbotUptime')
+  if (!resetCpbotUptimeJob) {
+    queue.add('resetCpbotUptime', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: '0 0 1 * *'
       }
     })
   }
