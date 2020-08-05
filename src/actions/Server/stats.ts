@@ -4,6 +4,7 @@ import { redis } from '../../lib/Redis'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import { findMentionedUsersFromPlainText } from '../../lib/utils/FindMentionedUserFromText'
+import { getAvgColorFromImg } from '../../lib/utils/GetAvgColorFromImg'
 
 interface UserModel {
   'msg'?: number;
@@ -48,8 +49,12 @@ export default {
       userData['latest-msg-date'] = moment(new Date(parseInt(userData['latest-msg-date']))).format('HH:mm:ss DD/MM/YYYY')
     }
 
+    const avatarUrl = user.avatarURL({ format: 'png', size: 64 })
+    const avatarColor = await getAvgColorFromImg(avatarUrl)
+
     // Send the message
     const embed = new MessageEmbed()
+      .setColor(avatarColor)
       .setThumbnail(user.avatarURL())
       .setTitle(getUserDisplayName(message, userId).toUpperCase())
       .setFooter('!stats richiesto da ' + getUserDisplayName(message), message.author.avatarURL())
