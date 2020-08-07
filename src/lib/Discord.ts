@@ -142,8 +142,8 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
     if (oldMember.displayName !== newMember.displayName || oldMember.user.username !== newMember.user.username) {
       const embed = await getActionEmbed(
         newMember.user,
-        `${oldMember.displayName} ha cambiato il suo nickname`,
-        `Nuovo nome: ${newMember.displayName}`
+        `${oldMember.displayName} ora si chiama ${newMember.displayName}`,
+        `Username: @${newMember.user.username}`
       )
       await mainChannel.send(embed)
     }

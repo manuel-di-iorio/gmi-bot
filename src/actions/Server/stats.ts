@@ -27,8 +27,14 @@ export default {
 
     const userId = user.id
     const userKey = `u:${userId}`
+    const avatarUrl = user.avatarURL({ format: 'png', size: 64 })
 
-    let userData = await redis.hgetall(userKey) as unknown as UserModel
+    const [userRedisData, avatarColor] = await Promise.all([
+      redis.hgetall(userKey),
+      getAvgColorFromImg(avatarUrl)
+    ])
+
+    let userData = userRedisData as unknown as UserModel
     if (!userData) userData = {}
     if (!userData.msg) userData.msg = 0
     if (!userData['most-used-emote']) userData['most-used-emote'] = 'N/A'
@@ -48,9 +54,6 @@ export default {
     } else {
       userData['latest-msg-date'] = moment(new Date(parseInt(userData['latest-msg-date']))).format('HH:mm:ss DD/MM/YYYY')
     }
-
-    const avatarUrl = user.avatarURL({ format: 'png', size: 64 })
-    const avatarColor = await getAvgColorFromImg(avatarUrl)
 
     // Send the message
     const embed = new MessageEmbed()
