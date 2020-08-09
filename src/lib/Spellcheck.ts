@@ -13,7 +13,7 @@ export const init = (actions: Map<string, Action>) => {
   spellcheck.getCorrection = (text: string) => {
     for (let i = 0; i < length; i++) {
       const correction = corpus[i]
-      if (JaroWinklerDistance(text, correction) > 0.85) return correction
+      if (JaroWinklerDistance(text, correction) > 0.82) return correction
     }
   }
 }

@@ -29,3 +29,4 @@ export const QUEUE_PENDING_CHECK_INTERVAL = parseInt(process.env.QUEUE_PENDING_C
 export const QUEUE_CONCURRENT_TASKS = parseInt(process.env.QUEUE_CONCURRENT_TASKS)
 export const QUEUE_TASK_EXECUTION_TIMEOUT = parseInt(process.env.QUEUE_TASK_EXECUTION_TIMEOUT)
 export const BACKUP_ENABLED = process.env.BACKUP_ENABLED === 'true'
+export const DEBUG_ENABLED = process.env.DEBUG_ENABLED === 'true'

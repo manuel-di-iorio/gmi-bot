@@ -2,6 +2,7 @@ import { Task } from '../../lib/Queue'
 import { getMessages } from '../../lib/MessageStore'
 import { MessageAttachment } from 'discord.js'
 import { NEWLINE, INVISIBLE_CHAR } from '../../lib/utils/GetNewline'
+import { DEBUG_ENABLED } from '../../lib/Config'
 
 export default {
   cmd: 'log',
@@ -31,16 +32,14 @@ export default {
           .replace('```', '\\`\\`\\`')}${NEWLINE}`
       }
     }
-    recentMsg += `${NEWLINE}\`\`\`` + INVISIBLE_CHAR
+    recentMsg += `${NEWLINE}\`\`\``
+    if (!DEBUG_ENABLED) recentMsg += INVISIBLE_CHAR
 
     // Send the log
     const logBuffer = Buffer.from(log, 'utf8')
     const attachment = new MessageAttachment(logBuffer, 'log.txt')
     const resp = `**Ultimi messaggi di questo canale:**${recentMsg}`
 
-    await Promise.all([
-      // message.delete(),
-      message.channel.send(resp, attachment)
-    ])
+    await message.channel.send(resp, attachment)
   }
 }

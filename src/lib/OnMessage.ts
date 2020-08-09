@@ -14,7 +14,7 @@ export const onMessage = async (message: Message, content: string): Promise<void
   if ((message.guild && message.guild.id !== GMI_GUILD) || !content) return
 
   // Strip the trigger char when detected
-  const triggerCmd = content[0] === botTrigger && content[1] !== botTrigger
+  const triggerCmd = content.length > 1 && content[0] === botTrigger && content[1] !== botTrigger
   if (!triggerCmd && content[0] !== ',') return
   if (triggerCmd) content = content.slice(1)
   content = content.trim()

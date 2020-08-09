@@ -121,7 +121,7 @@ bot.on('guildBanRemove', async (guild, user) => {
 
   try {
     if (await isCpbotOnline(guild)) return
-    const embed = await getActionEmbed(user, `${user.username} è stato/a bannato/a dal server`)
+    const embed = await getActionEmbed(user, `Il ban di ${user.username} è stato revocato`)
     await mainChannel.send(embed)
   } catch (err) {
     logger.error(err)

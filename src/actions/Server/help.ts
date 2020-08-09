@@ -19,14 +19,12 @@ export default {
 \`!stats [@user]\` - Mostra le statistiche di un utente
 \`!bday DD/MM/YYYY\` - Setta il tuo compleanno (giorno/mese/anno)
 \`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio
-\`!log\` - Allega il log degli ultimi messaggi di questo canale
-\`!cmd\` - Crea comandi personalizzati`, false)
+\`!log\` - Allega il log degli ultimi messaggi di questo canale`, false)
 
     // Utils
     embed.addField('Utils', `\`!poll question|answer1|answer2|etc..\` - Crea un sondaggio
 \`!diff <@user1> <@user2>\` - Mostra la differenza tra due avatar
 \`!code <code>\` - Formatta il codice
-\`!remind\` - Setta un reminder
 \`!exec <code>\` - Esegue il codice javascript e mostra il risultato
 \`!yt <query>\` - Cerca un video su YouTube
 \`!google <query>\` - Cerca su Google`, false)
@@ -34,3 +32,6 @@ export default {
     await message.channel.send(embed)
   }
 }
+
+// \`!remind\` - Setta un reminder
+// sotto code

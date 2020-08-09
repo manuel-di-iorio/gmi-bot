@@ -18,7 +18,7 @@ export default {
       mentions = mentions.concat(findMentionedUsersFromPlainText(text.replace('diff', ''), message.guild.members.cache))
     }
     if (mentions.length !== 2) {
-      return reply('usa`!diff @user1 @user2` per comparare due avatar')
+      return reply('usa `!diff @user1 @user2` per comparare due avatar')
     }
 
     // Load the images

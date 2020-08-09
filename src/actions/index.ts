@@ -24,8 +24,6 @@ import diff from './Utils/diff'
 import forum from './Server/forum'
 import nick from './Server/nick'
 import botRestore from './Server/bot-restore'
-import cmd from './Server/cmd'
-import cmdExec from './Server/cmdExec'
 import { Message } from 'discord.js'
 import yt from './Utils/yt'
 import bananarap from './Utils/bananarap'
@@ -66,7 +64,5 @@ export const actions = new Map<string, Action>([
   ['bot:restore', botRestore],
   ['bananarap', bananarap],
   ['cpbotUptime', cpbotUptime],
-  ['cmd', cmd],
-  ['cmdExec', cmdExec],
   ['cmdNotFound', cmdNotFound]
 ])

@@ -5,6 +5,7 @@ import { checkBirthdays } from './Birthdays'
 import { execBackup, dbControl } from './Backup'
 import { deleteInvalidMsg } from './DeleteInvalidMsgInLimitedChannels'
 import { processCpbotUptime, resetCpbotUptime } from './IsCpbotOnline'
+import { sendReminders } from './Reminders'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -40,6 +41,7 @@ export const start = async () => {
   queue.process('deleteInvalidMsg', deleteInvalidMsg)
   queue.process('processCpbotUptime', processCpbotUptime)
   queue.process('resetCpbotUptime', resetCpbotUptime)
+  queue.process('sendReminders', sendReminders)
 
   // Add the jobs if they are not scheduled yet
 
@@ -117,6 +119,19 @@ export const start = async () => {
       repeat: {
         tz: 'Europe/Rome',
         cron: '0 0 1 * *'
+      }
+    })
+  }
+
+  /* Send Reminders */
+  const sendRemindersJob = await queue.getJob('sendReminders')
+  if (!sendRemindersJob) {
+    queue.add('sendReminders', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: '* * * * *'
       }
     })
   }
