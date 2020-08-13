@@ -28,6 +28,7 @@ import { Message } from 'discord.js'
 import yt from './Utils/yt'
 import bananarap from './Utils/bananarap'
 import cpbotUptime from './Utils/cpbotUptime'
+import compe from './Server/compe'
 
 export interface Action {
   cmd?: string | string[],
@@ -61,6 +62,7 @@ export const actions = new Map<string, Action>([
   ['remindShow', remindShow],
   ['remind', remind],
   ['forum', forum],
+  ['compe', compe],
   ['bot:restore', botRestore],
   ['bananarap', bananarap],
   ['cpbotUptime', cpbotUptime],

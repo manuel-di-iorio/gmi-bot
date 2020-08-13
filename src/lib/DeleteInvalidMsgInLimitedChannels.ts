@@ -20,7 +20,7 @@ export const deleteInvalidMsgInLimitedChannels = async (message: Message, conten
 
   // Check link channels
   if (linkChs.includes(channelId)) {
-    if (!linkRegex.test(content)) {
+    if (!linkRegex.test(content) && !message.attachments.size) {
       invalidMsgInLinkCh = true
       limitType = 'link'
     }

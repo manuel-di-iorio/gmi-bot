@@ -1,4 +1,4 @@
-import { Client, TextChannel, Message, MessageEmbed } from 'discord.js'
+import { Client, TextChannel, Message, MessageEmbed, User } from 'discord.js'
 import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
 import logger from './Logger'
 import { onMessage, onMessageOps } from './OnMessage'
@@ -10,9 +10,13 @@ import { redis } from './Redis'
 import { addMessage } from './MessageStore'
 import { getActionEmbed } from './utils/getActionEmbed'
 import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedChannels'
+import * as UserModel from '../models/User'
 
 export const bot = new Client()
 let mainChannel: TextChannel
+
+/** Map of temporary disabled nickname change updates */
+const disabledNicknameUpdates = {}
 
 const isReady = new Promise(resolve => {
   bot.on('ready', () => {
@@ -65,10 +69,13 @@ bot.on('guildMemberAdd', async (guildMember) => {
   if (!mainChannel || guildMember.guild.id !== GMI_GUILD) return
 
   try {
-    // Retrieve the user previous roles
+    // Retrieve the user previous roles and display name
     if (await isCpbotOnline(guildMember.guild)) return
 
-    const userRoles = await retrieveMemberRoles(guildMember)
+    const [userRoles, userDisplayName] = await Promise.all([
+      retrieveMemberRoles(guildMember),
+      UserModel.getName(guildMember.id)
+    ])
     let embed: MessageEmbed
 
     if (!userRoles) {
@@ -76,8 +83,12 @@ bot.on('guildMemberAdd', async (guildMember) => {
       embed = await getActionEmbed(guildMember.user, `Benvenuto/a ${guildMember.displayName} su GameMaker Italia!`)
     } else {
       // Otherwise, welcome it back on the server
-      embed = await getActionEmbed(guildMember.user, `Bentornato/a ${guildMember.displayName} su GameMaker Italia!`)
+      embed = await getActionEmbed(guildMember.user, `Bentornato/a ${userDisplayName || guildMember.displayName} su GameMaker Italia!`)
+
+      disabledNicknameUpdates[guildMember.id] = true
+      setTimeout(() => delete disabledNicknameUpdates[guildMember.id], 5000)
       guildMember.roles.add(userRoles).catch((err: Error) => logger.error(err))
+      guildMember.setNickname(userDisplayName).catch((err: Error) => logger.error(err))
     }
 
     await mainChannel.send(embed)
@@ -138,8 +149,10 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 
   // Log the nickname change
   try {
-    if (await isCpbotOnline(newMember.guild)) return
     if (oldMember.displayName !== newMember.displayName || oldMember.user.username !== newMember.user.username) {
+      await UserModel.setName(newMember.id, newMember.displayName || newMember.user.username)
+      if (await isCpbotOnline(newMember.guild) || disabledNicknameUpdates[newMember.id]) return
+
       const embed = await getActionEmbed(
         newMember.user,
         `${oldMember.displayName} ora si chiama ${newMember.displayName}`,
