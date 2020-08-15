@@ -4,7 +4,7 @@ import { redis } from '../../lib/Redis'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import { findMentionedUsersFromPlainText } from '../../lib/utils/FindMentionedUserFromText'
-import { getAvgColorFromImg } from '../../lib/utils/GetAvgColorFromImg'
+import { getAvatarTopColor } from '../../lib/utils/getAvatarTopColor'
 
 interface UserModel {
   'msg'?: number;
@@ -27,11 +27,10 @@ export default {
 
     const userId = user.id
     const userKey = `u:${userId}`
-    const avatarUrl = user.avatarURL({ format: 'png', size: 64 })
 
     const [userRedisData, avatarColor] = await Promise.all([
       redis.hgetall(userKey),
-      getAvgColorFromImg(avatarUrl)
+      getAvatarTopColor(user)
     ])
 
     let userData = userRedisData as unknown as UserModel
@@ -66,7 +65,7 @@ export default {
 Utente più menzionato: **${userData['most-mentioned-user']}** (x${userData['most-mentioned-user-count']})
 Compleanno: **${userData.bday}**
 Ultimo messaggio: **${userData['latest-msg-date']}**
-Messaggi registrati: **${userData.msg}**`)
+Messaggi inviati: **${userData.msg}**`)
 
     await message.channel.send(embed)
   }
