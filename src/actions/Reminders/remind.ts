@@ -80,34 +80,34 @@ export default {
     if (!remindDate) return reply('non ho capito la data. Remind annullato')
 
     // Fix the remind seconds ceiling to the next minute
-    if (remindDate.getSeconds()) {
-      remindDate.setMinutes(remindDate.getMinutes() + 1)
-    }
-    remindDate.setSeconds(0)
+    // if (remindDate.getSeconds()) {
+    //   remindDate.setMinutes(remindDate.getMinutes() + 1)
+    // }
+    // remindDate.setSeconds(0)
 
     // Ask AM/PM time if needed
     const today = new Date()
-    const timeHours = remindDate.getHours()
+    // const timeHours = remindDate.getHours()
 
-    if (timeHours < 13 && remindDate.getTime() - today.getTime() > 1000 * 60 * 30) {
-      // Ask the question
-      const articleHours = timeHours > 1 ? 'le' : "l'"
-      const articleMorningText = timeHours < 7 ? 'di' : 'del'
-      const morningText = timeHours < 7 ? 'notte' : 'mattino'
-      const eveningText = timeHours < 7 ? 'pomeriggio' : 'sera'
-      const answer = await askMsgReply(message, { text: `${articleHours} ${timeHours} ${articleMorningText} ${morningText} o ${eveningText} ?` })
-      if (!answer) return
+    // if (timeHours < 13 && remindDate.getTime() - today.getTime() > 1000 * 60 * 30) {
+    //   // Ask the question
+    //   const articleHours = timeHours > 1 ? 'le' : "l'"
+    //   const articleMorningText = timeHours < 7 ? 'di' : 'del'
+    //   const morningText = timeHours < 7 ? 'notte' : 'mattino'
+    //   const eveningText = timeHours < 7 ? 'pomeriggio' : 'sera'
+    //   const answer = await askMsgReply(message, { text: `${articleHours} ${timeHours} ${articleMorningText} ${morningText} o ${eveningText} ?` })
+    //   if (!answer) return
 
-      // Calculate the fixed date based on the answer
-      const answerClean = answer.toLowerCase().trim()
-      if (answerClean !== 'mattino' && answerClean !== 'mattina' && answerClean !== 'pomeriggio' && answerClean !== 'sera' && answerClean !== 'notte') {
-        return reply('non ho capito la risposta. Remind annullato')
-      } else if (answerClean === 'pomeriggio' || answerClean === 'sera') {
-        remindDate.setHours(timeHours + 12)
-      } else if (today.getHours() > 17 && remindDate.getDate() === today.getDate() && (answerClean === 'mattina' || answerClean === 'mattino' || answerClean === 'notte')) {
-        remindDate.setHours(timeHours + 24)
-      }
-    }
+    //   // Calculate the fixed date based on the answer
+    //   const answerClean = answer.toLowerCase().trim()
+    //   if (answerClean !== 'mattino' && answerClean !== 'mattina' && answerClean !== 'pomeriggio' && answerClean !== 'sera' && answerClean !== 'notte') {
+    //     return reply('non ho capito la risposta. Remind annullato')
+    //   } else if (answerClean === 'pomeriggio' || answerClean === 'sera') {
+    //     remindDate.setHours(timeHours + 12)
+    //   } else if (today.getHours() > 17 && remindDate.getDate() === today.getDate() && (answerClean === 'mattina' || answerClean === 'mattino' || answerClean === 'notte')) {
+    //     remindDate.setHours(timeHours + 24)
+    //   }
+    // }
 
     // Date check
     const todayTimestamp = today.getTime()
@@ -133,7 +133,7 @@ export default {
     }))
 
     // Tell the user of the success operation
-    const prettyDate = moment(remindDate).format('DD/MM/YYYY [alle] HH:mm:ss')
-    await message.channel.send(`Ok ${message.author}, ti ricorderò ** ${remindMsg} ** nel canale ${channel} il ${prettyDate}`)
+    const prettyDate = moment(remindDate).format('DD MMMM YYYY [alle] HH:mm:ss')
+    return reply(`ti ricorderò ** ${remindMsg} ** nel canale ${channel} il ${prettyDate}`)
   }
 }
