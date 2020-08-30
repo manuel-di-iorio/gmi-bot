@@ -1,9 +1,13 @@
 import { MessageReaction, User, Message } from 'discord.js'
+import logger from '../Logger'
 
 /**
  * Ask the confirmation for an action by using a reaction reply
  */
-export const askReactConfirm = async (message: Message, { text, time }: { text: string; time?: number }): Promise<boolean> => {
+export const askReactConfirm = async (
+  message: Message,
+  { text, time }: { text: string; time?: number }
+): Promise<boolean> => {
   if (!time) time = 20000
   const { id: authorId } = message.author
 
@@ -28,10 +32,11 @@ export const askReactConfirm = async (message: Message, { text, time }: { text: 
 
     collector.on('end', async (_, reason) => {
       try {
-        await Promise.all([message.delete(), replyMsg.delete()])
+        await replyMsg.delete()
       } catch (err) {
         return reject(err)
       }
+
       resolve(reason === 'confirm')
     })
 

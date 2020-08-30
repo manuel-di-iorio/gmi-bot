@@ -2,6 +2,7 @@ import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
 import { askReactConfirm } from '../../lib/utils/AskReactConfirm'
 import { askMsgReply } from '../../lib/utils/AskMsgReply'
+import logger from '../../lib/Logger'
 
 export default {
   cmd: 'set',
@@ -18,6 +19,7 @@ export default {
     // Check if already exists
     if (await (redis.hexists('quotes', quoteName))) {
       const confirmed = await askReactConfirm(message, { text: 'esiste già questa citazione, vuoi sovrascriverla ?' })
+      message.delete().catch((err: Error) => logger.error(err))
       if (!confirmed) return
     }
 
@@ -25,7 +27,7 @@ export default {
     const value = inputSplit.length ? inputSplit.shift().trim() : await askMsgReply(message, { text: 'qual è il testo della citazione ?' })
     if (!value) return
 
-    // Save the ne quote
+    // Save the new quote
     await redis.hset('quotes', quoteName, value)
     await reply(`ho salvato la citazione! Puoi mostrarla scrivendo \`,${quoteName}\``)
   }

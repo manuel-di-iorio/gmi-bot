@@ -2,6 +2,7 @@ import { Message } from 'discord.js'
 import { Task } from '../../lib/Queue'
 import { isAuthorized } from '../../lib/utils/IsAuthorized'
 import { askReactConfirm } from '../../lib/utils/AskReactConfirm'
+import logger from '../../lib/Logger'
 
 export default {
   cmd: 'del',
@@ -32,6 +33,8 @@ Esempio:
       const confirmed = await askReactConfirm(message, {
         text: `stai per cancellare ${count} messaggi${msgTextPlural} (scritti prima del tuo comando !del). Confermi ?`
       })
+
+      message.delete().catch((err: Error) => logger.error(err))
 
       if (confirmed) await message.channel.bulkDelete(messages)
     }
