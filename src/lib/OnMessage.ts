@@ -41,7 +41,7 @@ export const onMessageOps = async (message: Message, content: string) => {
     updateEmotesCountInMessage(message.guild, content)
 
     // Delete messages with invalid formats in limited channels
-    deleteInvalidMsgInLimitedChannels(message, content)
+    deleteInvalidMsgInLimitedChannels(message)
 
     // Assign the GMI role to new active users
     assignGmiRoleToNewActiveUsers(message)

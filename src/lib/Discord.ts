@@ -1,4 +1,4 @@
-import { Client, TextChannel, Message, MessageEmbed, User } from 'discord.js'
+import { Client, TextChannel, Message, MessageEmbed } from 'discord.js'
 import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
 import logger from './Logger'
 import { onMessage, onMessageOps } from './OnMessage'
@@ -56,7 +56,7 @@ bot.on('messageUpdate', (oldMessage, newMessage) => {
   addMessage(newMessage as Message, newMessage.cleanContent + ' [Modificato]', newMessage.editedAt || newMessage.createdAt)
 
   // Delete messages with invalid formats in limited channels
-  deleteInvalidMsgInLimitedChannels(newMessage as Message, newMessage.content.trim())
+  deleteInvalidMsgInLimitedChannels(newMessage as Message)
 })
 
 bot.on('messageDelete', (message) => {

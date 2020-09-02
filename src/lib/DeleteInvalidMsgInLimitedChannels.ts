@@ -10,28 +10,25 @@ const linkImgChs = GMI_LIMITED_CHS_LINK_OR_IMG.split(',')
 
 const linkRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
 
-export const deleteInvalidMsgInLimitedChannels = async (message: Message, content: string) => {
-  const { channel } = message
-  const { id: channelId } = channel
-  const { name: channelName } = message.guild.channels.cache.get(channelId)
-  let invalidMsgInLinkCh = false
-  let invalidMsgInLinkImgCh = false
-  let limitType: string
+const isMsgInvalid = (message: Message) => {
+  const { content } = message
+  const channelId = message.channel.id
 
   // Check link channels
   if (linkChs.includes(channelId)) {
-    if (!linkRegex.test(content) && !message.attachments.size) {
-      invalidMsgInLinkCh = true
-      limitType = 'link'
-    }
+    if (!linkRegex.test(content) && !message.attachments.size) return 'link'
   } else if (linkImgChs.includes(channelId)) {
     // Check link & img channels
-    if (!linkRegex.test(content) && !message.attachments.size) {
-      invalidMsgInLinkImgCh = true
-      limitType = "link o un'immagine"
-    }
+    if (!linkRegex.test(content) && !message.attachments.size) return "link o un'immagine"
   }
-  if (!invalidMsgInLinkCh && !invalidMsgInLinkImgCh) return
+}
+
+export const deleteInvalidMsgInLimitedChannels = async (message: Message) => {
+  const limitType = isMsgInvalid(message)
+  if (!limitType) return
+  const { channel } = message
+  const channelId = message.channel.id
+  const { name: channelName } = message.guild.channels.cache.get(channelId)
 
   // Push the message to the invalid messages list
   redis.lpush('invalid-messages', `${channel.id}|${message.id}|${message.createdTimestamp}`)
@@ -40,14 +37,14 @@ export const deleteInvalidMsgInLimitedChannels = async (message: Message, conten
   // Send the alert to the user
   try {
     await message.author.send(`\`\`\`${message.author.username}, nel canale #${channelName} non si può inviare un messaggio che non includa un ${limitType}.
-Il tuo messaggio verrà cancellato automaticamente domani\`\`\``)
+Il tuo messaggio verrà cancellato automaticamente questa notte, a meno che non modifichi il messaggio rendendolo conforme alle regole del canale\`\`\``)
   } catch (err) {
     if (err.code !== 50007) return logger.error(err)
 
     // Send the alert directly in the message when the user has disabled the DMs
     try {
       const alertReply = await message.channel.send(`\`\`\`${getUserDisplayName(message, message.author.id)}, in questo canale non si può inviare un messaggio che non includa un ${limitType}.
-Il tuo messaggio verrà cancellato automaticamente domani\`\`\``)
+Il tuo messaggio verrà cancellato automaticamente questa notte, a meno che non modifichi il messaggio rendendolo conforme alle regole del canale\`\`\``)
       await redis.lpush('invalid-messages', `${channel.id}|${alertReply.id}|${message.createdTimestamp}`)
     } catch (replyErr) {
       logger.error(replyErr)
@@ -66,18 +63,14 @@ export const deleteInvalidMsg = async () => {
     for (const invalidMessage of invalidMessages) {
       const msgSplit = invalidMessage.split('|')
 
-      // Get the channel
-      setImmediate(async () => {
-        try {
-          const channel = await bot.channels.fetch(msgSplit.shift()) as TextChannel
-
-          // Get and delete the message
-          const msg = await channel.messages.fetch(msgSplit.shift())
-          if (msg) msg.delete().catch((err: Error) => logger.error(err))
-        } catch (err) {
-          logger.error(err)
-        }
-      })
+      // Get and delete the message (if still invalid)
+      try {
+        const channel = await bot.channels.fetch(msgSplit.shift()) as TextChannel
+        const msg = await channel.messages.fetch(msgSplit.shift())
+        if (msg && isMsgInvalid(msg)) await msg.delete()
+      } catch (err) {
+        if (err.code !== 10008) logger.error(err)
+      }
     }
 
     // Delete the old list
