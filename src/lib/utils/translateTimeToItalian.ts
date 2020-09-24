@@ -1,0 +1,21 @@
+export const translateTimeToItalian = (text: string) => {
+  return text
+    .replace('just now', 'proprio ora')
+    .replace('yesterday', 'ieri')
+    .replace('tomorrow', 'domani')
+    .replace('seconds', 'secondi')
+    .replace('second', 'secondo')
+    .replace('minutes', 'minuti')
+    .replace('minute', 'minuto')
+    .replace('hours', 'ore')
+    .replace('hour', 'ora')
+    .replace('weeks', 'settimane')
+    .replace('week', 'settimana')
+    .replace('months', 'mesi')
+    .replace('month', 'mese')
+    .replace('years', 'anni')
+    .replace('year', 'anno')
+    .replace('yesterday', 'ieri')
+    .replace('from now', '')
+    .replace('ago', 'fa')
+}

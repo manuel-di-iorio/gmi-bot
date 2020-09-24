@@ -1,10 +1,12 @@
 import moment from 'moment'
+import prettyDate from 'pretty-date'
+import { MessageEmbed } from 'discord.js'
 import { Task } from '../../lib/Queue'
 import { redis } from '../../lib/Redis'
-import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import { findMentionedUsersFromPlainText } from '../../lib/utils/FindMentionedUserFromText'
 import { getAvatarTopColor } from '../../lib/utils/getAvatarTopColor'
+import { translateTimeToItalian } from '../../lib/utils/translateTimeToItalian'
 
 interface UserModel {
   'msg'?: number;
@@ -54,6 +56,12 @@ export default {
       userData['latest-msg-date'] = moment(new Date(parseInt(userData['latest-msg-date']))).format('HH:mm:ss DD/MM/YYYY')
     }
 
+    // Get the server join pretty date
+    const serverJoinPrettyDate = message.guild ? translateTimeToItalian(prettyDate.format(message.member.joinedAt)) : 'N/A'
+
+    // Get the discord signup pretty date
+    const discordSignupPrettyDate = translateTimeToItalian(prettyDate.format(user.createdAt))
+
     // Send the message
     const embed = new MessageEmbed()
       .setColor(avatarColor)
@@ -65,7 +73,9 @@ export default {
 Utente più menzionato: **${userData['most-mentioned-user']}** (x${userData['most-mentioned-user-count']})
 Compleanno: **${userData.bday}**
 Ultimo messaggio: **${userData['latest-msg-date']}**
-Messaggi inviati: **${userData.msg}**`)
+Messaggi inviati: **${userData.msg}**
+Entrato su GMI: **${serverJoinPrettyDate}**
+Iscritto a Discord: **${discordSignupPrettyDate}**`)
 
     await message.channel.send(embed)
   }
