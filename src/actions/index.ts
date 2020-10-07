@@ -29,6 +29,7 @@ import yt from './Utils/yt'
 import bananarap from './Utils/bananarap'
 import cpbotUptime from './Utils/cpbotUptime'
 import compe from './Server/compe'
+import questions from './Utils/questions'
 
 export interface Action {
   cmd?: string | string[],
@@ -58,6 +59,7 @@ export const actions = new Map<string, Action>([
   ['emotes', emotes],
   ['stats', stats],
   ['delete', deleteCmd],
+  ['questions', questions],
   ['remindRemove', remindRemove],
   ['remindShow', remindShow],
   ['remind', remind],

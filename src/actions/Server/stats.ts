@@ -48,7 +48,7 @@ export default {
       const userBdayMoment = moment(userData.bday, 'DD/MM/YYYY')
       const currentYear = new Date().getFullYear()
       const userBdayYears = currentYear - parseInt(userBdayMoment.format('YYYY'))
-      userData.bday = `${userBdayMoment.format('DD MMMM YYYY')} (${userBdayYears} anni)`
+      userData.bday = `**${userBdayMoment.format('DD MMMM YYYY')}** (${userBdayYears} anni)`
     }
     if (!userData['latest-msg-date']) {
       userData['latest-msg-date'] = 'N/A'
@@ -57,7 +57,7 @@ export default {
     }
 
     // Get the server join pretty date
-    const serverJoinPrettyDate = message.guild ? translateTimeToItalian(prettyDate.format(message.member.joinedAt)) : 'N/A'
+    const serverJoinPrettyDate = message.member ? translateTimeToItalian(prettyDate.format(message.member.joinedAt)) : 'N/A'
 
     // Get the discord signup pretty date
     const discordSignupPrettyDate = translateTimeToItalian(prettyDate.format(user.createdAt))
@@ -71,7 +71,7 @@ export default {
 
       .setDescription(`Emote più usata: **${userData['most-used-emote']}** (x${userData['most-used-emote-count']})
 Utente più menzionato: **${userData['most-mentioned-user']}** (x${userData['most-mentioned-user-count']})
-Compleanno: **${userData.bday}**
+Compleanno: ${userData.bday}
 Ultimo messaggio: **${userData['latest-msg-date']}**
 Messaggi inviati: **${userData.msg}**
 Entrato su GMI: **${serverJoinPrettyDate}**
