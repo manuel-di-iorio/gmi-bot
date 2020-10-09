@@ -30,6 +30,7 @@ import bananarap from './Utils/bananarap'
 import cpbotUptime from './Utils/cpbotUptime'
 import compe from './Server/compe'
 import questions from './Utils/questions'
+import inactiveUsers from './Utils/inactiveUsers'
 
 export interface Action {
   cmd?: string | string[],
@@ -59,6 +60,7 @@ export const actions = new Map<string, Action>([
   ['emotes', emotes],
   ['stats', stats],
   ['delete', deleteCmd],
+  ['inactiveUsers', inactiveUsers],
   ['questions', questions],
   ['remindRemove', remindRemove],
   ['remindShow', remindShow],
