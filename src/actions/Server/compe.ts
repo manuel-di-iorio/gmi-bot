@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Task } from '../../lib/Queue'
-import { DOUBLE_NEWLINE, NEWLINE } from '../../lib/utils/GetNewline'
+import { NEWLINE } from '../../lib/utils/GetNewline'
 
 const cache = {}
 

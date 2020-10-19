@@ -57,9 +57,11 @@ export default {
     }
 
     // Get the server join pretty date
+    console.log(message.member.joinedAt)
     const serverJoinPrettyDate = message.member ? translateTimeToItalian(prettyDate.format(message.member.joinedAt)) : 'N/A'
 
     // Get the discord signup pretty date
+    console.log(user.createdAt)
     const discordSignupPrettyDate = translateTimeToItalian(prettyDate.format(user.createdAt))
 
     // Send the message

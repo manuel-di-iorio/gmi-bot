@@ -3,9 +3,7 @@ import { Task } from '../../lib/Queue'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 const formatOpts = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   indent_size: 4,
-  // eslint-disable-next-line @typescript-eslint/camelcase
   space_in_empty_paren: true
 }
 

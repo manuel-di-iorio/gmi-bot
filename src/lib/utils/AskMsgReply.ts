@@ -1,4 +1,4 @@
-import { Message } from 'discord.js'
+import { Message, TextChannel } from 'discord.js'
 import logger from '../Logger'
 
 interface AskOptions {
@@ -21,7 +21,7 @@ export const askMsgReply = async (message: Message, { text, time }: AskOptions):
   // If the user has not replied
   if (!collected.size) {
     if (message.guild) {
-      message.channel.bulkDelete([message, askReply])
+      (message.channel as TextChannel).bulkDelete([message, askReply])
         .catch((err: Error) => logger.error(err))
     }
     return
@@ -32,7 +32,7 @@ export const askMsgReply = async (message: Message, { text, time }: AskOptions):
   const userReply = collectedMsg.content
 
   if (message.guild) {
-    message.channel.bulkDelete([collectedMsg, message, askReply])
+    (message.channel as TextChannel).bulkDelete([collectedMsg, message, askReply])
       .catch((err: Error) => logger.error(err))
   }
 

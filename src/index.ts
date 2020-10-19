@@ -6,6 +6,7 @@ import { start as startScheduler } from './lib/Scheduler'
 import { start as startBot } from './lib/Discord'
 import { init as initSpellcheck } from './lib/Spellcheck'
 import { startEmoteStatsRendering } from './actions/Server/emotes'
+import { start as startReadForumUpdates } from './lib/ReadForumUpdates'
 import { actions } from './actions'
 
 (async () => {
@@ -22,6 +23,7 @@ import { actions } from './actions'
     await Promise.all([
       startScheduler(),
       startEmoteStatsRendering()
+      // startReadForumUpdates()
     ])
   } catch (err) {
     logger.error(err)

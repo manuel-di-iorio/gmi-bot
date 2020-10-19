@@ -19,10 +19,9 @@ interface UserStat {
 export default {
   cmd: 'inactive-users',
 
-  handler: async ({ message, reply }: Task) => {
+  handler: async ({ message }: Task) => {
     const usersKey = await scanKeys('u:*')
     const tasks = []
-    // const gmiGuildMembers = bot.guilds.cache.get(GMI_GUILD).members.cache
     const gmiGuildMembers = bot.guilds.cache.get(GMI_GUILD).members
     const now = Date.now()
 
