@@ -1,4 +1,4 @@
-import { Message } from 'discord.js'
+import { Message, TextChannel } from 'discord.js'
 import { Task } from '../../lib/Queue'
 import { isAuthorized } from '../../lib/utils/IsAuthorized'
 import { askReactConfirm } from '../../lib/utils/AskReactConfirm'
@@ -36,7 +36,7 @@ Esempio:
 
       message.delete().catch((err: Error) => logger.error(err))
 
-      if (confirmed) await message.channel.bulkDelete(messages)
+      if (confirmed) await (message.channel as TextChannel).bulkDelete(messages)
     }
 
     // Get the messages to delete

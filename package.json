@@ -19,7 +19,7 @@
     "canvas": "^2.6.1",
     "chrono-node": "^1.4.8",
     "colorthief": "^2.3.2",
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.4.1",
     "dotenv": "^8.2.0",
     "dropbox": "^5.2.1",
     "googleapis": "^54.1.0",
@@ -35,6 +35,7 @@
     "pino-pretty": "^4.1.0",
     "pngjs": "^5.0.0",
     "pretty-date": "^0.2.0",
+    "rss-parser": "^3.9.0",
     "sequelize": "^6.3.3",
     "vm2": "^3.9.2"
   },

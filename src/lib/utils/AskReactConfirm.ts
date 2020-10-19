@@ -1,5 +1,4 @@
 import { MessageReaction, User, Message } from 'discord.js'
-import logger from '../Logger'
 
 /**
  * Ask the confirmation for an action by using a reaction reply
