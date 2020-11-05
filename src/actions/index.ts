@@ -30,6 +30,7 @@ import bananarap from './Utils/bananarap'
 import compe from './Server/compe'
 import questions from './Utils/questions'
 import inactiveUsers from './Utils/inactiveUsers'
+import city from './Server/city'
 
 export interface Action {
   cmd?: string | string[],
@@ -66,6 +67,7 @@ export const actions = new Map<string, Action>([
   ['remind', remind],
   ['forum', forum],
   ['compe', compe],
+  ['city', city],
   ['bot:restore', botRestore],
   ['bananarap', bananarap],
   ['cmdNotFound', cmdNotFound]

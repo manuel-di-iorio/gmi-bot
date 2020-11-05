@@ -6,7 +6,7 @@ import { getUserDisplayName } from './utils/GetUserDisplayName'
 
 /** Get the latest messages from the store */
 export const getMessages = (channelId: string): Promise<string[]> => (
-  redis.lrange(`c:${channelId}:msg`, 0, 199)
+  redis.lrange(`c:${channelId}:msg`, 0, 999)
 )
 
 /** Push a message on the store */
@@ -36,7 +36,7 @@ export const addMessage = async (message: Message, content = message.cleanConten
     ])
 
     // Trim the messages to limit memory usage
-    await redis.ltrim(`c:${channel.id}:msg`, 0, 299)
+    await redis.ltrim(`c:${channel.id}:msg`, 0, 999)
   } catch (err) {
     logger.error(err)
   }
