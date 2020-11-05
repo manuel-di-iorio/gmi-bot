@@ -7,12 +7,14 @@ import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 import { findMentionedUsersFromPlainText } from '../../lib/utils/FindMentionedUserFromText'
 import { getAvatarTopColor } from '../../lib/utils/getAvatarTopColor'
 import { translateTimeToItalian } from '../../lib/utils/translateTimeToItalian'
+import { provincesToRegion } from '../../lib/utils/ProvincesList'
 
 interface UserModel {
   'msg'?: number;
   'latest-msg-date'?: string;
   'most-mentioned-user'?: string;
   'most-used-emote'?: string;
+  'city'?: string;
   'bday'?: string;
 }
 
@@ -29,6 +31,7 @@ export default {
 
     const userId = user.id
     const userKey = `u:${userId}`
+    let region: string
 
     const [userRedisData, avatarColor] = await Promise.all([
       redis.hgetall(userKey),
@@ -55,13 +58,16 @@ export default {
     } else {
       userData['latest-msg-date'] = moment(new Date(parseInt(userData['latest-msg-date']))).format('HH:mm:ss DD/MM/YYYY')
     }
+    if (!userData.city) {
+      userData.city = 'N/A'
+    } else {
+      region = provincesToRegion[userData.city]
+    }
 
     // Get the server join pretty date
-    console.log(message.member.joinedAt)
     const serverJoinPrettyDate = message.member ? translateTimeToItalian(prettyDate.format(message.member.joinedAt)) : 'N/A'
 
     // Get the discord signup pretty date
-    console.log(user.createdAt)
     const discordSignupPrettyDate = translateTimeToItalian(prettyDate.format(user.createdAt))
 
     // Send the message
@@ -73,6 +79,7 @@ export default {
 
       .setDescription(`Emote più usata: **${userData['most-used-emote']}** (x${userData['most-used-emote-count']})
 Utente più menzionato: **${userData['most-mentioned-user']}** (x${userData['most-mentioned-user-count']})
+Città: ${userData.city}${region ? `, ${region}` : ''}
 Compleanno: ${userData.bday}
 Ultimo messaggio: **${userData['latest-msg-date']}**
 Messaggi inviati: **${userData.msg}**

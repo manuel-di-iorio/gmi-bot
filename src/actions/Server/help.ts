@@ -18,6 +18,7 @@ export default {
 \`!emote\` - Mostra la classifica delle emotes del server
 \`!stats [@user]\` - Mostra le statistiche di un utente
 \`!bday DD/MM/YYYY\` - Setta il tuo compleanno (giorno/mese/anno)
+\`!city <name>\` - Setta la tua città
 \`!compe <name>\` - Mostra i risultati di una competizione GMI
 \`!log\` - Allega il log degli ultimi messaggi di questo canale`, false)
 

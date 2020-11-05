@@ -5,7 +5,8 @@ import { filterExternalEmotes } from './utils/FilterExternalEmotes'
 
 /** Save the most mentioend user */
 const saveMostMentionedUser = async (message: Message) => {
-  const userKey = `u:${message.author.id}`
+  const userId = message.author.id
+  const userKey = `u:${userId}`
 
   // Get the current count
   let mostMentionedUserCount: string | number | null = await redis.hget(userKey, 'most-mentioned-user-count')
@@ -14,6 +15,8 @@ const saveMostMentionedUser = async (message: Message) => {
   // Save the new count
   const promises = []
   message.mentions.members.size && message.mentions.members.forEach(guildMember => {
+    if (guildMember.id === userId) return
+
     promises.push(async () => {
       const num = await redis.hincrby(`${userKey}:mentions`, guildMember.id, 1)
       if (num > mostMentionedUserCount) {
