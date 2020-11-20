@@ -80,10 +80,10 @@ bot.on('guildMemberAdd', async (guildMember) => {
 
     if (!userRoles) {
       // If new user, welcome it for the first time
-      embed = await getActionEmbed(guildMember.user, `BenvenutƏ ${guildMember.displayName} su GameMaker Italia!`)
+      embed = await getActionEmbed(guildMember.user, `Benvenutə ${guildMember.displayName} su GameMaker Italia!`)
     } else {
       // Otherwise, welcome it back on the server
-      embed = await getActionEmbed(guildMember.user, `BentornatƏ ${userDisplayName || guildMember.displayName} su GameMaker Italia!`)
+      embed = await getActionEmbed(guildMember.user, `Bentornatə ${userDisplayName || guildMember.displayName} su GameMaker Italia!`)
 
       disabledNicknameUpdates[guildMember.id] = true
       setTimeout(() => delete disabledNicknameUpdates[guildMember.id], 5000)
@@ -120,7 +120,7 @@ bot.on('guildBanAdd', async (guild, user) => {
 
   try {
     if (await isCpbotOnline(guild)) return
-    await mainChannel.send(`\`\`\`${user.username} è statƏ bannatƏ dal server\`\`\``)
+    await mainChannel.send(`\`\`\`${user.username} è statə bannatə dal server\`\`\``)
   } catch (err) {
     logger.error(err)
   }
