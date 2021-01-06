@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "async": "^3.2.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bull": "^3.16.0",
     "canvas": "^2.6.1",
     "chrono-node": "^1.4.8",
