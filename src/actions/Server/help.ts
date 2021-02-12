@@ -7,7 +7,9 @@ export default {
 
   handler: async ({ message }: Task) => {
     const embed = new MessageEmbed().setColor('#a5c0d6')
-    if (message.guild) embed.setAuthor('Bot | GameMaker Italia', message.guild.iconURL())
+    if (message.guild) {
+      embed.setAuthor('Bot | GameMaker Italia', message.guild.iconURL(), 'https://github.com/manuel-di-iorio/gmi-bot')
+    }
 
     embed.setFooter(`!help richiesto da ${getUserDisplayName(message)}`, message.author.displayAvatarURL())
 
