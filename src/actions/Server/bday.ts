@@ -86,7 +86,7 @@ export default {
 
     // Get the input
     if (!input) {
-      const embed = new MessageEmbed().setColor('#a5c0d6')
+      const embed = new MessageEmbed().setColor('#b959b6')
       if (message.guild) embed.setAuthor('Birthdays | GameMaker Italia', message.guild.iconURL())
 
       embed

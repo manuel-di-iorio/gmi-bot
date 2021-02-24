@@ -24,6 +24,6 @@ export const getAvatarTopColor = async (user: User | PartialUser) => {
   } catch (err) {
     // Catch the error and return a fallback color
     logger.error(err)
-    return '#a5c0d6'
+    return '#b959b6'
   }
 }

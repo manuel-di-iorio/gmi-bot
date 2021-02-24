@@ -22,7 +22,7 @@ export default {
     }
 
     if (!input || !input.startsWith(' ') || input.startsWith(' |')) {
-      const embed = new MessageEmbed().setColor('#a5c0d6')
+      const embed = new MessageEmbed().setColor('#b959b6')
       if (message.guild) embed.setAuthor('Reminders | GameMaker Italia', message.guild.iconURL())
 
       embed.setFooter(`!remind richiesto da ${getUserDisplayName(message)}`, message.author.displayAvatarURL())

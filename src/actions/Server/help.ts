@@ -6,7 +6,7 @@ export default {
   cmd: 'help',
 
   handler: async ({ message }: Task) => {
-    const embed = new MessageEmbed().setColor('#a5c0d6')
+    const embed = new MessageEmbed().setColor('#b959b6')
     if (message.guild) {
       embed.setAuthor('Bot | GameMaker Italia', message.guild.iconURL(), 'https://github.com/manuel-di-iorio/gmi-bot')
     }

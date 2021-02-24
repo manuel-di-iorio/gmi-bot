@@ -135,7 +135,7 @@ export default {
       const canvas = canvasList[i]
       const attachment = new MessageAttachment(canvas.toBuffer(), 'emotes.png')
       const embed = new MessageEmbed()
-        .setColor('#a5c0d6')
+        .setColor('#b959b6')
         .setAuthor('Classifica emotes | GameMaker Italia', message.guild.iconURL())
         .setImage('attachment://emotes.png')
 
