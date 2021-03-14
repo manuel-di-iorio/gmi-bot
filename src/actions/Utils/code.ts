@@ -3,7 +3,7 @@ import { Task } from '../../lib/Queue'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 const formatOpts = {
-  indent_size: 4,
+  indent_size: 2,
   space_in_empty_paren: true,
   brace_style: 'expand'
 }
