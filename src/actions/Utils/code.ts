@@ -18,9 +18,8 @@ export default {
     try {
       const result = beautify(code, formatOpts)
       const promises = [message.channel.send(`\`\`\`gml
-${result}
-
 // Scritto da ${getUserDisplayName(message)} con !code
+${result}
 \`\`\`
 `)]
 

@@ -4,7 +4,7 @@ export default {
   cmd: ['banana', '🍌'],
 
   handler: async ({ message }: Task) => {
-    await message.channel.send(`${message.author} :banana:
+    await message.reply(`:banana:
 **Game maker 8.0**
 <https://mega.nz/#!aI42AC7Y!f24zh8QSu7OrQ4A7VgEuadEJS_HWsGxJHhfgrzFjAV0>
 
