@@ -4,7 +4,8 @@ import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
 const formatOpts = {
   indent_size: 4,
-  space_in_empty_paren: true
+  space_in_empty_paren: true,
+  brace_style: 'expand'
 }
 
 export default {

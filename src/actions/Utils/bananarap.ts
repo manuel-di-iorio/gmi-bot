@@ -3,8 +3,8 @@ import { Task } from '../../lib/Queue'
 export default {
   cmd: ['banana', '🍌'],
 
-  handler: async ({ message }: Task) => {
-    await message.reply(`:banana:
+  handler: async ({ reply }: Task) => {
+    await reply(`:banana:
 **Game maker 8.0**
 <https://mega.nz/#!aI42AC7Y!f24zh8QSu7OrQ4A7VgEuadEJS_HWsGxJHhfgrzFjAV0>
 
