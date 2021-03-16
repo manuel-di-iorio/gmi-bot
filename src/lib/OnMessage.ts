@@ -7,6 +7,7 @@ import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedCh
 import { updateEmotesCountInMessage } from './EmoteStore'
 import { assignGmiRoleToNewActiveUsers } from './AssignGmiRole'
 import { calculateUserStats } from './UserStats'
+import { extendTempChannels } from './DiscussionChannels'
 
 const botTrigger = NODE_ENV === 'production' ? '!' : '-'
 
@@ -48,5 +49,7 @@ export const onMessageOps = async (message: Message, content: string) => {
 
     // Calculate user stats
     calculateUserStats(message)
+
+    extendTempChannels(message)
   }
 }

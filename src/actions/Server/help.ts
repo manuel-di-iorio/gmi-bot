@@ -22,7 +22,9 @@ export default {
 \`!bday DD/MM/YYYY\` - Setta il tuo compleanno (giorno/mese/anno)
 \`!city <name>\` - Setta la tua città
 \`!compe <name>\` - Mostra i risultati di una competizione GMI
-\`!log\` - Allega il log degli ultimi messaggi di questo canale`, false)
+\`!log\` - Allega il log degli ultimi messaggi di questo canale
+\`!channel\` - Crea un canale per una discussione temporanea
+\`!doc <query>\` - Linka il manuale di GameMaker Studio 2`, false)
 
     // Utils
     embed.addField('Utils', `\`!poll question|answer1|answer2|etc..\` - Crea un sondaggio

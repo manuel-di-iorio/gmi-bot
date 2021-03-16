@@ -31,6 +31,11 @@ import compe from './Server/compe'
 import questions from './Utils/questions'
 import inactiveUsers from './Utils/inactiveUsers'
 import city from './Server/city'
+import channel from './Discussions/channel'
+import channelRemove from './Discussions/remove'
+import channelRename from './Discussions/rename'
+import channelTopic from './Discussions/topic'
+import doc from './Server/doc'
 
 export interface Action {
   cmd?: string | string[],
@@ -68,6 +73,11 @@ export const actions = new Map<string, Action>([
   ['forum', forum],
   ['compe', compe],
   ['city', city],
+  ['channelRemove', channelRemove],
+  ['channelRename', channelRename],
+  ['channelTopic', channelTopic],
+  ['channel', channel],
+  ['doc', doc],
   ['bot:restore', botRestore],
   ['bananarap', bananarap],
   ['cmdNotFound', cmdNotFound]

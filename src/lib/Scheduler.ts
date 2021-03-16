@@ -5,6 +5,7 @@ import { checkBirthdays } from './Birthdays'
 import { execBackup, dbControl } from './Backup'
 import { deleteInvalidMsg } from './DeleteInvalidMsgInLimitedChannels'
 import { sendReminders } from './Reminders'
+import { deleteOldDiscussionChannels } from './DiscussionChannels'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -39,6 +40,7 @@ export const start = async () => {
   queue.process('dbcontrol', dbControl)
   queue.process('deleteInvalidMsg', deleteInvalidMsg)
   queue.process('sendReminders', sendReminders)
+  queue.process('deleteOldDiscussionChannels', deleteOldDiscussionChannels)
 
   // Add the jobs if they are not scheduled yet
 
@@ -103,6 +105,19 @@ export const start = async () => {
       repeat: {
         tz: 'Europe/Rome',
         cron: '* * * * *'
+      }
+    })
+  }
+
+  /* Send Reminders */
+  const deleteOldDiscussionChannelsJob = await queue.getJob('deleteOldDiscussionChannels')
+  if (!deleteOldDiscussionChannelsJob) {
+    queue.add('deleteOldDiscussionChannels', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: '0 * * * *'
       }
     })
   }

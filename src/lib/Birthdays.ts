@@ -1,5 +1,6 @@
 import { redis } from './Redis'
 import moment from 'moment'
+import 'moment-timezone'
 import logger from './Logger'
 import { bot } from './Discord'
 import { GMI_GUILD } from './Config'

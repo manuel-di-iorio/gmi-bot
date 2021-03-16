@@ -18,7 +18,7 @@ let mainChannel: TextChannel
 /** Map of temporary disabled nickname change updates */
 const disabledNicknameUpdates = {}
 
-const isReady = new Promise(resolve => {
+const isReady = new Promise<void>(resolve => {
   bot.on('ready', () => {
     logger.info('[BOT] Ready')
     resolve()

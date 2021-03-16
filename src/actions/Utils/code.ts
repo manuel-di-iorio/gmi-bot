@@ -5,6 +5,7 @@ import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 const formatOpts = {
   indent_size: 2,
   space_in_empty_paren: true,
+  // brace_style: 'collapse',
   brace_style: 'expand'
 }
 

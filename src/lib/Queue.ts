@@ -74,7 +74,7 @@ const executeTask = (id: string, handler, task: Task) => {
 
   // Start the timeout promise
   let taskTimeout: NodeJS.Timeout
-  const timeoutPromise = new Promise(resolve => {
+  const timeoutPromise = new Promise<void>(resolve => {
     taskTimeout = setTimeout(() => {
       logger.error(`[QUEUE] Job ${id} execution timeout. Action: ${task.action}. Message: ${task.message.content}`)
       resolve()

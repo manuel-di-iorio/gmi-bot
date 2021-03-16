@@ -11,7 +11,7 @@ const gunzipAsync = promisify(zlib.gunzip.bind(zlib))
 
 const restoreDb = async () => {
   // Get the db from the backup file
-  const { link } = await dropbox.filesGetTemporaryLink({ path: '/backup.gz' })
+  const { result: { link } } = await dropbox.filesGetTemporaryLink({ path: '/backup.gz' })
   const { data: compressedDb } = await axios(link, { responseType: 'arraybuffer' })
   const records = JSON.parse(await gunzipAsync(compressedDb))
 
