@@ -20,7 +20,6 @@ import deleteCmd from './Server/del'
 import poll from './Utils/poll'
 import stats from './Server/stats'
 import bday from './Server/bday'
-import diff from './Utils/diff'
 import forum from './Server/forum'
 import nick from './Server/nick'
 import botRestore from './Server/bot-restore'
@@ -46,7 +45,6 @@ export interface Action {
 
 export const actions = new Map<string, Action>([
   ['help', help],
-  ['diff', diff],
   ['quotesShow', quotesShow],
   ['quotesSet', quotesSet],
   ['quotesUnset', quotesUnset],

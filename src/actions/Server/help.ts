@@ -29,7 +29,6 @@ export default {
     // Utils
     embed.addField('Utils', `\`!poll question|answer1|answer2|etc..\` - Crea un sondaggio
 \`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio
-\`!diff <@user1> <@user2>\` - Mostra la differenza tra due avatar
 \`!code <code>\` - Formatta il codice
 \`!exec <code>\` - Esegue il codice javascript e mostra il risultato
 \`!yt <query>\` - Cerca un video su YouTube
