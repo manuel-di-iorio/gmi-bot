@@ -7,7 +7,7 @@ import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedCh
 import { updateEmotesCountInMessage } from './EmoteStore'
 import { assignGmiRoleToNewActiveUsers } from './AssignGmiRole'
 import { calculateUserStats } from './UserStats'
-import { extendTempChannels } from './DiscussionChannels'
+import { createDiscussionChannelByHashtag, extendTempChannels } from './DiscussionChannels'
 
 const botTrigger = NODE_ENV === 'production' ? '!' : '-'
 
@@ -50,6 +50,10 @@ export const onMessageOps = async (message: Message, content: string) => {
     // Calculate user stats
     calculateUserStats(message)
 
+    // Extend the discussion channels
     extendTempChannels(message)
+
+    // Create a discussion channel when the message contains a channel hashtag
+    createDiscussionChannelByHashtag(message, content)
   }
 }

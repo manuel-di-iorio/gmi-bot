@@ -23,7 +23,7 @@ export default {
 \`!city <name>\` - Setta la tua città
 \`!compe <name>\` - Mostra i risultati di una competizione GMI
 \`!log\` - Allega il log degli ultimi messaggi di questo canale
-\`!channel\` - Crea un canale per una discussione temporanea
+\`!channel\` - Mostra i comandi relativi ai canali temporanei
 \`!doc <query>\` - Linka il manuale di GameMaker Studio 2`, false)
 
     // Utils

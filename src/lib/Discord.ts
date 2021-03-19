@@ -1,5 +1,5 @@
 import { Client, TextChannel, Message, MessageEmbed } from 'discord.js'
-import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
+import { BOT_TOKEN, GMI_DISCUSSION_CATEGORY_ID, GMI_GUILD, NODE_ENV } from './Config'
 import logger from './Logger'
 import { onMessage, onMessageOps } from './OnMessage'
 import { isCpbotOnline } from './IsCpbotOnline'

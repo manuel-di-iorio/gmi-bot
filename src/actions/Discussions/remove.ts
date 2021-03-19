@@ -1,3 +1,6 @@
+import { Collection, GuildChannel, CategoryChannel } from 'discord.js'
+import { GMI_DISCUSSION_CATEGORY_ID } from '../../lib/Config'
+import { bot } from '../../lib/Discord'
 import { Task } from '../../lib/Queue'
 import * as Discussion from '../../models/Discussion'
 
@@ -19,6 +22,15 @@ export default {
       Discussion.remove(userId),
       channel && channel.delete()
     ])
+
+    // Move the Discussions category on bottom, when there are no more channels in it
+    const discussionChannel = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID) as CategoryChannel
+
+    if (!discussionChannel.children.size) {
+      const latestCategoryPos = (bot.channels.cache as Collection<string, GuildChannel>).reduce((pos, category) =>
+        Math.max(pos, category.type === 'category' && category.position), 0)
+      await discussionChannel.setPosition(latestCategoryPos)
+    }
 
     await reply('il canale temporaneo è stato cancellato')
   }
