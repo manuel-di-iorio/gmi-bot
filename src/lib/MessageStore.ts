@@ -1,12 +1,14 @@
 import moment from 'moment'
-import { Message } from 'discord.js'
+import { Message, MessageAttachment } from 'discord.js'
 import logger from './Logger'
 import { redis } from './Redis'
 import { getUserDisplayName } from './utils/GetUserDisplayName'
+import { INVISIBLE_CHAR, NEWLINE } from './utils/GetNewline'
+import { DEBUG_ENABLED } from './Config'
 
 /** Get the latest messages from the store */
 export const getMessages = (channelId: string): Promise<string[]> => (
-  redis.lrange(`c:${channelId}:msg`, 0, 999)
+  redis.lrange(`c:${channelId}:msg`, 0, -1)
 )
 
 /** Push a message on the store */
@@ -36,8 +38,35 @@ export const addMessage = async (message: Message, content = message.cleanConten
     ])
 
     // Trim the messages to limit memory usage
-    await redis.ltrim(`c:${channel.id}:msg`, 0, 999)
+    await redis.ltrim(`c:${channel.id}:msg`, 0, 1999)
   } catch (err) {
     logger.error(err)
+  }
+}
+
+export const buildLogAttachment = async (channelId: string, logName: string, maxInlineMsg: number) => {
+  // Get a copy of the store
+  const messages = await getMessages(channelId)
+
+  // Create the log
+  if (!messages.length) return
+
+  let log = ''
+  let recentMsg = `${NEWLINE}\`\`\`md${NEWLINE}`
+  for (let i = 0, len = messages.length; i < len; i++) {
+    log += messages[i] + NEWLINE
+    if (i < maxInlineMsg) {
+      recentMsg += `- ${messages[i].replace(/(\[\d+\/\d+\/\d+ )([\d:]+)(]+)/, '$2')
+        .replace('```', '\\`\\`\\`')}${NEWLINE}`
+    }
+  }
+  recentMsg += `${NEWLINE}\`\`\``
+  if (!DEBUG_ENABLED) recentMsg += INVISIBLE_CHAR
+
+  // Send the log
+  const logBuffer = Buffer.from(log, 'utf8')
+  return {
+    recentMsg,
+    attachment: new MessageAttachment(logBuffer, logName)
   }
 }

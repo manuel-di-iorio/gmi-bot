@@ -11,8 +11,6 @@ export default {
   cmd: 'poll',
 
   handler: async ({ message, reply, text }: Task) => {
-    // return reply('i poll non sono ancora disponibili!')
-
     // Get the input
     const input = text.replace('poll', '').trim()
     if (!input) {

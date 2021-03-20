@@ -1,19 +1,19 @@
-import { browserWrapper } from '../../lib/Puppeteer'
+// import { browserWrapper } from '../../lib/Puppeteer'
 import { Task } from '../../lib/Queue'
 
 export default {
   cmd: 'doc',
 
   handler: async ({ text, reply, message }: Task) => {
-    // if (!browserWrapper.browser) return reply('Errore: browser non ancora disponibile')
+    // Get the input
+    const input = text.replace('doc', '').trim().toLowerCase()
+    // if (!input) return reply('https://manual.yoyogames.com')
+
+    // if (!browserWrapper.browser) return reply('Errore: browser non ancora disponibile, riprova di nuovo')
+
     return reply('https://manual.yoyogames.com')
 
     /* @todo
-
-    // Get the input
-    const input = text.replace('doc', '').trim().toLowerCase()
-    if (!input) return reply('https://manual.yoyogames.com')
-
     // Load the main page
     const pages = await browserWrapper.browser.pages()
     const page = pages[0]

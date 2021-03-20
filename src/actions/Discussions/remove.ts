@@ -1,6 +1,7 @@
-import { Collection, GuildChannel, CategoryChannel } from 'discord.js'
-import { GMI_DISCUSSION_CATEGORY_ID } from '../../lib/Config'
+import { Collection, GuildChannel, CategoryChannel, TextChannel } from 'discord.js'
+import { GMI_ARCHIVED_DISCUSSION_CH_ID, GMI_DISCUSSION_CATEGORY_ID } from '../../lib/Config'
 import { bot } from '../../lib/Discord'
+import { buildLogAttachment } from '../../lib/MessageStore'
 import { Task } from '../../lib/Queue'
 import * as Discussion from '../../models/Discussion'
 
@@ -15,10 +16,15 @@ export default {
     const discussion = await Discussion.getByUser(userId)
     if (!discussion) return reply('non hai creato un canale temporaneo')
 
-    const channel = message.guild.channels.cache.get(discussion.id)
+    const channelId = discussion.id
+    const channel = message.guild.channels.cache.get(channelId)
+
+    const archivedDiscussionCh = bot.channels.cache.get(GMI_ARCHIVED_DISCUSSION_CH_ID) as TextChannel
+    const log = channel && await buildLogAttachment(channelId, channel.name + '.txt', 0)
 
     // Remove the channel
     await Promise.all([
+      log && archivedDiscussionCh.send(log.attachment),
       Discussion.remove(userId),
       channel && channel.delete()
     ])

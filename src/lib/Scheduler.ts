@@ -5,7 +5,7 @@ import { checkBirthdays } from './Birthdays'
 import { execBackup, dbControl } from './Backup'
 import { deleteInvalidMsg } from './DeleteInvalidMsgInLimitedChannels'
 import { sendReminders } from './Reminders'
-import { deleteOldDiscussionChannels } from './DiscussionChannels'
+import { deleteOldDiscussionChannels, updateDiscussionChannelsTopicExpiration } from './DiscussionChannels'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -41,6 +41,7 @@ export const start = async () => {
   queue.process('deleteInvalidMsg', deleteInvalidMsg)
   queue.process('sendReminders', sendReminders)
   queue.process('deleteOldDiscussionChannels', deleteOldDiscussionChannels)
+  queue.process('updateDiscussionChannelsTopicExpiration', updateDiscussionChannelsTopicExpiration)
 
   // Add the jobs if they are not scheduled yet
 
@@ -109,7 +110,7 @@ export const start = async () => {
     })
   }
 
-  /* Send Reminders */
+  /* Delete old discussion channels */
   const deleteOldDiscussionChannelsJob = await queue.getJob('deleteOldDiscussionChannels')
   if (!deleteOldDiscussionChannelsJob) {
     queue.add('deleteOldDiscussionChannels', null, {
@@ -118,6 +119,19 @@ export const start = async () => {
       repeat: {
         tz: 'Europe/Rome',
         cron: '0 * * * *'
+      }
+    })
+  }
+
+  /* Update the topic expiration of the discussion channels */
+  const updateDiscussionChannelsTopicExpirationJob = await queue.getJob('updateDiscussionChannelsTopicExpiration')
+  if (!updateDiscussionChannelsTopicExpirationJob) {
+    queue.add('updateDiscussionChannelsTopicExpiration', null, {
+      removeOnComplete: true,
+      attempts: 3,
+      repeat: {
+        tz: 'Europe/Rome',
+        cron: '*/10 * * * *'
       }
     })
   }
