@@ -40,7 +40,7 @@ export const deleteOldDiscussionChannels = async () => {
 
       deletedChannels++
       deleteTasks.push(async () => {
-        const log = await buildLogAttachment(channelId, channel.name + '.txt', 0)
+        const log = await buildLogAttachment(channelId, channel.name + '.txt')
 
         await Promise.all([
           log && archivedDiscussionCh.send(log.attachment),
@@ -97,7 +97,7 @@ export const extendTempChannels = async (message: Message) => {
 export const createDiscussionChannelByHashtag = async (message: Message, content: string) => {
   try {
     // Command validation
-    if (!content || content[0] !== '#' || content[content.length - 1] !== '#' || content.replace(/#[\S]+/, '')) return
+    if (!content || content[0] !== '#' || content[content.length - 1] !== '#') return
     const channelName = content.substr(1, content.length - 2)
 
     const userId = message.author.id

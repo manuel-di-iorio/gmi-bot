@@ -20,7 +20,7 @@ export default {
     const channel = message.guild.channels.cache.get(channelId)
 
     const archivedDiscussionCh = bot.channels.cache.get(GMI_ARCHIVED_DISCUSSION_CH_ID) as TextChannel
-    const log = channel && await buildLogAttachment(channelId, channel.name + '.txt', 0)
+    const log = channel && await buildLogAttachment(channelId, channel.name + '.txt')
 
     // Remove the channel
     await Promise.all([
