@@ -24,7 +24,7 @@ export default {
 \`!compe <name>\` - Mostra i risultati di una competizione GMI
 \`!log\` - Allega il log degli ultimi messaggi di questo canale
 \`!channel\` - Mostra i comandi relativi ai canali temporanei
-\`!doc <query>\` - Linka il manuale di GameMaker Studio 2`, false)
+\`!doc\` - Linka il manuale di GameMaker Studio 2`, false)
 
     // Utils
     embed.addField('Utils', `\`!poll question|answer1|answer2|etc..\` - Crea un sondaggio
@@ -32,7 +32,8 @@ export default {
 \`!code <code>\` - Formatta il codice
 \`!exec <code>\` - Esegue il codice javascript e mostra il risultato
 \`!yt <query>\` - Cerca un video su YouTube
-\`!google <query>\` - Cerca su Google`, false)
+\`!google <query>\` - Cerca su Google
+\`!color #rrggbb\` - Mostra un colore`, false)
 
     await message.channel.send(embed)
   }

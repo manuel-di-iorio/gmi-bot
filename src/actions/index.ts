@@ -35,6 +35,7 @@ import channelRemove from './Discussions/remove'
 import channelRename from './Discussions/rename'
 import channelTopic from './Discussions/topic'
 import doc from './Server/doc'
+import color from './Utils/color'
 
 export interface Action {
   cmd?: string | string[],
@@ -76,6 +77,7 @@ export const actions = new Map<string, Action>([
   ['channelTopic', channelTopic],
   ['channel', channel],
   ['doc', doc],
+  ['color', color],
   ['bot:restore', botRestore],
   ['bananarap', bananarap],
   ['cmdNotFound', cmdNotFound]

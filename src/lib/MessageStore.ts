@@ -44,7 +44,7 @@ export const addMessage = async (message: Message, content = message.cleanConten
   }
 }
 
-export const buildLogAttachment = async (channelId: string, logName: string, maxInlineMsg: number) => {
+export const buildLogAttachment = async (channelId: string, logName: string) => {
   // Get a copy of the store
   const messages = await getMessages(channelId)
 
@@ -52,22 +52,13 @@ export const buildLogAttachment = async (channelId: string, logName: string, max
   if (!messages.length) return
 
   let log = ''
-  // let recentMsg = `${NEWLINE}\`\`\`md${NEWLINE}`
   for (let i = 0, len = messages.length; i < len; i++) {
     log += `- ${messages[i]}${NEWLINE}`
-
-    // if (i < maxInlineMsg) {
-    //   recentMsg += `- ${messages[i].replace(/(\[\d+\/\d+\/\d+ )([\d:]+)(]+)/, '$2')
-    //     .replace('```', '\\`\\`\\`')}${NEWLINE}`
-    // }
   }
-  // recentMsg += `${NEWLINE}\`\`\``
-  // if (!DEBUG_ENABLED) recentMsg += INVISIBLE_CHAR
 
   // Send the log
   const logBuffer = Buffer.from(log, 'utf8')
   return {
-    recentMsg: null,
     attachment: new MessageAttachment(logBuffer, logName)
   }
 }

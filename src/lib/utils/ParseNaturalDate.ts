@@ -1,4 +1,4 @@
-import chrono from 'chrono-node'
+import * as chrono from 'chrono-node'
 
 export const parseNaturalDate = (text: string): Date | null => {
   const italianTime = text
