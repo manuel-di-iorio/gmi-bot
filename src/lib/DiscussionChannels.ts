@@ -97,8 +97,8 @@ export const extendTempChannels = async (message: Message) => {
 export const createDiscussionChannelByHashtag = async (message: Message, content: string) => {
   try {
     // Command validation
-    if (!content || content[0] !== '#' || content.replace(/#[\S]+/, '')) return
-    const channelName = content.slice(1)
+    if (!content || content[0] !== '#' || content[content.length - 1] !== '#' || content.replace(/#[\S]+/, '')) return
+    const channelName = content.substr(1, content.length - 2)
 
     const userId = message.author.id
     const hasChannel = await Discussion.getByUser(userId)
@@ -111,9 +111,6 @@ export const createDiscussionChannelByHashtag = async (message: Message, content
       topic: 'Canale temporaneo creato da ' + getUserDisplayName(message) + ` - Scade alle ${expireHours}:00`,
       parent: GMI_DISCUSSION_CATEGORY_ID
     })
-
-    // Delete the user message
-    // message.delete().catch((err: Error) => logger.error(err))
 
     // Store the channel on Redis
     await Discussion.createOrExtend(userId, channel.id)

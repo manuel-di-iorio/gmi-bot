@@ -16,7 +16,7 @@ export default {
       .setFooter(`!channel richiesto da ${getUserDisplayName(message)}`, message.author.displayAvatarURL())
       .setDescription('Crea un canale temporaneo per discussioni dedicate. Puoi creare max un canale alla volta. Il canale scade 6 ore dopo l\'ultimo messaggio')
 
-      .addField('Comandi:', `\`#nome-canale\` - Crea un canale temporaneo tramite #hashtag
+      .addField('Comandi:', `\`#nome-canale#\` - Crea un canale temporaneo
 \`!channel topic <topic>\` - Modifica il topic del canale
 \`!channel rename <nome>\` - Rinomina il canale
 \`!channel remove\` - Cancella il canale`, false)
