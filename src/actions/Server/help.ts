@@ -24,7 +24,7 @@ export default {
 \`!compe <name>\` - Mostra i risultati di una competizione GMI
 \`!log\` - Allega il log degli ultimi messaggi di questo canale
 \`!channel\` - Mostra i comandi relativi ai canali temporanei
-\`!doc <query>\` - Linka il manuale di GameMaker Studio 2`, false)
+\`!doc\` - Linka il manuale di GameMaker Studio 2`, false)
 
     // Utils
     embed.addField('Utils', `\`!poll question|answer1|answer2|etc..\` - Crea un sondaggio
