@@ -99,6 +99,7 @@ export const createDiscussionChannelByHashtag = async (message: Message, content
     // Command validation
     if (!content || content[0] !== '#' || content[content.length - 1] !== '#') return
     const channelName = content.substr(1, content.length - 2)
+    if (!channelName) return
 
     const userId = message.author.id
     const hasChannel = await Discussion.getByUser(userId)
