@@ -32,7 +32,8 @@ export default {
 \`!code <code>\` - Formatta il codice
 \`!exec <code>\` - Esegue il codice javascript e mostra il risultato
 \`!yt <query>\` - Cerca un video su YouTube
-\`!google <query>\` - Cerca su Google`, false)
+\`!google <query>\` - Cerca su Google
+\`!color #rrggbb\` - Mostra un colore`, false)
 
     await message.channel.send(embed)
   }

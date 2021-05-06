@@ -127,6 +127,9 @@ export default {
   cmd: 'emote',
 
   handler: async ({ message, reply }: Task) => {
+    // @todo: work in progress
+    return reply(`Scusa ${message.author.username} ma questo comando non è attualmente disponibile.`)
+
     const guild = message.guild
     if (!guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)
 
