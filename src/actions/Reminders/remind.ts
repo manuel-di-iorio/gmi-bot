@@ -7,6 +7,7 @@ import logger from '../../lib/Logger'
 import { askMsgReply } from '../../lib/utils/AskMsgReply'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
+import { BOT_COLOR } from '../../lib/Config'
 
 export default {
   cmd: 'remind',
@@ -22,7 +23,7 @@ export default {
     }
 
     if (!input || !input.startsWith(' ') || input.startsWith(' |')) {
-      const embed = new MessageEmbed().setColor('#b959b6')
+      const embed = new MessageEmbed().setColor(BOT_COLOR)
       if (message.guild) embed.setAuthor('Reminders | GameMaker Italia', message.guild.iconURL())
 
       embed.setFooter(`!remind richiesto da ${getUserDisplayName(message)}`, message.author.displayAvatarURL())

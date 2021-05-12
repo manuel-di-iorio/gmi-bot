@@ -2,6 +2,7 @@ import { User, PartialUser } from 'discord.js'
 import ColorThief from 'colorthief'
 import * as UserModel from '../../models/User'
 import logger from '../Logger'
+import { BOT_COLOR } from '../Config'
 
 export const getAvatarTopColor = async (user: User | PartialUser) => {
   try {
@@ -24,6 +25,6 @@ export const getAvatarTopColor = async (user: User | PartialUser) => {
   } catch (err) {
     // Catch the error and return a fallback color
     logger.error(err)
-    return '#b959b6'
+    return BOT_COLOR
   }
 }

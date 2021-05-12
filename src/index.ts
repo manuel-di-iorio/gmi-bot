@@ -5,9 +5,9 @@ import { start as startQueue } from './lib/Queue'
 import { start as startScheduler } from './lib/Scheduler'
 import { start as startBot } from './lib/Discord'
 import { init as initSpellcheck } from './lib/Spellcheck'
-import { startEmoteStatsRendering } from './actions/Server/emotes'
 import { start as startPuppeteer } from './lib/Puppeteer'
 import { actions } from './actions'
+import { startEmoteStatsRendering } from './interactions/Server/emote'
 
 (async () => {
   initSpellcheck(actions)

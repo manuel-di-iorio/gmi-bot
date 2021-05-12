@@ -1,10 +1,9 @@
-import { MessageAttachment, MessageEmbed } from 'discord.js'
 import Canvas from 'canvas'
-import { Task } from '../../lib/Queue'
-import { redis } from '../../lib/Redis'
-import logger from '../../lib/Logger'
+import { CommandInteraction, MessageAttachment, MessageEmbed, TextChannel } from 'discord.js'
+import { BOT_COLOR, GMI_GUILD } from '../../lib/Config'
 import { bot } from '../../lib/Discord'
-import { GMI_GUILD } from '../../lib/Config'
+import logger from '../../lib/Logger'
+import { redis } from '../../lib/Redis'
 
 const CANVAS_SIZE = 768
 const EMOTE_START_XOFFSET = 5
@@ -30,7 +29,7 @@ const renderStats = async (page = 0) => {
 
   let emotes: string[]
   try {
-    emotes = (await redis.zrevrange('emotes', pageOffset, pageOffset + 33, 'WITHSCORES'))
+    emotes = await redis.zrevrange('emotes', pageOffset, pageOffset + 33, 'WITHSCORES')
   } catch (e) {
     return logger.error(e)
   }
@@ -97,7 +96,7 @@ const renderStats = async (page = 0) => {
 
     // Draw the name
     ctx.fillStyle = '#333'
-    ctx.font = 'bold 19px Impact'
+    ctx.font = 'bold 19px Arial'
     ctx.globalAlpha = 0.2
     ctx.fillText(emote.name, x + w / 2 + EMOTE_MAX_WIDTH / 2 + EMOTE_SCORE_MARGIN + 2, y + h / 2 - h / 4 + 2)
     ctx.fillStyle = '#06c'
@@ -106,7 +105,7 @@ const renderStats = async (page = 0) => {
 
     // Draw the score
     ctx.fillStyle = '#444'
-    ctx.font = 'bold 28px Impact'
+    ctx.font = 'bold 28px Arial'
     ctx.fillText(emote.score, x + w / 2 + EMOTE_MAX_WIDTH / 2 + EMOTE_SCORE_MARGIN, y + h / 2 + h / 4)
   }
 
@@ -123,22 +122,25 @@ export const startEmoteStatsRendering = () => {
   logger.info('[EMOTE STATS SCHEDULER] Ready')
 }
 
-export default {
-  cmd: 'emote',
+export const emoteInteraction = {
+  version: 0,
+  oldVersion: 0,
 
-  handler: async ({ message, reply }: Task) => {
-    // @todo: work in progress
-    return reply(`Scusa ${message.author.username} ma questo comando non è attualmente disponibile.`)
+  interaction: {
+    name: 'emote',
+    description: 'Mostra la classifica delle emote del server'
+  },
 
-    const guild = message.guild
-    if (!guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)
+  handler: async (message: CommandInteraction) => {
+    const channel = bot.channels.cache.get(message.channelID) as TextChannel
+    await message.defer()
 
     // Send the message
     for (let i = 0, l = canvasList.length; i < l; i++) {
       const canvas = canvasList[i]
       const attachment = new MessageAttachment(canvas.toBuffer(), 'emotes.png')
       const embed = new MessageEmbed()
-        .setColor('#b959b6')
+        .setColor(BOT_COLOR)
         .setAuthor('Classifica emotes | GameMaker Italia', message.guild.iconURL())
         .setImage('attachment://emotes.png')
 
@@ -146,10 +148,17 @@ export default {
         embed.setFooter(`Pagina ${i + 1} di ${l}`)
       }
 
-      await message.channel.send({
-        embed,
-        files: [attachment]
-      })
+      const text = `**Classifica emotes | Pagina ${i + 1} di ${l}**`
+
+      await (!i
+        // @ts-expect-error
+        ? message.editReply(text, attachment)
+        : channel.send(text, attachment)
+      )
+    }
+
+    if (!canvasList.length) {
+      await message.editReply('Non sono ancora state inviate emote')
     }
   }
 }

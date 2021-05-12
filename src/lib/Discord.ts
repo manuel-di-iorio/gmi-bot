@@ -1,5 +1,5 @@
-import { Client, TextChannel, Message, MessageEmbed } from 'discord.js'
-import { BOT_TOKEN, GMI_DISCUSSION_CATEGORY_ID, GMI_GUILD, NODE_ENV } from './Config'
+import { Client, TextChannel, Message, MessageEmbed, Intents } from 'discord.js'
+import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
 import logger from './Logger'
 import { onMessage, onMessageOps } from './OnMessage'
 import { isCpbotOnline } from './IsCpbotOnline'
@@ -11,9 +11,32 @@ import { addMessage } from './MessageStore'
 import { getActionEmbed } from './utils/getActionEmbed'
 import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedChannels'
 import * as UserModel from '../models/User'
+import { syncInteractionCommands } from '../interactions/syncInteractions'
+import { interactions } from '../interactions'
 
-export const bot = new Client()
 let mainChannel: TextChannel
+const { FLAGS } = Intents
+
+export const bot = new Client({
+  intents: [
+    FLAGS.GUILDS,
+    FLAGS.GUILD_PRESENCES,
+    FLAGS.GUILD_MEMBERS,
+    FLAGS.GUILD_EMOJIS,
+    FLAGS.GUILD_BANS,
+    FLAGS.GUILD_INTEGRATIONS,
+    FLAGS.GUILD_WEBHOOKS,
+    FLAGS.GUILD_INVITES,
+    FLAGS.GUILD_VOICE_STATES,
+    FLAGS.GUILD_PRESENCES,
+    FLAGS.GUILD_MESSAGES,
+    FLAGS.GUILD_MESSAGE_REACTIONS,
+    FLAGS.GUILD_MESSAGE_TYPING,
+    FLAGS.DIRECT_MESSAGES,
+    FLAGS.DIRECT_MESSAGE_REACTIONS,
+    FLAGS.DIRECT_MESSAGE_TYPING
+  ]
+})
 
 /** Map of temporary disabled nickname change updates */
 const disabledNicknameUpdates = {}
@@ -32,10 +55,27 @@ const isReady = new Promise<void>(resolve => {
     // Save a redis key for backup-control purposes
     redis.set('backup-control', '1').catch((err: Error) => logger.error(err))
 
-    // Set the bot activity
-    bot.user.setActivity('!help').catch((err: Error) => logger.err(err))
-    setInterval(() => bot.user.setActivity('!help').catch((err: Error) => logger.err(err)), 1000 * 60 * 60)
+    // Sync the interaction commands
+    syncInteractionCommands(mainChannel)
   })
+})
+
+bot.on('interaction', async (interaction) => {
+  if (!interaction.isCommand()) return
+  const { commandName } = interaction
+  try {
+    const startTime = process.hrtime()
+    await interactions[commandName].handler(interaction)
+    const endTime = process.hrtime(startTime)
+    const execTime = ~~(endTime[0] * 1000 + (endTime[1] / 1e6)) + 'ms'
+    logger.trace(`[QUEUE] Interaction task '${commandName}' executed in ${execTime}`)
+  } catch (err) {
+    logger.error(err)
+
+    const reply = !interaction.deferred ? interaction.reply.bind(interaction) : interaction.editReply.bind(interaction)
+    reply('È avvenuto un errore mentre eseguivo la richiesta')
+      .catch((err: Error) => logger.error(err))
+  }
 })
 
 // bot.on('debug', console.debug)
@@ -115,7 +155,7 @@ bot.on('guildMemberRemove', async (guildMember) => {
 })
 
 /* Log new banned people */
-bot.on('guildBanAdd', async (guild, user) => {
+bot.on('guildBanAdd', async ({ guild, user }) => {
   if (!mainChannel || guild.id !== GMI_GUILD) return
 
   try {
@@ -126,8 +166,8 @@ bot.on('guildBanAdd', async (guild, user) => {
   }
 })
 
-/* Log new unbanned people */
-bot.on('guildBanRemove', async (guild, user) => {
+// /* Log new unbanned people */
+bot.on('guildBanRemove', async ({ guild, user }) => {
   if (!mainChannel || guild.id !== GMI_GUILD) return
 
   try {
@@ -187,6 +227,6 @@ bot.on('messageReactionRemove', (messageReaction, user) => {
 
 // Connect to Discord
 export const start = async () => {
-  bot.login(BOT_TOKEN)
+  await bot.login(BOT_TOKEN)
   await isReady
 }

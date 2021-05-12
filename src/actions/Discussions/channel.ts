@@ -1,4 +1,5 @@
 import { MessageEmbed } from 'discord.js'
+import { BOT_COLOR } from '../../lib/Config'
 import { Task } from '../../lib/Queue'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
 
@@ -9,7 +10,7 @@ export default {
     if (!message.guild) return reply(`Scusa ${message.author.username} ma questo comando non è disponibile qui.`)
 
     // Send command help
-    const embed = new MessageEmbed().setColor('#b959b6')
+    const embed = new MessageEmbed().setColor(BOT_COLOR)
     if (message.guild) embed.setAuthor('Discussioni | GameMaker Italia', message.guild.iconURL())
 
     embed
