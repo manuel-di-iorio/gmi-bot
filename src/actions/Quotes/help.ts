@@ -1,12 +1,13 @@
 import { Task } from '../../lib/Queue'
 import { MessageEmbed } from 'discord.js'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
+import { BOT_COLOR } from '../../lib/Config'
 
 export default {
   cmd: 'quotes',
 
   handler: async ({ message }: Task) => {
-    const embed = new MessageEmbed().setColor('#b959b6')
+    const embed = new MessageEmbed().setColor(BOT_COLOR)
     if (message.guild) embed.setAuthor('Quotes | GameMaker Italia', message.guild.iconURL())
 
     embed

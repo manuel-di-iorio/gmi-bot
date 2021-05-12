@@ -1,13 +1,12 @@
 import moment from 'moment'
 import prettyDate from 'pretty-date'
-import { MessageEmbed } from 'discord.js'
-import { Task } from '../../lib/Queue'
+import { ApplicationCommandOptionType } from 'discord-api-types'
+import { CommandInteraction, MessageEmbed } from 'discord.js'
 import { redis } from '../../lib/Redis'
-import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
-import { findMentionedUsersFromPlainText } from '../../lib/utils/FindMentionedUserFromText'
 import { getAvatarTopColor } from '../../lib/utils/getAvatarTopColor'
-import { translateTimeToItalian } from '../../lib/utils/translateTimeToItalian'
 import { provincesToRegion } from '../../lib/utils/ProvincesList'
+import { translateTimeToItalian } from '../../lib/utils/translateTimeToItalian'
+import { getUserDisplayNameForInteraction } from '../../lib/utils/GetUserDisplayNameForInteraction'
 
 interface UserModel {
   'msg'?: number;
@@ -18,16 +17,23 @@ interface UserModel {
   'bday'?: string;
 }
 
-export default {
-  cmd: 'stat',
+export const statsInteraction = {
+  version: 0,
+  oldVersion: 0,
 
-  handler: async ({ message, text }: Task) => {
+  interaction: {
+    name: 'stats',
+    description: 'Mostra il profilo di un utente',
+    options: [{
+      name: 'user',
+      type: ApplicationCommandOptionType.USER,
+      description: 'Utente di cui mostrare il profilo'
+    }]
+  },
+
+  handler: async (message: CommandInteraction) => {
     // Get the user to show
-    let user = message.mentions.users.size && message.mentions.users.first()
-    if (message.guild && !user) {
-      user = findMentionedUsersFromPlainText(text.replace('stats', ''), message.guild.members.cache).shift()
-    }
-    if (!user) user = message.author
+    const user = !message.options.length ? message.user : message.options[0].user
 
     const userId = user.id
     const userKey = `u:${userId}`
@@ -64,6 +70,7 @@ export default {
     if (city) region = provincesToRegion[city]
 
     // Get the server join pretty date
+    // @ts-expect-error
     const serverJoinPrettyDate = message.member ? translateTimeToItalian(prettyDate.format(message.member.joinedAt)) : 'N/A'
 
     // Get the discord signup pretty date
@@ -73,8 +80,7 @@ export default {
     const embed = new MessageEmbed()
       .setColor(avatarColor)
       .setThumbnail(user.avatarURL())
-      .setTitle(getUserDisplayName(message, userId).toUpperCase())
-      .setFooter('!stats richiesto da ' + getUserDisplayName(message), message.author.avatarURL())
+      .setTitle(getUserDisplayNameForInteraction(message, userId).toUpperCase())
 
       .setDescription(`Emote più usata: **${userData['most-used-emote']}** (x${userData['most-used-emote-count']})
 Utente più menzionato: **${userData['most-mentioned-user']}** (x${userData['most-mentioned-user-count']})
@@ -85,6 +91,6 @@ Messaggi inviati: **${userData.msg}**
 Entrato su GMI: **${serverJoinPrettyDate}**
 Iscritto a Discord: **${discordSignupPrettyDate}**`)
 
-    await message.channel.send(embed)
+    await message.reply(embed)
   }
 }

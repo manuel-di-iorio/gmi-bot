@@ -25,6 +25,7 @@ export const {
   TENOR_APIKEY
 } = process.env
 
+export const BOT_COLOR = '#f59342'
 export const REDIS_PORT = parseInt(process.env.REDIS_PORT || '6379')
 export const GMI_ADMIN_ROLES = process.env.GMI_ADMIN_ROLES.split(',')
 export const QUEUE_PENDING_CHECK_INTERVAL = parseInt(process.env.QUEUE_PENDING_CHECK_INTERVAL)
@@ -32,3 +33,4 @@ export const QUEUE_CONCURRENT_TASKS = parseInt(process.env.QUEUE_CONCURRENT_TASK
 export const QUEUE_TASK_EXECUTION_TIMEOUT = parseInt(process.env.QUEUE_TASK_EXECUTION_TIMEOUT)
 export const BACKUP_ENABLED = process.env.BACKUP_ENABLED === 'true'
 export const DEBUG_ENABLED = process.env.DEBUG_ENABLED === 'true'
+export const FORCE_SYNC_INTERACTIONS = process.env.FORCE_SYNC_INTERACTIONS === 'true'
