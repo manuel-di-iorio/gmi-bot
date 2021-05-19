@@ -1,4 +1,4 @@
-import { Client, TextChannel, Message, MessageEmbed, Intents } from 'discord.js'
+import { Client, TextChannel, Message, MessageEmbed, Intents, Snowflake } from 'discord.js'
 import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
 import logger from './Logger'
 import { onMessage, onMessageOps } from './OnMessage'
@@ -47,7 +47,7 @@ const isReady = new Promise<void>(resolve => {
     resolve()
 
     // Get the main channel
-    mainChannel = bot.channels.cache.get(GMI_GUILD) as TextChannel
+    mainChannel = bot.channels.cache.get(GMI_GUILD as Snowflake) as TextChannel
 
     // Send a start message in dev
     NODE_ENV === 'development' && mainChannel.send('Connected').catch((err: Error) => logger.error(err))

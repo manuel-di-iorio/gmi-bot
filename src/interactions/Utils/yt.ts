@@ -1,9 +1,9 @@
 import { promisify } from 'util'
-import { ApplicationCommandOptionType } from "discord-api-types";
-import { CommandInteraction } from "discord.js";
-import { google } from "googleapis";
-import { GOOGLE_APIKEY } from "../../lib/Config";
-import { NEWLINE } from "../../lib/utils/GetNewline";
+import { ApplicationCommandOptionType } from 'discord-api-types'
+import { CommandInteraction } from 'discord.js'
+import { google } from 'googleapis'
+import { GOOGLE_APIKEY } from '../../lib/Config'
+import { NEWLINE } from '../../lib/utils/GetNewline'
 
 const ytClient = google.youtube('v3')
 const ytSearchAsync = promisify(ytClient.search.list.bind(ytClient.search))
@@ -24,7 +24,7 @@ export const ytInteraction = {
   },
 
   handler: async (message: CommandInteraction) => {
-    const input = message.options[0].value;
+    const input = message.options.first().value
 
     // Execute the YouTube search
     const { data: { items } } = await ytSearchAsync({
@@ -41,4 +41,3 @@ export const ytInteraction = {
     await message.reply(res)
   }
 }
-

@@ -1,4 +1,4 @@
-import { GuildMember, PartialGuildMember, Role, Collection, RoleResolvable } from 'discord.js'
+import { GuildMember, PartialGuildMember, Role, Collection, RoleResolvable, Snowflake } from 'discord.js'
 import { redis } from './Redis'
 import logger from './Logger'
 
@@ -36,7 +36,7 @@ export const addUserRoles = async (
   guildMember: GuildMember,
   newRoles: string | Role | Collection<string, Role> | RoleResolvable[]
 ) => {
-  await guildMember.roles.add(newRoles)
+  await guildMember.roles.add(newRoles as Snowflake | Snowflake[])
 
   // Update the user roles on Redis
   const userRedisKey = `u:${guildMember.user.id}`

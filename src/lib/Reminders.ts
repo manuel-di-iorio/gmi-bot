@@ -1,7 +1,7 @@
 import logger from './Logger'
 import { bot } from './Discord'
 import { redis } from './Redis'
-import { TextChannel } from 'discord.js'
+import { Snowflake, TextChannel } from 'discord.js'
 import { NEWLINE } from './utils/GetNewline'
 
 export interface Reminder {
@@ -36,8 +36,8 @@ export const sendReminders = async () => {
     try {
       // Get the updated user and channel
       const [user, channel] = await Promise.all([
-        bot.users.fetch(reminder.usr),
-        bot.channels.fetch(reminder.chn) as unknown as TextChannel
+        bot.users.fetch(reminder.usr as Snowflake),
+        bot.channels.fetch(reminder.chn as Snowflake) as unknown as TextChannel
       ])
 
       // Ensure to delete the reminder before sending it to the user (to avoid duplicates)

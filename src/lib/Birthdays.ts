@@ -9,7 +9,7 @@ import { TextChannel, Snowflake } from 'discord.js'
 moment.locale('it')
 
 export const checkBirthdays = async () => {
-  const mainChannel = bot.channels.cache.get(GMI_GUILD) as TextChannel
+  const mainChannel = bot.channels.cache.get(GMI_GUILD as Snowflake) as TextChannel
   if (!mainChannel) return
   const guildMembers = mainChannel.guild.members.cache
 
@@ -25,7 +25,7 @@ export const checkBirthdays = async () => {
     let users = ''
     Object.values(todayBirthdays).forEach((userKey: Snowflake, idx, array) => {
       const [userId, userBdayYear] = userKey.split('-')
-      const guildMember = guildMembers.get(userId)
+      const guildMember = guildMembers.get(userId as Snowflake)
       if (guildMember) {
         users += `${guildMember.displayName} (${currentYear - parseInt(userBdayYear)} anni)`
         if (idx < array.length - 1) users += ', '

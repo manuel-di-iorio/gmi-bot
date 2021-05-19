@@ -1,4 +1,4 @@
-import { Message } from 'discord.js'
+import { Message, Snowflake } from 'discord.js'
 import logger from './Logger'
 import { GMI_MEMBER_ROLE } from './Config'
 import { redis } from './Redis'
@@ -11,7 +11,7 @@ export const assignGmiRoleToNewActiveUsers = async (message: Message) => {
 
   // Skip the check if the user already has the GMI role
   const guildMember = guild.members.cache.get(author.id)
-  if (guildMember.roles.cache.has(GMI_MEMBER_ROLE)) return
+  if (guildMember.roles.cache.has(GMI_MEMBER_ROLE as Snowflake)) return
 
   try {
     // Skip if Cpbot is online

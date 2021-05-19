@@ -1,5 +1,5 @@
 import Canvas from 'canvas'
-import { CommandInteraction, MessageAttachment, MessageEmbed, TextChannel } from 'discord.js'
+import { CommandInteraction, MessageAttachment, MessageEmbed, Snowflake, TextChannel } from 'discord.js'
 import { BOT_COLOR, GMI_GUILD } from '../../lib/Config'
 import { bot } from '../../lib/Discord'
 import logger from '../../lib/Logger'
@@ -22,7 +22,7 @@ const canvasList = []
 const renderStats = async (page = 0) => {
   const canvas = Canvas.createCanvas(CANVAS_SIZE, CANVAS_SIZE)
   const ctx = canvas.getContext('2d')
-  const guild = bot.guilds.cache.get(GMI_GUILD)
+  const guild = bot.guilds.cache.get(GMI_GUILD as Snowflake)
 
   let pageOffset = page * 33
   if (page > 0) pageOffset += 1
@@ -43,12 +43,12 @@ const renderStats = async (page = 0) => {
     let emoteId = emoteSplit[2]
     if (!emoteId) continue
     emoteId = emoteId.substr(0, emoteId.length - 1)
-    if (!guild.emojis.cache.has(emoteId)) continue
+    if (!guild.emojis.cache.has(emoteId as Snowflake)) continue
 
     guildEmotes.push({
       emote,
       name: emoteSplit[1].slice(0, 13),
-      url: guild.emojis.cache.get(emoteId).url,
+      url: guild.emojis.cache.get(emoteId as Snowflake).url,
       score: emotes[i + 1]
     })
   }
@@ -139,14 +139,14 @@ export const emoteInteraction = {
     for (let i = 0, l = canvasList.length; i < l; i++) {
       const canvas = canvasList[i]
       const attachment = new MessageAttachment(canvas.toBuffer(), 'emotes.png')
-      const embed = new MessageEmbed()
-        .setColor(BOT_COLOR)
-        .setAuthor('Classifica emotes | GameMaker Italia', message.guild.iconURL())
-        .setImage('attachment://emotes.png')
+      // const embed = new MessageEmbed()
+      //   .setColor(BOT_COLOR)
+      //   .setAuthor('Classifica emotes', message.guild.iconURL())
+      //   .setImage('attachment://emotes.png')
 
-      if (l > 1) {
-        embed.setFooter(`Pagina ${i + 1} di ${l}`)
-      }
+      // if (l > 1) {
+      //   embed.setFooter(`Pagina ${i + 1} di ${l}`)
+      // }
 
       const text = `**Classifica emotes | Pagina ${i + 1} di ${l}**`
 

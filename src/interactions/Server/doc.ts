@@ -1,7 +1,5 @@
 import { ApplicationCommandOptionType } from 'discord-api-types'
-import { CommandInteraction, MessageAttachment } from 'discord.js'
-import { browserWrapper } from '../../lib/Puppeteer'
-import { NEWLINE } from '../../lib/utils/GetNewline'
+import { CommandInteraction } from 'discord.js'
 
 export const docInteraction = {
   version: 0,
@@ -29,16 +27,16 @@ export const docInteraction = {
   },
 
   handler: async (message: CommandInteraction) => {
-    if (!message.options.length) {
+    if (!message.options.size) {
       return await message.reply('https://manual.yoyogames.com')
     }
 
     // Get the option values
     let query: string
     let version = '2'
-    for (const { name, value } of message.options) {
-      if (name === 'query') query = value as string
-      if (name === 'version') version = value as string
+    for (const [name, opt] of message.options.entries()) {
+      if (name === 'query') query = opt.value as string
+      if (name === 'version') version = opt.value as string
     }
 
     if (version === '1') {
@@ -47,29 +45,5 @@ export const docInteraction = {
 
     const searchUrl = 'https://manual.yoyogames.com/#t=Content.htm&ux=search&rhsearch=' + query
     await message.reply(searchUrl)
-
-    // await message.defer()
-
-    // // Setup the browser page
-    // const page = await browserWrapper.browser.newPage()
-    // await page.setViewport({ width: 1366, height: 768 })
-
-    // try {
-    //   // Load the initial page
-    //   await page.goto(searchUrl)
-
-    //   // Click on the first search link
-    //   const selector = 'body > div.searchresults.left-pane.search-sidebar.sidebar-opened.layout-visible > div.wSearchResultItemsBlock > div > div:nth-child(1) > a'
-    //   await page.waitForSelector(selector)
-    //   await page.click(selector, { delay: 50, clickCount: 3 })
-    //   await page.waitForTimeout(2000)
-
-    //   const buffer = await page.screenshot({ clip: { x: 365, y: 120, width: 1366 - 365, height: 768 - 120 } })
-    //   const attachment = new MessageAttachment(buffer as Buffer, 'doc.png')
-    //   // @ts-expect-error
-    //   await message.editReply(searchUrl, attachment)
-    // } finally {
-    //   await page.close()
-    // }
   }
 }

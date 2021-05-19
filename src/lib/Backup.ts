@@ -8,6 +8,7 @@ import { parallelLimit } from 'async'
 import { dropbox } from './Dropbox'
 import { bot } from './Discord'
 import { NEWLINE } from './utils/GetNewline'
+import { Snowflake } from 'discord.js'
 
 const gzipAsync = promisify(zlib.gzip.bind(zlib))
 
@@ -87,7 +88,7 @@ export const execBackup = async () => {
 
 /** Check the database status on redis, by asserting the backup-control key */
 export const dbControl = async () => {
-  const botAuthor = bot.users.cache.get(BOT_AUTHOR_ID)
+  const botAuthor = bot.users.cache.get(BOT_AUTHOR_ID as Snowflake)
   if (!botAuthor) return
   const controlKey = await redis.exists('backup-control')
   if (!controlKey) {

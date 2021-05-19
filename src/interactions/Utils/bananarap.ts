@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction } from 'discord.js'
 
 export const bananarapInteraction = {
   version: 0,
@@ -10,18 +10,18 @@ export const bananarapInteraction = {
   },
 
   handler: async (message: CommandInteraction) => {
-    await message.user.send(`:banana:
-**Game maker 8.0**
+    await message.defer({ ephemeral: true })
+    await message.editReply(`:banana:
+**GameMaker 8.0**
 <https://mega.nz/#!aI42AC7Y!f24zh8QSu7OrQ4A7VgEuadEJS_HWsGxJHhfgrzFjAV0>
 
-**Game maker 8.1**
+**GameMaker 8.1**
 <https://mega.nz/#!fQomRQLA!0Tf0tjG_TCCIUm5fa3G5Y7sr0xYixY-dMXWUWQiLS2Q>
 
-**Game maker studio 1.4.9999**
-<https://mega.nz/#!GJgDxaAS!PvsUSQFZhNFOVBqa8RKvbnbXtD7Slm_u20Zpx-BGBws>`)
+**GameMaker Studio 1.4.9999**
+<https://mega.nz/#!GJgDxaAS!PvsUSQFZhNFOVBqa8RKvbnbXtD7Slm_u20Zpx-BGBws>
 
-    await message.defer(true)
-    await message.editReply("Hai un PM :banana:")
+**GameMaker Studio 2.3.0.529**
+<https://www.youtube.com/watch?v=8xLlRkG9W_Y>`)
   }
 }
-

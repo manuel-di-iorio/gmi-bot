@@ -1,4 +1,4 @@
-import { Collection, GuildChannel, CategoryChannel, TextChannel } from 'discord.js'
+import { Collection, GuildChannel, CategoryChannel, TextChannel, Snowflake } from 'discord.js'
 import { GMI_ARCHIVED_DISCUSSION_CH_ID, GMI_DISCUSSION_CATEGORY_ID } from '../../lib/Config'
 import { bot } from '../../lib/Discord'
 import { buildLogAttachment } from '../../lib/MessageStore'
@@ -19,7 +19,7 @@ export default {
     const channelId = discussion.id
     const channel = message.guild.channels.cache.get(channelId)
 
-    const archivedDiscussionCh = bot.channels.cache.get(GMI_ARCHIVED_DISCUSSION_CH_ID) as TextChannel
+    const archivedDiscussionCh = bot.channels.cache.get(GMI_ARCHIVED_DISCUSSION_CH_ID as Snowflake) as TextChannel
     const log = channel && await buildLogAttachment(channelId, channel.name + '.txt')
 
     // Remove the channel
@@ -30,7 +30,7 @@ export default {
     ])
 
     // Move the Discussions category on bottom, when there are no more channels in it
-    const discussionChannel = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID) as CategoryChannel
+    const discussionChannel = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID as Snowflake) as CategoryChannel
 
     if (!discussionChannel.children.size) {
       const latestCategoryPos = (bot.channels.cache as Collection<string, GuildChannel>).reduce((pos, category) =>

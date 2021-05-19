@@ -1,4 +1,4 @@
-import { Message, TextChannel } from 'discord.js'
+import { Message, Snowflake, TextChannel } from 'discord.js'
 import { GMI_LIMITED_CHS_LINK_OR_IMG, GMI_LIMITED_CHS_LIMIT_LINK } from './Config'
 import logger from './Logger'
 import { redis } from './Redis'
@@ -65,8 +65,8 @@ export const deleteInvalidMsg = async () => {
 
       // Get and delete the message (if still invalid)
       try {
-        const channel = await bot.channels.fetch(msgSplit.shift()) as TextChannel
-        const msg = await channel.messages.fetch(msgSplit.shift())
+        const channel = await bot.channels.fetch(msgSplit.shift() as Snowflake) as TextChannel
+        const msg = await channel.messages.fetch(msgSplit.shift() as Snowflake)
         if (msg && isMsgInvalid(msg)) await msg.delete()
       } catch (err) {
         if (err.code !== 10008) logger.error(err)

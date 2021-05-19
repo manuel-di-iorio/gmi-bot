@@ -4,6 +4,7 @@ import { redis } from '../../lib/Redis'
 import { Reminder } from '../../lib/Reminders'
 import { bot } from '../../lib/Discord'
 import { getUserDisplayName } from '../../lib/utils/GetUserDisplayName'
+import { Snowflake } from 'discord.js'
 
 const hasKey = Object.prototype.hasOwnProperty.call.bind(Object)
 
@@ -22,7 +23,7 @@ export default {
       const reminder: Reminder = JSON.parse(reminders[id])
 
       // Get the user
-      const user = bot.users.cache.get(reminder.usr)
+      const user = bot.users.cache.get(reminder.usr as Snowflake)
       const prettyDate = moment(new Date(reminder.exp)).format('DD/MM/YYYY [alle] HH:mm:ss')
 
       remindersText += `\`\`\`Creato da ${getUserDisplayName(message, user.id)} con scadenza ${prettyDate} (ID: ${id}) 

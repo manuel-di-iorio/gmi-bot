@@ -33,7 +33,7 @@ export const statsInteraction = {
 
   handler: async (message: CommandInteraction) => {
     // Get the user to show
-    const user = !message.options.length ? message.user : message.options[0].user
+    const user = !message.options.size ? message.user : message.options.first().user
 
     const userId = user.id
     const userKey = `u:${userId}`

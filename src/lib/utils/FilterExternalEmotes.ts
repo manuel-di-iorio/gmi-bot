@@ -1,4 +1,4 @@
-import { Guild } from 'discord.js'
+import { Guild, Snowflake } from 'discord.js'
 
 /** Filter external guild emotes */
 export const filterExternalEmotes = (emotes: string[], guild: Guild) => {
@@ -6,6 +6,6 @@ export const filterExternalEmotes = (emotes: string[], guild: Guild) => {
     let emoteId = emote.split(':')[2]
     if (!emoteId) return false
     emoteId = emoteId.substr(0, emoteId.length - 1)
-    return guild.emojis.cache.has(emoteId)
+    return guild.emojis.cache.has(emoteId as Snowflake)
   })
 }

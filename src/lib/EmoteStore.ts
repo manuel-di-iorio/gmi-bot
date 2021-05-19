@@ -1,4 +1,4 @@
-import { GuildEmoji, ReactionEmoji, Guild } from 'discord.js'
+import { GuildEmoji, ReactionEmoji, Guild, Snowflake } from 'discord.js'
 import logger from './Logger'
 import { redis } from './Redis'
 
@@ -38,7 +38,7 @@ export const updateEmotesCountInMessage = async (guild: Guild, content: string):
       // Filter external emotes
       let emoteId = emoteString.split(':')[2]
       emoteId = emoteId.substr(0, emoteId.length - 1)
-      if (!guild.emojis.cache.has(emoteId)) return
+      if (!guild.emojis.cache.has(emoteId as Snowflake)) return
 
       // Increment the score
       await redis.zincrby('emotes', 1, emoteString)

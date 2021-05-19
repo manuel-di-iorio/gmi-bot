@@ -1,4 +1,4 @@
-import { CategoryChannel, Collection, GuildChannel, Message, TextChannel } from 'discord.js'
+import { CategoryChannel, Collection, GuildChannel, Message, Snowflake, TextChannel } from 'discord.js'
 import { GMI_ARCHIVED_DISCUSSION_CH_ID, GMI_DISCUSSION_CATEGORY_ID, GMI_GUILD } from './Config'
 import { bot } from './Discord'
 import logger from './Logger'
@@ -12,9 +12,9 @@ import { buildLogAttachment } from './MessageStore'
  */
 export const deleteOldDiscussionChannels = async () => {
   try {
-    const mainChannel = bot.channels.cache.get(GMI_GUILD) as TextChannel
+    const mainChannel = bot.channels.cache.get(GMI_GUILD as Snowflake) as TextChannel
     if (!mainChannel) return
-    const archivedDiscussionCh = bot.channels.cache.get(GMI_ARCHIVED_DISCUSSION_CH_ID) as TextChannel
+    const archivedDiscussionCh = bot.channels.cache.get(GMI_ARCHIVED_DISCUSSION_CH_ID as Snowflake) as TextChannel
 
     // Get redis keys
     const discussionsKeys = await scanKeys('disc:*')
@@ -55,7 +55,7 @@ export const deleteOldDiscussionChannels = async () => {
     if (discussions.length === deletedChannels) {
       const latestCategoryPos = (bot.channels.cache as Collection<string, GuildChannel>).reduce((pos, category) =>
         Math.max(pos, category.type === 'category' && category.position), 0)
-      const discussionCategory = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID) as CategoryChannel
+      const discussionCategory = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID as Snowflake) as CategoryChannel
       await discussionCategory.setPosition(latestCategoryPos)
     }
   } catch (err) {
@@ -110,7 +110,7 @@ export const createDiscussionChannelByHashtag = async (message: Message, content
     const expireHours = !expireTime.getMinutes() ? expireTime.getHours() : expireTime.getHours() + 1
     const channel = await message.guild.channels.create(channelName, {
       topic: 'Canale temporaneo creato da ' + getUserDisplayName(message) + ` - Scade alle ${expireHours}:00`,
-      parent: GMI_DISCUSSION_CATEGORY_ID
+      parent: GMI_DISCUSSION_CATEGORY_ID as Snowflake
     })
 
     // Store the channel on Redis
@@ -118,7 +118,7 @@ export const createDiscussionChannelByHashtag = async (message: Message, content
     await message.reply(`ho creato il canale temporaneo ${channel}`)
 
     // Move Discussions category on top
-    const discussionChannel = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID) as CategoryChannel
+    const discussionChannel = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID as Snowflake) as CategoryChannel
     await discussionChannel.setPosition(1)
   } catch (err) {
     logger.error(err)

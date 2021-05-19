@@ -5,7 +5,7 @@ import { start as startQueue } from './lib/Queue'
 import { start as startScheduler } from './lib/Scheduler'
 import { start as startBot } from './lib/Discord'
 import { init as initSpellcheck } from './lib/Spellcheck'
-import { start as startPuppeteer } from './lib/Puppeteer'
+import { start as startTwitch } from './lib/Twitch'
 import { actions } from './actions'
 import { startEmoteStatsRendering } from './interactions/Server/emote'
 
@@ -17,13 +17,13 @@ import { startEmoteStatsRendering } from './interactions/Server/emote'
       startBot(),
       startRedis(),
       startWorkers(),
-      startQueue(),
-      startPuppeteer()
+      startQueue()
     ])
 
     await Promise.all([
       startScheduler(),
-      startEmoteStatsRendering()
+      startEmoteStatsRendering(),
+      startTwitch()
     ])
   } catch (err) {
     logger.error(err)

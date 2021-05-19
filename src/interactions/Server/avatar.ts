@@ -16,7 +16,7 @@ export const avatarInteraction = {
   },
 
   handler: async (message: CommandInteraction) => {
-    const user = !message.options.length ? message.user : message.options[0].user
+    const user = !message.options.size ? message.user : message.options.first().user
     await message.reply(user.displayAvatarURL({ format: 'png', size: 512 }))
   }
 }
