@@ -22,7 +22,10 @@ export const {
   BOT_AUTHOR_ID,
   BACKUP_FREQUENCY,
   DB_CONTROL_FREQUENCY,
-  TENOR_APIKEY
+  TENOR_APIKEY,
+  TWITCH_CLIENT_ID,
+  TWITCH_SECRET,
+  TWITCH_USER_ID
 } = process.env
 
 export const BOT_COLOR = '#f59342'
@@ -34,3 +37,5 @@ export const QUEUE_TASK_EXECUTION_TIMEOUT = parseInt(process.env.QUEUE_TASK_EXEC
 export const BACKUP_ENABLED = process.env.BACKUP_ENABLED === 'true'
 export const DEBUG_ENABLED = process.env.DEBUG_ENABLED === 'true'
 export const FORCE_SYNC_INTERACTIONS = process.env.FORCE_SYNC_INTERACTIONS === 'true'
+export const TWITCH_API_LOGIN_HOST = 'https://id.twitch.tv'
+export const TWITCH_API_HOST = 'https://api.twitch.tv/helix'

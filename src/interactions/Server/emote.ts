@@ -139,14 +139,14 @@ export const emoteInteraction = {
     for (let i = 0, l = canvasList.length; i < l; i++) {
       const canvas = canvasList[i]
       const attachment = new MessageAttachment(canvas.toBuffer(), 'emotes.png')
-      const embed = new MessageEmbed()
-        .setColor(BOT_COLOR)
-        .setAuthor('Classifica emotes | GameMaker Italia', message.guild.iconURL())
-        .setImage('attachment://emotes.png')
+      // const embed = new MessageEmbed()
+      //   .setColor(BOT_COLOR)
+      //   .setAuthor('Classifica emotes', message.guild.iconURL())
+      //   .setImage('attachment://emotes.png')
 
-      if (l > 1) {
-        embed.setFooter(`Pagina ${i + 1} di ${l}`)
-      }
+      // if (l > 1) {
+      //   embed.setFooter(`Pagina ${i + 1} di ${l}`)
+      // }
 
       const text = `**Classifica emotes | Pagina ${i + 1} di ${l}**`
 
