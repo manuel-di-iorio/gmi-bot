@@ -87,16 +87,12 @@ export default {
     const remindDateTime = remindDate.getTime()
     if (remindDateTime < todayTimestamp) {
       return reply('la data del reminder deve essere nel futuro. Remind annullato')
-    } else if (remindDateTime - todayTimestamp > 31536e6 * 10 /* 10 years */) {
-      return reply('il massimo è 10 anni. Remind annullato')
+    } else if (remindDateTime - todayTimestamp > 31536e6 * 20 /* 30 years */) {
+      return reply('il massimo è 30 anni. Remind annullato')
     }
 
     // Save the reminder
     const reminderId = crypto.randomBytes(10).toString('hex')
-
-    if (message.guild && !message.deleted) {
-      message.delete().catch((err: Error) => logger.error(err, 'Remind > Deleting the input message'))
-    }
 
     await redis.hset('reminders', reminderId, JSON.stringify({
       msg: remindMsg,
@@ -107,6 +103,6 @@ export default {
 
     // Tell the user of the success operation
     const prettyDate = moment(remindDate).format('DD MMMM YYYY [alle] HH:mm:ss')
-    return reply(`ti ricorderò ** ${remindMsg} ** nel canale ${channel} il ${prettyDate}`)
+    await reply(`Te lo ricorderò nel canale ${channel} il ${prettyDate}`)
   }
 }

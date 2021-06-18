@@ -22,6 +22,7 @@ export default {
 \`!channel\` - Mostra i comandi relativi ai canali temporanei
 \`!poll question|answer1|answer2|etc..\` - Crea un sondaggio
 \`!quotes\` - Mostra i comandi per salvare o mostrare un messaggio
+\`!remind\` - Mostra i comandi per i reminder
 \`!code <code>\` - Formatta il codice
 \`!exec <code>\` - Esegue il codice javascript e mostra il risultato`, false)
 
