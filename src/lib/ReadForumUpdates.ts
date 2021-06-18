@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { TextChannel } from 'discord.js'
+import { Snowflake, TextChannel } from 'discord.js'
 import Parser from 'rss-parser'
 import moment from 'moment'
 import he from 'he'
@@ -22,7 +22,7 @@ export const start = () => {
 
   setInterval(async () => {
     // Check if the bot is ready
-    forumChannel = bot.channels.cache.get(GMI_FORUM_CHANNEL) as TextChannel
+    forumChannel = bot.channels.cache.get(GMI_FORUM_CHANNEL as Snowflake) as TextChannel
     if (!forumChannel) return
 
     try {

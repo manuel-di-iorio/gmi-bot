@@ -131,7 +131,7 @@ bot.on('guildMemberAdd', async (guildMember) => {
       guildMember.setNickname(userDisplayName).catch((err: Error) => logger.error(err))
     }
 
-    await mainChannel.send(embed)
+    await mainChannel.send({ embeds: [embed] })
   } catch (err) {
     logger.error(err)
   }
@@ -148,7 +148,7 @@ bot.on('guildMemberRemove', async (guildMember) => {
     if (await isCpbotOnline(guildMember.guild)) return
 
     const embed = await getActionEmbed(guildMember.user, `${guildMember.displayName} ha lasciato il server`)
-    await mainChannel.send(embed)
+    await mainChannel.send({ embeds: [embed] })
   } catch (err) {
     logger.error(err)
   }
@@ -173,7 +173,7 @@ bot.on('guildBanRemove', async ({ guild, user }) => {
   try {
     if (await isCpbotOnline(guild)) return
     const embed = await getActionEmbed(user, `Il ban di ${user.username} è stato revocato`)
-    await mainChannel.send(embed)
+    await mainChannel.send({ embeds: [embed] })
   } catch (err) {
     logger.error(err)
   }
@@ -198,7 +198,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
         `${oldMember.displayName} ora si chiama ${newMember.displayName}`,
         `Username: @${newMember.user.username}`
       )
-      await mainChannel.send(embed)
+      await mainChannel.send({ embeds: [embed] })
     }
   } catch (err) {
     logger.error(err)

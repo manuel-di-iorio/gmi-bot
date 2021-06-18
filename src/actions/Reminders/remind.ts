@@ -39,7 +39,7 @@ export default {
 \`!remind Viaggio GMI | 01/08/2023\`
 \`!remind Partita di calcetto | domani alle 16\``, false)
 
-      return message.channel.send(embed)
+      return message.channel.send({ embeds: [embed] })
     }
 
     input = input.trim()

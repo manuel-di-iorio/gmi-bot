@@ -22,6 +22,6 @@ export default {
 \`!channel rename <nome>\` - Rinomina il canale
 \`!channel remove\` - Cancella il canale`, false)
 
-    return message.channel.send(embed)
+    return message.channel.send({ embeds: [embed] })
   }
 }

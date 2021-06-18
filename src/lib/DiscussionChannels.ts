@@ -43,7 +43,7 @@ export const deleteOldDiscussionChannels = async () => {
         const log = await buildLogAttachment(channelId, channel.name + '.txt')
 
         await Promise.all([
-          log && archivedDiscussionCh.send(log.attachment),
+          log && archivedDiscussionCh.send({ files: [log.attachment] }),
           redis.del(discussion.key),
           channel && channel.delete()
         ])

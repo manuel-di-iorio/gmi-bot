@@ -13,13 +13,14 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@discordjs/voice": "^0.5.0",
     "async": "3.2.0",
     "axios": "0.21.1",
     "bull": "3.22.5",
     "canvas": "^2.8.0",
     "chrono-node": "2.2.6",
     "colorthief": "2.3.2",
-    "discord.js": "discordjs/discord.js#master",
+    "discord.js": "^13.0.0-dev.2d12db000f2a0a22a8919d7a63989a6e762ae335",
     "dotenv": "9.0.2",
     "dropbox": "9.8.0",
     "googleapis": "73.0.0",

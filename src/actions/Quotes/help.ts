@@ -22,6 +22,6 @@ export default {
     embed.addField('Esempio:', `\`!quotes set hello | world\` - Salva la citazione con il nome 'hello'
 \`,hello\` - Mostra il valore associato (ad es. 'world')`, false)
 
-    await message.channel.send(embed)
+    await message.channel.send({ embeds: [embed] })
   }
 }

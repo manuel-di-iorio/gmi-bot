@@ -151,9 +151,8 @@ export const emoteInteraction = {
       const text = `**Classifica emotes | Pagina ${i + 1} di ${l}**`
 
       await (!i
-        // @ts-expect-error
-        ? message.editReply(text, attachment)
-        : channel.send(text, attachment)
+        ? message.editReply({ content: text, files: [attachment] })
+        : channel.send({ content: text, files: [attachment] })
       )
     }
 

@@ -34,6 +34,6 @@ export const colorInteraction = {
 
     const attachment = new MessageAttachment(canvas.toBuffer(), 'color.png')
     await message.defer()
-    await message.editReply(attachment)
+    await message.editReply({ files: [attachment] })
   }
 }

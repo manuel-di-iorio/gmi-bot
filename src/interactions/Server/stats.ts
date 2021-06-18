@@ -91,6 +91,6 @@ Messaggi inviati: **${userData.msg}**
 Entrato su GMI: **${serverJoinPrettyDate}**
 Iscritto a Discord: **${discordSignupPrettyDate}**`)
 
-    await message.reply(embed)
+    await message.reply({ embeds: [embed] })
   }
 }

@@ -25,6 +25,6 @@ export default {
 \`!code <code>\` - Formatta il codice
 \`!exec <code>\` - Esegue il codice javascript e mostra il risultato`, false)
 
-    await message.channel.send(embed)
+    await message.channel.send({ embeds: [embed] })
   }
 }

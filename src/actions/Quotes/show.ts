@@ -30,7 +30,7 @@ export default {
     const regexResp = linkOnlyRegex.exec(quote)
     if (regexResp && !regexResp[1] && !regexResp[3]) {
       resp = new MessageAttachment(quote)
-      await message.channel.send(msgAuthor, resp)
+      await message.channel.send({ content: msgAuthor, files: [resp] })
     } else {
       await message.channel.send(msgAuthor + NEWLINE + resp)
     }

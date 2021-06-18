@@ -24,7 +24,7 @@ export default {
 
     // Remove the channel
     await Promise.all([
-      log && archivedDiscussionCh.send(log.attachment),
+      log && archivedDiscussionCh.send({ files: [log.attachment] }),
       Discussion.remove(userId),
       channel && channel.delete()
     ])

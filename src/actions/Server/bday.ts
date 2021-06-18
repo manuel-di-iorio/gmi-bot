@@ -98,7 +98,7 @@ export default {
 \`!bday remove\` - Rimuove il tuo compleanno
 \`!bday <@user>\` - Mostra il compleanno di un altro utente`, false)
 
-      return await message.channel.send(embed)
+      return await message.channel.send({ embeds: [embed] })
     }
 
     // Input validation

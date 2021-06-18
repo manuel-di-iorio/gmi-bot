@@ -77,7 +77,7 @@ const checkIsLive = async () => {
           embed.setFooter(`GameMakerItalia sta streammando ${stream.game_name}`)
           embed.setImage(stream.thumbnail_url.replace('{width}', 320).replace('{height}', 240))
 
-          await mainChannel.send(embed)
+          await mainChannel.send({ embeds: [embed] })
         } catch (err) {
           logger.error(err)
         }

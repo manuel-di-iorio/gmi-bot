@@ -16,7 +16,6 @@ export const logInteraction = {
     if (!log) {
       return message.reply('non ci sono ancora messaggi registrati in questo canale')
     }
-    // @ts-expect-error
-    await message.editReply('**Ultimi messaggi di questo canale:**', log.attachment)
+    await message.editReply({ content: '**Ultimi messaggi di questo canale:**', files: [log.attachment] })
   }
 }

@@ -30,7 +30,7 @@ export const assignGmiRoleToNewActiveUsers = async (message: Message) => {
         guildMember.user,
         `${guildMember.displayName} è attivo da almeno una settimana e ha raggiunto 100 messaggi, guadagnando così il ruolo GMI!`
       )
-      await channel.send(embed)
+      await channel.send({ embeds: [embed] })
     }
   } catch (err) {
     logger.error(err)
