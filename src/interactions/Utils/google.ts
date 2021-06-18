@@ -9,9 +9,6 @@ const googleClient = google.customsearch('v1')
 const googleSearchAsync = promisify(googleClient.cse.list.bind(googleClient.cse))
 
 export const googleInteraction = {
-  version: 0,
-  oldVersion: 0,
-
   interaction: {
     name: 'google',
     description: 'Cerca su Google',

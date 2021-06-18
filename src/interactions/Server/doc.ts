@@ -1,10 +1,8 @@
 import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction } from 'discord.js'
+import { InteractionConfig } from '../types'
 
-export const docInteraction = {
-  version: 0,
-  oldVersion: 0,
-
+export const docInteraction: InteractionConfig = {
   interaction: {
     name: 'doc',
     description: 'Linka il manuale di GameMaker Studio',

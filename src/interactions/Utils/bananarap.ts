@@ -1,9 +1,6 @@
 import { CommandInteraction } from 'discord.js'
 
 export const bananarapInteraction = {
-  version: 0,
-  oldVersion: 0,
-
   interaction: {
     name: 'bananarap',
     description: 'Mostra i link delle vecchie versioni di GameMaker Studio'

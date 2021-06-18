@@ -3,9 +3,6 @@ import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction, MessageAttachment } from 'discord.js'
 
 export const colorInteraction = {
-  version: 0,
-  oldVersion: 0,
-
   interaction: {
     name: 'color',
     description: 'Mostra un colore',

@@ -1,10 +1,8 @@
 import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction } from 'discord.js'
+import { InteractionConfig } from '../types'
 
-export const avatarInteraction = {
-  version: 0,
-  oldVersion: 0,
-
+export const avatarInteraction: InteractionConfig = {
   interaction: {
     name: 'avatar',
     description: 'Mostra l\'avatar dell\'utente',

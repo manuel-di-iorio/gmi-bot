@@ -7,6 +7,7 @@ import { getAvatarTopColor } from '../../lib/utils/getAvatarTopColor'
 import { provincesToRegion } from '../../lib/utils/ProvincesList'
 import { translateTimeToItalian } from '../../lib/utils/translateTimeToItalian'
 import { getUserDisplayNameForInteraction } from '../../lib/utils/GetUserDisplayNameForInteraction'
+import { InteractionConfig } from '../types'
 
 interface UserModel {
   'msg'?: number;
@@ -17,10 +18,7 @@ interface UserModel {
   'bday'?: string;
 }
 
-export const statsInteraction = {
-  version: 0,
-  oldVersion: 0,
-
+export const statsInteraction: InteractionConfig = {
   interaction: {
     name: 'stats',
     description: 'Mostra il profilo di un utente',

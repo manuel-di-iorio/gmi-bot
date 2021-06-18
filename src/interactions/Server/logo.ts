@@ -1,9 +1,7 @@
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction } from 'discord.js'
+import { InteractionConfig } from '../types'
 
-export const logoInteraction = {
-  version: 0,
-  oldVersion: 0,
-
+export const logoInteraction: InteractionConfig = {
   interaction: {
     name: 'logo',
     description: 'Mostra il logo del server'

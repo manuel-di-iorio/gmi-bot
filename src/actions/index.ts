@@ -37,7 +37,7 @@ export const actions = new Map<string, Action>([
   ['quotes', quotes],
   ['bday', bday],
   ['poll', poll],
-  ['delete', deleteCmd],
+  // ['delete', deleteCmd],
   ['remindRemove', remindRemove],
   ['remindShow', remindShow],
   ['remind', remind],

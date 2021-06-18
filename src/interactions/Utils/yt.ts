@@ -9,9 +9,6 @@ const ytClient = google.youtube('v3')
 const ytSearchAsync = promisify(ytClient.search.list.bind(ytClient.search))
 
 export const ytInteraction = {
-  version: 0,
-  oldVersion: 0,
-
   interaction: {
     name: 'yt',
     description: 'Cerca un video su YouTube',

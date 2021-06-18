@@ -4,6 +4,7 @@ import { BOT_COLOR, GMI_GUILD } from '../../lib/Config'
 import { bot } from '../../lib/Discord'
 import logger from '../../lib/Logger'
 import { redis } from '../../lib/Redis'
+import { InteractionConfig } from '../types'
 
 const CANVAS_SIZE = 768
 const EMOTE_START_XOFFSET = 5
@@ -122,10 +123,7 @@ export const startEmoteStatsRendering = () => {
   logger.info('[EMOTE STATS SCHEDULER] Ready')
 }
 
-export const emoteInteraction = {
-  version: 0,
-  oldVersion: 0,
-
+export const emoteInteraction: InteractionConfig = {
   interaction: {
     name: 'emote',
     description: 'Mostra la classifica delle emote del server'

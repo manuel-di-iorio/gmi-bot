@@ -4,11 +4,9 @@ import { JaroWinklerDistance } from 'natural'
 import { redis } from '../../lib/Redis'
 import { NEWLINE } from '../../lib/utils/GetNewline'
 import { provinces, provincesToRegion } from '../../lib/utils/ProvincesList'
+import { InteractionConfig } from '../types'
 
-export const cityInteraction = {
-  version: 0,
-  oldVersion: 0,
-
+export const cityInteraction: InteractionConfig = {
   interaction: {
     name: 'city',
     description: 'Salva la tua città sul tuo profilo',

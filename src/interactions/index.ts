@@ -10,6 +10,7 @@ import { cityInteraction } from './Server/city'
 import { statsInteraction } from './Server/stats'
 import { compeInteraction } from './Server/compe'
 import { emoteInteraction } from './Server/emote'
+import { delInteraction } from './Server/del'
 
 export const interactions = {
   avatar: avatarInteraction,
@@ -23,5 +24,6 @@ export const interactions = {
   city: cityInteraction,
   stats: statsInteraction,
   compe: compeInteraction,
-  emote: emoteInteraction
+  emote: emoteInteraction,
+  del: delInteraction
 }

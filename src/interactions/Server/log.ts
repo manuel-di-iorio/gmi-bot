@@ -1,10 +1,8 @@
 import { CommandInteraction } from 'discord.js'
 import { buildLogAttachment } from '../../lib/MessageStore'
+import { InteractionConfig } from '../types'
 
-export const logInteraction = {
-  version: 0,
-  oldVersion: 0,
-
+export const logInteraction: InteractionConfig = {
   interaction: {
     name: 'log',
     description: 'Mostra gli ultimi messaggi di questo canale'

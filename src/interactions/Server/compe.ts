@@ -2,13 +2,11 @@ import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction } from 'discord.js'
 import axios from 'axios'
 import { NEWLINE } from '../../lib/utils/GetNewline'
+import { InteractionConfig } from '../types'
 
 const cache = {}
 
-export const compeInteraction = {
-  version: 0,
-  oldVersion: 0,
-
+export const compeInteraction: InteractionConfig = {
   interaction: {
     name: 'compe',
     description: 'Mostra i risultati delle competizioni GMI',
