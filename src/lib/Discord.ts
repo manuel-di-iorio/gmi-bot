@@ -63,6 +63,7 @@ const isReady = new Promise<void>(resolve => {
 bot.on('interaction', async (interaction) => {
   if (!interaction.isCommand()) return
   const { commandName } = interaction
+
   try {
     const startTime = process.hrtime()
     await interactions[commandName].handler(interaction)

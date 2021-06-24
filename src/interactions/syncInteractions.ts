@@ -30,7 +30,7 @@ export const syncInteractionCommands = async (mainChannel: TextChannel) => {
 
       newCommands.push(async () => {
         const cmd = await commands.create(cmdConfig.interaction)
-        await cmdConfig.onSetup(cmd)
+        if (cmdConfig.onSetup) await cmdConfig.onSetup(cmd)
       })
     }
 

@@ -11,6 +11,7 @@ import { statsInteraction } from './Server/stats'
 import { compeInteraction } from './Server/compe'
 import { emoteInteraction } from './Server/emote'
 import { delInteraction } from './Server/del'
+import { weatherInteraction } from './Utils/weather'
 
 export const interactions = {
   avatar: avatarInteraction,
@@ -25,5 +26,6 @@ export const interactions = {
   stats: statsInteraction,
   compe: compeInteraction,
   emote: emoteInteraction,
-  del: delInteraction
+  del: delInteraction,
+  weather: weatherInteraction
 }

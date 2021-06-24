@@ -39,3 +39,5 @@ export const DEBUG_ENABLED = process.env.DEBUG_ENABLED === 'true'
 export const FORCE_SYNC_INTERACTIONS = process.env.FORCE_SYNC_INTERACTIONS === 'true'
 export const TWITCH_API_LOGIN_HOST = 'https://id.twitch.tv'
 export const TWITCH_API_HOST = 'https://api.twitch.tv/helix'
+export const OPEN_WEATHER_MAP_HOST = 'https://api.openweathermap.org/data/2.5'
+export const OPEN_WEATHER_MAP_APIKEY = process.env.OPEN_WEATHER_MAP_APIKEY
