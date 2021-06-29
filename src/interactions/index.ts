@@ -12,6 +12,7 @@ import { compeInteraction } from './Server/compe'
 import { emoteInteraction } from './Server/emote'
 import { delInteraction } from './Server/del'
 import { weatherInteraction } from './Utils/weather'
+import { oroscopoInteraction } from './Utils/oroscopo'
 
 export const interactions = {
   avatar: avatarInteraction,
@@ -27,5 +28,6 @@ export const interactions = {
   compe: compeInteraction,
   emote: emoteInteraction,
   del: delInteraction,
-  weather: weatherInteraction
+  weather: weatherInteraction,
+  oroscopo: oroscopoInteraction
 }
