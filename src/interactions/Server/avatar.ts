@@ -1,4 +1,3 @@
-import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction } from 'discord.js'
 import { InteractionConfig } from '../types'
 
@@ -8,7 +7,7 @@ export const avatarInteraction: InteractionConfig = {
     description: 'Mostra l\'avatar dell\'utente',
     options: [{
       name: 'user',
-      type: ApplicationCommandOptionType.USER,
+      type: 'USER',
       description: 'Utente di cui mostrare l\'avatar'
     }]
   },

@@ -21,12 +21,14 @@ export const storeMemberRoles = async (guildMember: GuildMember | PartialGuildMe
 }
 
 /** Retrieve the member roles when joining the server */
-export const retrieveMemberRoles = async (guildMember: GuildMember | PartialGuildMember): Promise<string[] | null> => {
+export const retrieveMemberRoles = async (guildMember: GuildMember | PartialGuildMember): Promise<RoleResolvable[] | null> => {
   if (!guildMember.manageable) return
 
   try {
     const roles = await redis.hget(`u:${guildMember.user.id}`, 'roles')
-    if (roles) return roles.split(',')
+    if (roles) {
+      return roles.split(',') as RoleResolvable[]
+    }
   } catch (err) {
     logger.error(err)
   }

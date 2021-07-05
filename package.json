@@ -21,7 +21,7 @@
     "cheerio": "^1.0.0-rc.10",
     "chrono-node": "2.2.6",
     "colorthief": "2.3.2",
-    "discord.js": "^13.0.0-dev.2d12db000f2a0a22a8919d7a63989a6e762ae335",
+    "discord.js": "^13.0.0-dev.fe5d56c9b11b3e5f05933c6d746237b9f353b392",
     "dotenv": "9.0.2",
     "dropbox": "9.8.0",
     "googleapis": "73.0.0",
@@ -65,7 +65,7 @@
     "eslint-plugin-promise": "5.1.0",
     "eslint-plugin-standard": "4.1.0",
     "nodemon": "2.0.7",
-    "ts-node-dev": "1.1.6",
+    "ts-node-dev": "^1.1.8",
     "typescript": "4.2.4"
   },
   "engineStrict": true,

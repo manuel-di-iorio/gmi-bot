@@ -1,3 +1,4 @@
+import { GuildChannel } from 'discord.js'
 import { Task } from '../../lib/Queue'
 import * as Discussion from '../../models/Discussion'
 
@@ -18,7 +19,7 @@ export default {
     const discussion = await Discussion.getByUser(userId)
     if (!discussion) return reply('non hai creato un canale temporaneo')
 
-    const channel = message.guild.channels.cache.get(discussion.id)
+    const channel = message.guild.channels.cache.get(discussion.id) as GuildChannel
     if (!channel) {
       await Discussion.remove(userId)
       return reply('il canale temporaneo è stato cancellato manualmente')

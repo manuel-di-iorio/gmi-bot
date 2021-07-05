@@ -1,4 +1,3 @@
-import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction } from 'discord.js'
 import { InteractionConfig } from '../types'
 
@@ -9,12 +8,12 @@ export const docInteraction: InteractionConfig = {
     options: [
       {
         name: 'query',
-        type: ApplicationCommandOptionType.STRING,
+        type: 'STRING',
         description: 'Query di ricerca (solo per GMS 2)'
       },
       {
         name: 'version',
-        type: ApplicationCommandOptionType.STRING,
+        type: 'STRING',
         description: 'Versione di GameMaker Studio (1 or 2)',
         choices: [
           { name: '2', value: '2' },

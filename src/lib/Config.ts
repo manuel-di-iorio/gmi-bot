@@ -25,7 +25,8 @@ export const {
   TENOR_APIKEY,
   TWITCH_CLIENT_ID,
   TWITCH_SECRET,
-  TWITCH_USER_ID
+  TWITCH_USER_ID,
+  EVENT_COUNTDOWN_ONEBIT_CHANNEL
 } = process.env
 
 export const BOT_COLOR = '#f59342'

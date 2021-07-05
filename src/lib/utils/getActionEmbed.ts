@@ -1,4 +1,4 @@
-import { MessageEmbed, User, PartialUser } from 'discord.js'
+import { MessageEmbed, User, PartialUser, ColorResolvable } from 'discord.js'
 import { getAvatarTopColor } from './getAvatarTopColor'
 
 /** Get the action embed */
@@ -7,7 +7,7 @@ export const getActionEmbed = async (user: User | PartialUser, title: string, de
   const avatarColor = await getAvatarTopColor(user)
 
   const embed = new MessageEmbed()
-  embed.setColor(avatarColor)
+  embed.setColor(avatarColor as ColorResolvable)
     .setThumbnail(avatarUrl)
     .setTitle(title)
   if (description) embed.setDescription(description)

@@ -1,4 +1,4 @@
-import { Message, Snowflake } from 'discord.js'
+import { Message, RoleResolvable, Snowflake } from 'discord.js'
 import logger from './Logger'
 import { GMI_MEMBER_ROLE } from './Config'
 import { redis } from './Redis'
@@ -24,7 +24,7 @@ export const assignGmiRoleToNewActiveUsers = async (message: Message) => {
     const timeDiff = Date.now() - guildMember.joinedTimestamp
     if (timeDiff > 6048e5 /* One week */ && userMessages > 99) {
       // Update the user role
-      await addUserRoles(guildMember, [GMI_MEMBER_ROLE])
+      await addUserRoles(guildMember, [GMI_MEMBER_ROLE as RoleResolvable])
 
       const embed = await getActionEmbed(
         guildMember.user,

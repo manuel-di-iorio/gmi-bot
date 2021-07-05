@@ -16,7 +16,7 @@ export const askMsgReply = async (message: Message, { text, time }: AskOptions):
   const askReply = await message.reply(text + '  (Annulla con !cancel)')
 
   const filter = (m: Message) => m.author.id === authorId
-  const collected = await message.channel.awaitMessages(filter, { max: 1, time: 20000 })
+  const collected = await message.channel.awaitMessages({ filter, max: 1, time: 20000 })
 
   // If the user has not replied
   if (!collected.size) {

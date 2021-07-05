@@ -1,6 +1,6 @@
 import Canvas from 'canvas'
-import { CommandInteraction, MessageAttachment, MessageEmbed, Snowflake, TextChannel } from 'discord.js'
-import { BOT_COLOR, GMI_GUILD } from '../../lib/Config'
+import { CommandInteraction, MessageAttachment, Snowflake, TextChannel } from 'discord.js'
+import { GMI_GUILD } from '../../lib/Config'
 import { bot } from '../../lib/Discord'
 import logger from '../../lib/Logger'
 import { redis } from '../../lib/Redis'

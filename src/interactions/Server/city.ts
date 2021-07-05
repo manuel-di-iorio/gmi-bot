@@ -13,12 +13,12 @@ export const cityInteraction: InteractionConfig = {
     options: [
       {
         name: 'save',
-        type: ApplicationCommandOptionType.SUB_COMMAND,
+        type: 'SUB_COMMAND',
         description: 'Salva la tua città',
         options: [
           {
             name: 'name',
-            type: ApplicationCommandOptionType.STRING,
+            type: 'STRING',
             description: 'Nome della città',
             required: true
           }
@@ -26,12 +26,12 @@ export const cityInteraction: InteractionConfig = {
       },
       {
         name: 'remove',
-        type: ApplicationCommandOptionType.SUB_COMMAND,
+        type: 'SUB_COMMAND',
         description: 'Rimuove la tua città'
       },
       {
         name: 'show',
-        type: ApplicationCommandOptionType.SUB_COMMAND,
+        type: 'SUB_COMMAND',
         description: 'Mostra la tua città'
       }
     ]

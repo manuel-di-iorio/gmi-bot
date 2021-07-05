@@ -1,7 +1,7 @@
 import moment from 'moment'
 import prettyDate from 'pretty-date'
 import { ApplicationCommandOptionType } from 'discord-api-types'
-import { CommandInteraction, MessageEmbed } from 'discord.js'
+import { ColorResolvable, CommandInteraction, MessageEmbed } from 'discord.js'
 import { redis } from '../../lib/Redis'
 import { getAvatarTopColor } from '../../lib/utils/getAvatarTopColor'
 import { provincesToRegion } from '../../lib/utils/ProvincesList'
@@ -24,7 +24,7 @@ export const statsInteraction: InteractionConfig = {
     description: 'Mostra il profilo di un utente',
     options: [{
       name: 'user',
-      type: ApplicationCommandOptionType.USER,
+      type: 'USER',
       description: 'Utente di cui mostrare il profilo'
     }]
   },
@@ -76,7 +76,7 @@ export const statsInteraction: InteractionConfig = {
 
     // Send the message
     const embed = new MessageEmbed()
-      .setColor(avatarColor)
+      .setColor(avatarColor as ColorResolvable)
       .setThumbnail(user.avatarURL())
       .setTitle(getUserDisplayNameForInteraction(message, userId).toUpperCase())
 

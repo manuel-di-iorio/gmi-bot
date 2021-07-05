@@ -19,7 +19,7 @@ export const askReactConfirm = async (
 
   // Create the confirm collector
   let isReactPressed = false
-  const collector = replyMsg.createReactionCollector(filter, { time })
+  const collector = replyMsg.createReactionCollector({ filter, time })
 
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {

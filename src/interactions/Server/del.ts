@@ -1,4 +1,3 @@
-import { ApplicationCommandOptionType, ApplicationCommandPermissionType } from 'discord-api-types'
 import {
   ApplicationCommand, CommandInteraction, GuildMemberRoleManager, Message, MessageButton,
   MessageComponentInteraction,
@@ -14,18 +13,20 @@ export const delInteraction: InteractionConfig = {
     defaultPermission: false,
     options: [{
       name: 'input',
-      type: ApplicationCommandOptionType.STRING,
+      type: 'STRING',
       description: 'Numero di messaggi da cancellare oppure un testo contenuto in un messaggio fino a cui cancellare',
       required: true
     }]
   },
 
   onSetup: async (command: ApplicationCommand) => {
-    await command.setPermissions(GMI_ADMIN_ROLES.map((adminRoleId: Snowflake) => ({
-      id: adminRoleId,
-      type: ApplicationCommandPermissionType.ROLE,
-      permission: true
-    })))
+    await command.permissions.set({
+      permissions: GMI_ADMIN_ROLES.map((adminRoleId: Snowflake) => ({
+        id: adminRoleId,
+        type: 'ROLE',
+        permission: true
+      }))
+    })
   },
 
   handler: async (message: CommandInteraction) => {
@@ -89,7 +90,7 @@ export const delInteraction: InteractionConfig = {
       .cache
       .find(role => !!GMI_ADMIN_ROLES.find(adminRole => adminRole === role.id))
 
-    const pressedBtn = await replyMsg.awaitMessageComponentInteraction(filter, { time: 15000 })
+    const pressedBtn = await replyMsg.awaitMessageComponentInteraction({ filter, time: 15000 })
 
     if (pressedBtn.customID === 'confirm') {
       // Delete the messages

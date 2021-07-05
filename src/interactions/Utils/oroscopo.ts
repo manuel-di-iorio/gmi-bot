@@ -14,7 +14,7 @@ export const oroscopoInteraction: InteractionConfig = {
     description: 'Mostra l\'oroscopo del giorno per il tuo segno',
     options: [{
       name: 'sign',
-      type: ApplicationCommandOptionType.STRING,
+      type: 'STRING',
       description: 'Segno zodiacale',
       required: true,
       choices: [

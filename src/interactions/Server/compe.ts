@@ -12,7 +12,7 @@ export const compeInteraction: InteractionConfig = {
     description: 'Mostra i risultati delle competizioni GMI',
     options: [{
       name: 'name',
-      type: ApplicationCommandOptionType.STRING,
+      type: 'STRING',
       description: 'Nome o anno'
     }]
   },

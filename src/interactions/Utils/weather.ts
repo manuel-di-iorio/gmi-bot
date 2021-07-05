@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction, MessageEmbed } from 'discord.js'
 import moment from 'moment'
 import { BOT_COLOR, OPEN_WEATHER_MAP_APIKEY, OPEN_WEATHER_MAP_HOST } from '../../lib/Config'
@@ -26,7 +25,7 @@ export const weatherInteraction: InteractionConfig = {
     description: 'Mostra il meteo della tua città',
     options: [{
       name: 'city',
-      type: ApplicationCommandOptionType.STRING,
+      type: 'STRING',
       description: 'Città',
       required: true
     }]
