@@ -106,7 +106,7 @@ export const createDiscussionChannelByHashtag = async (message: Message, content
     if (hasChannel) return message.reply('hai già creato un canale temporaneo')
 
     // Create the channel
-    const expireTime = new Date(+new Date() + 1000 * 60 * 60 * 5)
+    const expireTime = new Date(+new Date() + 1000 * 60 * 60 * 24)
     const expireHours = !expireTime.getMinutes() ? expireTime.getHours() : expireTime.getHours() + 1
     const channel = await message.guild.channels.create(channelName, {
       topic: 'Canale temporaneo creato da ' + getUserDisplayName(message) + ` - Scade alle ${expireHours}:00`,
