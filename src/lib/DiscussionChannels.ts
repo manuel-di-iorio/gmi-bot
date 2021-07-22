@@ -1,4 +1,4 @@
-import { CategoryChannel, Collection, GuildChannel, Message, Snowflake, TextChannel } from 'discord.js'
+import { /* CategoryChannel, Collection, GuildChannel, */ Message, Snowflake, TextChannel } from 'discord.js'
 import { GMI_ARCHIVED_DISCUSSION_CH_ID, GMI_DISCUSSION_CATEGORY_ID, GMI_GUILD } from './Config'
 import { bot } from './Discord'
 import logger from './Logger'
@@ -29,7 +29,7 @@ export const deleteOldDiscussionChannels = async () => {
     const discussions = await Promise.all(tasks.map(task => task()))
 
     // Remove expired channels
-    let deletedChannels = 0
+    // let deletedChannels = 0
     const timeNow = +new Date()
     const deleteTasks = []
     for (const discussion of discussions) {
@@ -38,7 +38,7 @@ export const deleteOldDiscussionChannels = async () => {
       const expiresAt = discussion.data.expiresAt
       if (expiresAt > timeNow) continue
 
-      deletedChannels++
+      // deletedChannels++
       deleteTasks.push(async () => {
         const log = await buildLogAttachment(channelId, channel.name + '.txt')
 
@@ -52,12 +52,12 @@ export const deleteOldDiscussionChannels = async () => {
     await Promise.all(deleteTasks.map(task => task()))
 
     // Move the Discussions category on bottom, when there are no more channels in it
-    if (discussions.length === deletedChannels) {
-      const latestCategoryPos = (bot.channels.cache as Collection<string, GuildChannel>).reduce((pos, category) =>
-        Math.max(pos, category.type === 'category' && category.position), 0)
-      const discussionCategory = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID as Snowflake) as CategoryChannel
-      await discussionCategory.setPosition(latestCategoryPos)
-    }
+    // if (discussions.length === deletedChannels) {
+    //   const latestCategoryPos = (bot.channels.cache as Collection<string, GuildChannel>).reduce((pos, category) =>
+    //     Math.max(pos, category.type === 'category' && category.position), 0)
+    //   const discussionCategory = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID as Snowflake) as CategoryChannel
+    //   await discussionCategory.setPosition(latestCategoryPos)
+    // }
   } catch (err) {
     logger.error(err)
   }
@@ -118,8 +118,8 @@ export const createDiscussionChannelByHashtag = async (message: Message, content
     await message.reply(`ho creato il canale temporaneo ${channel}`)
 
     // Move Discussions category on top
-    const discussionChannel = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID as Snowflake) as CategoryChannel
-    await discussionChannel.setPosition(1)
+    // const discussionChannel = bot.channels.cache.get(GMI_DISCUSSION_CATEGORY_ID as Snowflake) as CategoryChannel
+    // await discussionChannel.setPosition(1)
   } catch (err) {
     logger.error(err)
   }
