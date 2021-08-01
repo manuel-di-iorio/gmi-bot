@@ -22,7 +22,7 @@ export const bot = new Client({
     FLAGS.GUILDS,
     FLAGS.GUILD_PRESENCES,
     FLAGS.GUILD_MEMBERS,
-    FLAGS.GUILD_EMOJIS,
+    FLAGS.GUILD_EMOJIS_AND_STICKERS,
     FLAGS.GUILD_BANS,
     FLAGS.GUILD_INTEGRATIONS,
     FLAGS.GUILD_WEBHOOKS,
@@ -85,7 +85,7 @@ bot.on('error', (err: Error) => {
   logger.error('[DISCORD] Generic error', err)
 })
 
-bot.on('message', (message) => {
+bot.on('messageCreate', (message) => {
   if (message.author.bot) return
   const content = message.content.trim()
   onMessage(message, content)

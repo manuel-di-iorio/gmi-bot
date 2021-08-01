@@ -1,5 +1,4 @@
 import { promisify } from 'util'
-import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction } from 'discord.js'
 import { google } from 'googleapis'
 import { GOOGLE_APIKEY, GOOGLE_SEARCH_CX } from '../../lib/Config'
@@ -14,14 +13,14 @@ export const googleInteraction = {
     description: 'Cerca su Google',
     options: [{
       name: 'query',
-      type: ApplicationCommandOptionType.STRING,
+      type: 'STRING',
       description: 'Query di ricerca',
       required: true
     }]
   },
 
   handler: async (message: CommandInteraction) => {
-    const input = message.options.first().value
+    const input = message.options.data[0].value
 
     const { data: { items } } = await googleSearchAsync({ q: input, auth: GOOGLE_APIKEY, cx: GOOGLE_SEARCH_CX })
     if (!items || !items.length) return message.reply(`Non ho trovato risultati per '${input}'`)

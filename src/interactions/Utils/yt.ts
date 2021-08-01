@@ -1,5 +1,4 @@
 import { promisify } from 'util'
-import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction } from 'discord.js'
 import { google } from 'googleapis'
 import { GOOGLE_APIKEY } from '../../lib/Config'
@@ -14,14 +13,14 @@ export const ytInteraction = {
     description: 'Cerca un video su YouTube',
     options: [{
       name: 'query',
-      type: ApplicationCommandOptionType.STRING,
+      type: 'STRING',
       description: 'Query di ricerca',
       required: true
     }]
   },
 
   handler: async (message: CommandInteraction) => {
-    const input = message.options.first().value
+    const input = message.options.data[0].value
 
     // Execute the YouTube search
     const { data: { items } } = await ytSearchAsync({

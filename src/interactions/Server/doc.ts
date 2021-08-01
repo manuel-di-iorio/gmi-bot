@@ -24,16 +24,16 @@ export const docInteraction: InteractionConfig = {
   },
 
   handler: async (message: CommandInteraction) => {
-    if (!message.options.size) {
+    if (!message.options.data.length) {
       return await message.reply('https://manual.yoyogames.com')
     }
 
     // Get the option values
     let query: string
     let version = '2'
-    for (const [name, opt] of message.options.entries()) {
-      if (name === 'query') query = opt.value as string
-      if (name === 'version') version = opt.value as string
+    for (const opt of message.options.data) {
+      if (opt.name === 'query') query = opt.value as string
+      if (opt.name === 'version') version = opt.value as string
     }
 
     if (version === '1') {

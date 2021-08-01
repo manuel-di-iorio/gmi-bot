@@ -35,7 +35,7 @@ export const oroscopoInteraction: InteractionConfig = {
   },
 
   handler: async (message: CommandInteraction) => {
-    const input = encodeURIComponent(message.options.first().value as string)
+    const input = encodeURIComponent(message.options.data[0].value as string)
     await message.defer()
 
     // Get the horoscope HTML

@@ -18,9 +18,9 @@ export const compeInteraction: InteractionConfig = {
   },
 
   handler: async (message: CommandInteraction) => {
-    const contestName = !message.options.size
+    const contestName = !message.options.data.length
       ? new Date().getFullYear().toString()
-      : message.options.first().value as string
+      : message.options.data[0].value as string
 
     const cached = cache[contestName]
     if (cached) return message.reply(cached)

@@ -24,8 +24,8 @@ import { startEmoteStatsRendering } from './interactions/Server/emote'
     await Promise.all([
       startScheduler(),
       startEmoteStatsRendering(),
-      startTwitch(),
-      startEventCountdown()
+      startTwitch()
+      // startEventCountdown()
     ])
   } catch (err) {
     logger.error(err)

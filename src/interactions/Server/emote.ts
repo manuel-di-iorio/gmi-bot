@@ -130,7 +130,7 @@ export const emoteInteraction: InteractionConfig = {
   },
 
   handler: async (message: CommandInteraction) => {
-    const channel = bot.channels.cache.get(message.channelID) as TextChannel
+    const channel = bot.channels.cache.get(message.channelId) as TextChannel
     await message.defer()
 
     // Send the message

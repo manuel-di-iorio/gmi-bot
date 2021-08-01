@@ -32,7 +32,7 @@ export const weatherInteraction: InteractionConfig = {
   },
 
   handler: async (message: CommandInteraction) => {
-    const input = encodeURIComponent(message.options.first().value as string) + ',IT'
+    const input = encodeURIComponent(message.options.data[0].value as string) + ',IT'
     await message.defer()
 
     // Get the weather data

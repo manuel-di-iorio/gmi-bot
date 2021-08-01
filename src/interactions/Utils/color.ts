@@ -1,5 +1,4 @@
 import Canvas from 'canvas'
-import { ApplicationCommandOptionType } from 'discord-api-types'
 import { CommandInteraction, MessageAttachment } from 'discord.js'
 
 export const colorInteraction = {
@@ -8,19 +7,19 @@ export const colorInteraction = {
     description: 'Mostra un colore',
     options: [{
       name: 'color',
-      type: ApplicationCommandOptionType.STRING,
+      type: 'STRING',
       description: 'Colore da mostrare',
       required: true
     }]
   },
 
   handler: async (message: CommandInteraction) => {
-    let input = message.options.first().value as string
+    let input = message.options.data[0].value as string
 
     if (input[0] !== '#') input = '#' + input
 
     if (!/^#[0-9A-F]{6}$/i.test(input)) {
-      return message.reply('Non hai indicato un colore corretto. Scrivi !color #rrggbb per mostrare un colore')
+      return message.reply('Non hai indicato un colore corretto. Scrivi /color #rrggbb per mostrare un colore')
     }
 
     // Create the colored image

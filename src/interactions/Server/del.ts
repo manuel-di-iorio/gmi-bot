@@ -1,7 +1,6 @@
 import {
-  ApplicationCommand, CommandInteraction, GuildMemberRoleManager, Message, MessageButton,
-  MessageComponentInteraction,
-  Snowflake, TextChannel
+  ApplicationCommand, CommandInteraction, GuildMemberRoleManager, Message, MessageActionRow,
+  MessageButton, MessageComponentInteraction, Snowflake, TextChannel
 } from 'discord.js'
 import { GMI_ADMIN_ROLES } from '../../lib/Config'
 import { InteractionConfig } from '../types'
@@ -35,7 +34,7 @@ export const delInteraction: InteractionConfig = {
     await message.defer({ ephemeral: true })
 
     // Get the input
-    const input = message.options.first().value as string
+    const input = message.options.data[0].value as string
 
     // Validate and get the messages to delete
     let count = parseInt(input)
@@ -67,22 +66,24 @@ export const delInteraction: InteractionConfig = {
 
     // Send the confirm message
     const confirmBtn = new MessageButton()
-      .setCustomID('confirm')
+      .setCustomId('confirm')
       .setLabel('Conferma')
       .setEmoji('✅')
       // eslint-disable-next-line no-undef
       .setStyle('PRIMARY')
 
     const cancelBtn = new MessageButton()
-      .setCustomID('cancel')
+      .setCustomId('cancel')
       .setLabel('Annulla')
       .setEmoji('❌')
       // eslint-disable-next-line no-undef
       .setStyle('SECONDARY')
 
+    const actionRow = new MessageActionRow().addComponents(confirmBtn, cancelBtn)
+
     const replyMsg = await message.editReply({
       content: `Sei sicuro di voler cancellare ${count} messaggi${count === 1 ? 'o' : ''}?`,
-      components: [[confirmBtn, cancelBtn]]
+      components: [actionRow]
     }) as Message
 
     // Button filter: by customID and admin role
@@ -90,9 +91,9 @@ export const delInteraction: InteractionConfig = {
       .cache
       .find(role => !!GMI_ADMIN_ROLES.find(adminRole => adminRole === role.id))
 
-    const pressedBtn = await replyMsg.awaitMessageComponentInteraction({ filter, time: 15000 })
+    const pressedBtn = await replyMsg.awaitMessageComponent({ filter, time: 15000 })
 
-    if (pressedBtn.customID === 'confirm') {
+    if (pressedBtn.customId === 'confirm') {
       // Delete the messages
       await (message.channel as TextChannel).bulkDelete(clonedMessages.slice(0, count))
 

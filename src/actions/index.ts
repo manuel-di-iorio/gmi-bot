@@ -9,15 +9,15 @@ import quotesList from './Quotes/list'
 import remindRemove from './Reminders/remindRemove'
 import remindShow from './Reminders/remindShow'
 import remind from './Reminders/remind'
-import deleteCmd from './Server/del'
+// import deleteCmd from './Server/del'
 import poll from './Utils/poll'
 import bday from './Server/bday'
 import botRestore from './Server/bot-restore'
 import { Message } from 'discord.js'
-import channel from './Discussions/channel'
-import channelRemove from './Discussions/remove'
-import channelRename from './Discussions/rename'
-import channelTopic from './Discussions/topic'
+// import channel from './Discussions/channel'
+// import channelRemove from './Discussions/remove'
+// import channelRename from './Discussions/rename'
+// import channelTopic from './Discussions/topic'
 import code from './Utils/code'
 import exec from './Utils/exec'
 
@@ -41,10 +41,10 @@ export const actions = new Map<string, Action>([
   ['remindRemove', remindRemove],
   ['remindShow', remindShow],
   ['remind', remind],
-  ['channelRemove', channelRemove],
-  ['channelRename', channelRename],
-  ['channelTopic', channelTopic],
-  ['channel', channel],
+  // ['channelRemove', channelRemove],
+  // ['channelRename', channelRename],
+  // ['channelTopic', channelTopic],
+  // ['channel', channel],
   ['code', code],
   ['exec', exec],
   ['bot:restore', botRestore],

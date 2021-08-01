@@ -5,7 +5,7 @@ import { checkBirthdays } from './Birthdays'
 import { execBackup, dbControl } from './Backup'
 import { deleteInvalidMsg } from './DeleteInvalidMsgInLimitedChannels'
 import { sendReminders } from './Reminders'
-import { deleteOldDiscussionChannels, updateDiscussionChannelsTopicExpiration } from './DiscussionChannels'
+// import { deleteOldDiscussionChannels, updateDiscussionChannelsTopicExpiration } from './DiscussionChannels'
 
 // Get the redis connection info
 let REDIS_HOST: string
@@ -40,8 +40,8 @@ export const start = async () => {
   queue.process('dbcontrol', dbControl)
   queue.process('deleteInvalidMsg', deleteInvalidMsg)
   queue.process('sendReminders', sendReminders)
-  queue.process('deleteOldDiscussionChannels', deleteOldDiscussionChannels)
-  queue.process('updateDiscussionChannelsTopicExpiration', updateDiscussionChannelsTopicExpiration)
+  // queue.process('deleteOldDiscussionChannels', deleteOldDiscussionChannels)
+  // queue.process('updateDiscussionChannelsTopicExpiration', updateDiscussionChannelsTopicExpiration)
 
   // Add the jobs if they are not scheduled yet
 
@@ -111,30 +111,30 @@ export const start = async () => {
   }
 
   /* Delete old discussion channels */
-  const deleteOldDiscussionChannelsJob = await queue.getJob('deleteOldDiscussionChannels')
-  if (!deleteOldDiscussionChannelsJob) {
-    queue.add('deleteOldDiscussionChannels', null, {
-      removeOnComplete: true,
-      attempts: 3,
-      repeat: {
-        tz: 'Europe/Rome',
-        cron: '0 * * * *'
-      }
-    })
-  }
+  // const deleteOldDiscussionChannelsJob = await queue.getJob('deleteOldDiscussionChannels')
+  // if (!deleteOldDiscussionChannelsJob) {
+  //   queue.add('deleteOldDiscussionChannels', null, {
+  //     removeOnComplete: true,
+  //     attempts: 3,
+  //     repeat: {
+  //       tz: 'Europe/Rome',
+  //       cron: '0 * * * *'
+  //     }
+  //   })
+  // }
 
   /* Update the topic expiration of the discussion channels */
-  const updateDiscussionChannelsTopicExpirationJob = await queue.getJob('updateDiscussionChannelsTopicExpiration')
-  if (!updateDiscussionChannelsTopicExpirationJob) {
-    queue.add('updateDiscussionChannelsTopicExpiration', null, {
-      removeOnComplete: true,
-      attempts: 3,
-      repeat: {
-        tz: 'Europe/Rome',
-        cron: '*/10 * * * *'
-      }
-    })
-  }
+  // const updateDiscussionChannelsTopicExpirationJob = await queue.getJob('updateDiscussionChannelsTopicExpiration')
+  // if (!updateDiscussionChannelsTopicExpirationJob) {
+  //   queue.add('updateDiscussionChannelsTopicExpiration', null, {
+  //     removeOnComplete: true,
+  //     attempts: 3,
+  //     repeat: {
+  //       tz: 'Europe/Rome',
+  //       cron: '*/10 * * * *'
+  //     }
+  //   })
+  // }
 
   logger.info('[SCHEDULER] Ready')
 }

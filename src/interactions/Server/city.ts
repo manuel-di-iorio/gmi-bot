@@ -42,13 +42,13 @@ export const cityInteraction: InteractionConfig = {
     const currentCity = await redis.hget(`u:${authorId}:info`, 'city')
 
     // Get the specified sub command
-    const { name, options } = message.options.first()
+    const { name, options } = message.options.data[0]
 
     let input: string
     let city: string
     switch (name) {
       case 'save':
-        input = options.first().value as string
+        input = options[0].value as string
 
         // Find the province/region from the input
         city = provinces.find(province => JaroWinklerDistance(input as string, province.toLowerCase()) > 0.9)
