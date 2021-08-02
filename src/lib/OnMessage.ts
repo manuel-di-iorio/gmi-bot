@@ -7,7 +7,7 @@ import { deleteInvalidMsgInLimitedChannels } from './DeleteInvalidMsgInLimitedCh
 import { updateEmotesCountInMessage } from './EmoteStore'
 import { assignGmiRoleToNewActiveUsers } from './AssignGmiRole'
 import { calculateUserStats } from './UserStats'
-import { createQuestionThreads } from './Threads'
+import { createQuestionThreads, resendQuestionHelpMsg } from './Threads'
 // import { createDiscussionChannelByHashtag, extendTempChannels } from './DiscussionChannels'
 
 const botTrigger = NODE_ENV === 'production' ? '!' : '-'
@@ -57,7 +57,8 @@ export const onMessageOps = async (message: Message, content: string) => {
     // Create a discussion channel when the message contains a channel hashtag
     // createDiscussionChannelByHashtag(message, content)
 
-    // Create threads in the Questions channel for every message
+    // Questions channel management
     createQuestionThreads(message)
+    resendQuestionHelpMsg(message)
   }
 }

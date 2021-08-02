@@ -60,7 +60,7 @@ const isReady = new Promise<void>(resolve => {
   })
 })
 
-bot.on('interaction', async (interaction) => {
+bot.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return
   const { commandName } = interaction
 
@@ -167,7 +167,7 @@ bot.on('guildBanAdd', async ({ guild, user }) => {
   }
 })
 
-// /* Log new unbanned people */
+/* Log new unbanned people */
 bot.on('guildBanRemove', async ({ guild, user }) => {
   if (!mainChannel || guild.id !== GMI_GUILD) return
 
@@ -192,6 +192,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
   try {
     if (oldMember.displayName !== newMember.displayName || oldMember.user.username !== newMember.user.username) {
       await UserModel.setName(newMember.id, newMember.displayName || newMember.user.username)
+
       if (await isCpbotOnline(newMember.guild) || disabledNicknameUpdates[newMember.id]) return
 
       const embed = await getActionEmbed(
