@@ -3,8 +3,7 @@ import { Message, MessageAttachment } from 'discord.js'
 import logger from './Logger'
 import { redis } from './Redis'
 import { getUserDisplayName } from './utils/GetUserDisplayName'
-import { INVISIBLE_CHAR, NEWLINE } from './utils/GetNewline'
-import { DEBUG_ENABLED } from './Config'
+import { NEWLINE } from './utils/GetNewline'
 
 /** Get the latest messages from the store */
 export const getMessages = (channelId: string): Promise<string[]> => (
@@ -38,7 +37,7 @@ export const addMessage = async (message: Message, content = message.cleanConten
     ])
 
     // Trim the messages to limit memory usage
-    await redis.ltrim(`c:${channel.id}:msg`, 0, 1999)
+    await redis.ltrim(`c:${channel.id}:msg`, 0, 999)
   } catch (err) {
     logger.error(err)
   }

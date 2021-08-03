@@ -8,7 +8,7 @@ let helpMsgId: Snowflake
 
 export const createQuestionThreads = async (message: Message) => {
   if (message.channel.id !== GMI_QUESTIONS_CH_ID) return
-  if (message.hasThread) return
+  if (message.hasThread || message.type !== 'DEFAULT') return
 
   const content = message.content.slice(0, 99)
 

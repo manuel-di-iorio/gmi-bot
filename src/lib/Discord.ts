@@ -1,4 +1,5 @@
 import { Client, TextChannel, Message, MessageEmbed, Intents, Snowflake } from 'discord.js'
+import pretty from 'pretty-time'
 import { BOT_TOKEN, GMI_GUILD, NODE_ENV } from './Config'
 import logger from './Logger'
 import { onMessage, onMessageOps } from './OnMessage'
@@ -113,10 +114,16 @@ bot.on('guildMemberAdd', async (guildMember) => {
     // Retrieve the user previous roles and display name
     if (await isCpbotOnline(guildMember.guild)) return
 
-    const [userRoles, userDisplayName] = await Promise.all([
+    const [userRoles, userDisplayName, userKickTime] = await Promise.all([
       retrieveMemberRoles(guildMember),
-      UserModel.getName(guildMember.id)
+      UserModel.getName(guildMember.id),
+      UserModel.getKickTime(guildMember.id)
     ])
+
+    // Remove the stored kick time
+    // UserModel.unsetKickTime(guildMember.id)
+    //   .catch((err: Error) => logger.error(err))
+
     let embed: MessageEmbed
 
     if (!userRoles) {
@@ -124,7 +131,33 @@ bot.on('guildMemberAdd', async (guildMember) => {
       embed = await getActionEmbed(guildMember.user, `Benvenutə ${guildMember.displayName} su GameMaker Italia!`)
     } else {
       // Otherwise, welcome it back on the server
-      embed = await getActionEmbed(guildMember.user, `Bentornatə ${userDisplayName || guildMember.displayName} su GameMaker Italia!`)
+
+      /** Get the kick time duration */
+      let kickDuration: string
+      if (userKickTime) {
+        const kickTime = JSON.parse(userKickTime)
+        console.log(guildMember.displayName + ' kickTime', kickTime)
+        const kickedUserEndTime = process.hrtime(kickTime)
+        console.log(guildMember.displayName + ' kickedUserEndTime', kickedUserEndTime)
+        const kickedUserEndTimeSecs = (kickedUserEndTime[0] + kickedUserEndTime[1] / Math.pow(10, 9))
+        console.log(guildMember.displayName + ' kickedUserEndTimeSecs', kickedUserEndTimeSecs)
+
+        if (kickedUserEndTimeSecs < 10) {
+          kickDuration = pretty(kickedUserEndTime, 'micro')
+        } else if (kickedUserEndTimeSecs < 60) {
+          kickDuration = pretty(kickedUserEndTime, 'ms')
+        } else if (kickedUserEndTimeSecs < 3600) {
+          kickDuration = pretty(kickedUserEndTime, 's')
+        } else if (kickedUserEndTimeSecs < 86400) {
+          kickDuration = pretty(kickedUserEndTime, 'm')
+        } else {
+          kickDuration = pretty(kickedUserEndTime, 'd')
+        }
+      }
+      const kickTimeDescription = kickDuration ? `Sei statə via ${kickDuration}` : null
+
+      /** Send the embed */
+      embed = await getActionEmbed(guildMember.user, `Bentornatə ${userDisplayName || guildMember.displayName} su GameMaker Italia!`, null, kickTimeDescription)
 
       disabledNicknameUpdates[guildMember.id] = true
       setTimeout(() => delete disabledNicknameUpdates[guildMember.id], 5000)
@@ -141,6 +174,10 @@ bot.on('guildMemberAdd', async (guildMember) => {
 /* Log people leaving the server */
 bot.on('guildMemberRemove', async (guildMember) => {
   if (!mainChannel || guildMember.guild.id !== GMI_GUILD) return
+
+  // Store the kick time
+  UserModel.setKickTime(guildMember.id, JSON.stringify(process.hrtime()))
+    .catch((err: Error) => logger.error(err))
 
   // Store the user roles
   storeMemberRoles(guildMember)
