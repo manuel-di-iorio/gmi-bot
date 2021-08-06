@@ -7,7 +7,7 @@ export const bananarapInteraction = {
   },
 
   handler: async (message: CommandInteraction) => {
-    await message.defer({ ephemeral: true })
+    await message.deferReply({ ephemeral: true })
     await message.editReply(`:banana:
 **GameMaker 8.0**
 <https://mega.nz/#!aI42AC7Y!f24zh8QSu7OrQ4A7VgEuadEJS_HWsGxJHhfgrzFjAV0>

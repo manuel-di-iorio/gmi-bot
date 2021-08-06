@@ -29,7 +29,7 @@ export const colorInteraction = {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     const attachment = new MessageAttachment(canvas.toBuffer(), 'color.png')
-    await message.defer()
+    await message.deferReply()
     await message.editReply({ files: [attachment] })
   }
 }

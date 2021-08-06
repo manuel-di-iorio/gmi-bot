@@ -120,9 +120,29 @@ bot.on('guildMemberAdd', async (guildMember) => {
       UserModel.getKickTime(guildMember.id)
     ])
 
+    /** Get the kick time duration */
+    let kickDuration: string
+    if (userKickTime) {
+      const kickTime = JSON.parse(userKickTime)
+      const kickedUserEndTime = process.hrtime(kickTime)
+      const kickedUserEndTimeSecs = (kickedUserEndTime[0] + kickedUserEndTime[1] / Math.pow(10, 9))
+
+      if (kickedUserEndTimeSecs < 10) {
+        kickDuration = pretty(kickedUserEndTime, 'micro')
+      } else if (kickedUserEndTimeSecs < 60) {
+        kickDuration = pretty(kickedUserEndTime, 'ms')
+      } else if (kickedUserEndTimeSecs < 3600) {
+        kickDuration = pretty(kickedUserEndTime, 's')
+      } else if (kickedUserEndTimeSecs < 86400) {
+        kickDuration = pretty(kickedUserEndTime, 'm')
+      } else {
+        kickDuration = pretty(kickedUserEndTime, 'd')
+      }
+    }
+
     // Remove the stored kick time
-    // UserModel.unsetKickTime(guildMember.id)
-    //   .catch((err: Error) => logger.error(err))
+    UserModel.unsetKickTime(guildMember.id)
+      .catch((err: Error) => logger.error(err))
 
     let embed: MessageEmbed
 
@@ -131,29 +151,6 @@ bot.on('guildMemberAdd', async (guildMember) => {
       embed = await getActionEmbed(guildMember.user, `Benvenutə ${guildMember.displayName} su GameMaker Italia!`)
     } else {
       // Otherwise, welcome it back on the server
-
-      /** Get the kick time duration */
-      let kickDuration: string
-      if (userKickTime) {
-        const kickTime = JSON.parse(userKickTime)
-        console.log(guildMember.displayName + ' kickTime', kickTime)
-        const kickedUserEndTime = process.hrtime(kickTime)
-        console.log(guildMember.displayName + ' kickedUserEndTime', kickedUserEndTime)
-        const kickedUserEndTimeSecs = (kickedUserEndTime[0] + kickedUserEndTime[1] / Math.pow(10, 9))
-        console.log(guildMember.displayName + ' kickedUserEndTimeSecs', kickedUserEndTimeSecs)
-
-        if (kickedUserEndTimeSecs < 10) {
-          kickDuration = pretty(kickedUserEndTime, 'micro')
-        } else if (kickedUserEndTimeSecs < 60) {
-          kickDuration = pretty(kickedUserEndTime, 'ms')
-        } else if (kickedUserEndTimeSecs < 3600) {
-          kickDuration = pretty(kickedUserEndTime, 's')
-        } else if (kickedUserEndTimeSecs < 86400) {
-          kickDuration = pretty(kickedUserEndTime, 'm')
-        } else {
-          kickDuration = pretty(kickedUserEndTime, 'd')
-        }
-      }
       const kickTimeDescription = kickDuration ? `Sei statə via ${kickDuration}` : null
 
       /** Send the embed */

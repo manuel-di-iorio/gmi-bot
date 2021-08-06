@@ -31,7 +31,7 @@ export const delInteraction: InteractionConfig = {
   handler: async (message: CommandInteraction) => {
     // Get a cloned copy of the latest channel messages
     const clonedMessages = Array.from((await message.channel.messages.fetch()).values())
-    await message.defer({ ephemeral: true })
+    await message.deferReply({ ephemeral: true })
 
     // Get the input
     const input = message.options.data[0].value as string

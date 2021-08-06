@@ -36,7 +36,7 @@ export const oroscopoInteraction: InteractionConfig = {
 
   handler: async (message: CommandInteraction) => {
     const input = encodeURIComponent(message.options.data[0].value as string)
-    await message.defer()
+    await message.deferReply()
 
     // Get the horoscope HTML
     const { data: horoscopeHtml } = await axios(SKY_HOROSCOPE_ENDPOINT.replace('{SIGN}', input))

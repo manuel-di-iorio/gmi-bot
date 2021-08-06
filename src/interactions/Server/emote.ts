@@ -131,7 +131,7 @@ export const emoteInteraction: InteractionConfig = {
 
   handler: async (message: CommandInteraction) => {
     const channel = bot.channels.cache.get(message.channelId) as TextChannel
-    await message.defer()
+    await message.deferReply()
 
     // Send the message
     for (let i = 0, l = canvasList.length; i < l; i++) {

@@ -9,7 +9,7 @@ export const logInteraction: InteractionConfig = {
   },
 
   handler: async (message: CommandInteraction) => {
-    await message.defer()
+    await message.deferReply()
     const log = await buildLogAttachment(message.channel.id, 'log.txt')
     if (!log) {
       return message.reply('non ci sono ancora messaggi registrati in questo canale')
