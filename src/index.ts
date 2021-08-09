@@ -6,7 +6,7 @@ import { start as startScheduler } from './lib/Scheduler'
 import { start as startBot } from './lib/Discord'
 import { init as initSpellcheck } from './lib/Spellcheck'
 import { start as startTwitch } from './lib/Twitch'
-import { start as startEventCountdown } from './lib/EventCountdown'
+// import { start as startEventCountdown } from './lib/EventCountdown'
 import { actions } from './actions'
 import { startEmoteStatsRendering } from './interactions/Server/emote'
 
