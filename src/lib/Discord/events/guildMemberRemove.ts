@@ -25,17 +25,17 @@ export const guildMemberRemove = async (guildMember: GuildMember) => {
 
     // Get the kick executor and reason (if any)
     let kickMsg: string
-    const fetchedLogs = await guildMember.guild.fetchAuditLogs({
-      limit: 1,
-      type: 'MEMBER_KICK'
-    })
+    // const fetchedLogs = await guildMember.guild.fetchAuditLogs({
+    //   limit: 1,
+    //   type: 'MEMBER_KICK'
+    // })
 
-    const fetchedLog = fetchedLogs.entries.first()
-    if (fetchedLog && (fetchedLog.target as User).id === guildMember.id) {
-      const username = guildMember.guild.members.cache.get(fetchedLog.executor.id)?.displayName
-      kickMsg = `Kickatə da ${username}`
-      if (fetchedLog.reason) kickMsg += `: ${fetchedLog.reason}`
-    }
+    // const fetchedLog = fetchedLogs.entries.first()
+    // if (fetchedLog && (fetchedLog.target as User).id === guildMember.id) {
+    //   const username = guildMember.guild.members.cache.get(fetchedLog.executor.id)?.displayName
+    //   kickMsg = `Kickatə da ${username}`
+    //   if (fetchedLog.reason) kickMsg += `: ${fetchedLog.reason}`
+    // }
 
     const embed = await getActionEmbed(guildMember.user, `${guildMember.displayName} ha lasciato il server`, null, kickMsg)
     await mainChannel.send({ embeds: [embed] })
