@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@discordjs/voice": "^0.5.0",
-    "async": "3.2.0",
+    "async": "3.2.2",
     "axios": "0.21.1",
     "bull": "3.22.5",
     "canvas": "^2.8.0",
